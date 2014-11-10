@@ -1,1 +1,1 @@
-web: gunicorn rotationSchedule.wsgi --log-file -
+web: gunicorn gettingstarted.wsgi --log-file -
