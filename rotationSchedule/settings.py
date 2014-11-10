@@ -1,5 +1,5 @@
 """
-Django settings for RotationProject project.
+Django settings for rotationSchedule project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -48,9 +48,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'RotationProject.urls'
+ROOT_URLCONF = 'rotationSchedule.urls'
 
-WSGI_APPLICATION = 'RotationProject.wsgi.application'
+WSGI_APPLICATION = 'rotationSchedule.wsgi.application'
 
 
 # Database
