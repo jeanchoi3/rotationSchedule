@@ -24,8 +24,8 @@ def db(request):
     return render(request, 'db.html', {'greetings': greetings})
 
 
-def detail(request):
-    #resident = get_object_or_404(Resident, pk=resident_id)
+def detail(request, resident_id):
+    resident = get_object_or_404(Resident, pk=resident_id)
     
     if request.method == 'POST':
     	rForm = ResidentForm(request.POST)
@@ -36,10 +36,12 @@ def detail(request):
     else:
     	rForm = ResidentForm()
     	
-    context = {'resident':resident, 'rForm':rForm}
+    context = {'rForm':rForm}
     return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
     
 #used to be def detail(request, resident_id):
+	#resident = get_object_or_404(Resident, pk=resident_id)
+
 #try:
     #    resident = Resident.objects.get(pk=resident_id)
     #except Resident.DoesNotExist:
