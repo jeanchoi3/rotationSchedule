@@ -25,7 +25,7 @@ def db(request):
 
 
 def detail(request):
-    resident = get_object_or_404(Resident, pk=resident_id)
+    #resident = get_object_or_404(Resident, pk=resident_id)
     
     if request.method == 'POST':
     	rForm = ResidentForm(request.POST)
