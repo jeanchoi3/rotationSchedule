@@ -34,7 +34,7 @@ def detail(request, resident_id):
     		temp_post.save()
     		return HttpResponseRedirect('/')
     else:
-    	rForm = ResidentForm(request.POST)
+    	rForm = ResidentForm()
     	
     context = {'resident':resident, 'rForm':rForm}
     return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
