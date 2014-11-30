@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404, HttpResponse
 from django.template import RequestContext, loader
+from rotationSchedule_app.forms import ResidentForm
 
 from .models import Greeting
 from rotationSchedule_app.models import Resident
