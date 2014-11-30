@@ -25,7 +25,19 @@ def db(request):
 
 def detail(request, resident_id):
     resident = get_object_or_404(Resident, pk=resident_id)
-    return render(request, 'rotationSchedule_app/detail.html', {'resident':resident,})
+    
+    if request.method == 'POST':
+    	rForm = ResidentForm(request.POST)
+    	if rForm.is_valid():
+    		temp_post = rForm.save(commit=False)
+    		temp_post.save()
+    		return HttpResponseRedirect('/')
+    else:
+    	rForm = ResidentForm(request.POST)
+    	
+    context = {'resident':resident, 'rForm':rForm}
+    return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
+    
 
 #try:
     #    resident = Resident.objects.get(pk=resident_id)

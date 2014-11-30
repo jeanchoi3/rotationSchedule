@@ -1,2 +1,15 @@
 <h1>{{ resident.name }}</h1>
 <h2>{{ resident.year }}</h2>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h1>Resident Information</h1>
+    <form action="/" method="post">{% csrf_token %}
+    {% for field in pForm %}
+        <div>
+            <label for="{{ field.label }}">{{ field.label_tag }}
+        	{{ field }}
+        </div>
+    {% endfor %}
+    <input type="submit" name="resident" value="Submit Resident" />
+    </form>
