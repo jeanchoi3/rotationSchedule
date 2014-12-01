@@ -30,10 +30,11 @@ def detail(request, resident_id):
     if request.method == 'POST':
     	rForm = ResidentForm(request.POST)
     	if rForm.is_valid():
+    		rForm.save()
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
-    		newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
-    		newRes.save()
+    		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
+    		#newRes.save()
     		return HttpResponseRedirect('/')
     else:
     	rForm = ResidentForm()
