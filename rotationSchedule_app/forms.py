@@ -5,4 +5,4 @@ from django.forms import ModelForm
 class ResidentForm(ModelForm):
     class Meta:
         model = Resident
-        fields = ('name', 'year', 'track', 'in_program',)
+        fields = ('name', 'year', 'track',)
