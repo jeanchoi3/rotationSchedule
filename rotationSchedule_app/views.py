@@ -25,17 +25,17 @@ def db(request):
 
 
 def detail(request, resident_id):
-    resident = get_object_or_404(Resident, pk=resident_id)
-    
-    if request.method == 'POST':
-    	rForm = ResidentForm(request.POST)
-    	if rForm.is_valid():
-    		rForm.save()
+	resident = get_object_or_404(Resident, pk=resident_id)
+	
+	if request.method == 'POST':
+		rForm = ResidentForm(request.POST)
+		if rForm.is_valid():
+			rForm.save()
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
     		#newRes.save()
-    		return HttpResponseRedirect('/')
+    		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
     	rForm = ResidentForm()
     	
