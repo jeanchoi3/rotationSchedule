@@ -33,7 +33,7 @@ def detail(request, resident_id):
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
     		newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
-            newRes.save()
+    		newRes.save()
     		return HttpResponseRedirect('/')
     else:
     	rForm = ResidentForm()
