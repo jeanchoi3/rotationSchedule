@@ -31,8 +31,6 @@ def db(request):
 
 
 def detail(request, resident_id):
-	context = {'rForm':rForm, 'resident_id':resident_id}
-	return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
     resident_list = Resident.objects.order_by('-name')[:5]
     template = loader.get_template('rotationSchedule_app/index.html')
     context = RequestContext(request, {'resident_list': resident_list,})
