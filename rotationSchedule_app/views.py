@@ -20,7 +20,7 @@ def index(request):
 		rForm = ResidentForm()
     	
 	context = {'rForm':rForm}
-	return render_to_response('index.html', context, context_instance=RequestContext(request))
+	return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 def db(request):
 	greeting = Greeting()
