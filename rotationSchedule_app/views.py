@@ -8,11 +8,20 @@ from rotationSchedule_app.models import Resident
 
 # Create your views here.
 def index(request):
-    resident_list = Resident.objects.order_by('-name')[:5]
-    template = loader.get_template('rotationSchedule_app/index.html')
-    context = RequestContext(request, {'resident_list': resident_list,})
-    return HttpResponse(template.render(context))
-
+	resident = get_object_or_404(Resident, pk=resident_id)
+	if request.method == 'POST':
+		rForm = ResidentForm(request.POST)
+		if rForm.is_valid():
+			rForm.save()
+			return HttpResponseRedirect('/')
+		else:
+			return HttpResponse('<h1>Form not valid</h1>')
+			
+	else:
+		rForm = ResidentForm()
+    	
+	context = {'rForm':rForm}
+	return render_to_response('index.html', context, context_instance=RequestContext(request))
 
 def db(request):
 	greeting = Greeting()
@@ -22,21 +31,12 @@ def db(request):
 
 
 def detail(request, resident_id):
-	resident = get_object_or_404(Resident, pk=resident_id)
-	if request.method == 'POST':
-		rForm = ResidentForm(request.POST)
-		if rForm.is_valid():
-			rForm.save()
-			url = reverse('detail', kwargs={'resident_id': resident_id})
-			return HttpResponseRedirect(url)
-		else:
-			return HttpResponse('<h1>Form not valid</h1>')
-			
-	else:
-		rForm = ResidentForm()
-    	
 	context = {'rForm':rForm, 'resident_id':resident_id}
 	return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
+    resident_list = Resident.objects.order_by('-name')[:5]
+    template = loader.get_template('rotationSchedule_app/index.html')
+    context = RequestContext(request, {'resident_list': resident_list,})
+    return HttpResponse(template.render(context))
     
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
