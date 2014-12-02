@@ -15,32 +15,29 @@ def index(request):
 
 
 def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
+	greeting = Greeting()
+	greeting.save()
+	greetings = Greeting.objects.all()
+	return render(request, 'db.html', {'greetings': greetings})
 
 
 def detail(request, resident_id):
 	resident = get_object_or_404(Resident, pk=resident_id)
-	
 	if request.method == 'POST':
 		rForm = ResidentForm(request.POST)
 		if rForm.is_valid():
 			rForm.save()
+			return HttpResponseRedirect('/%s/' %resident_id)
+	else:
+		rForm = ResidentForm()
+    	
+	context = {'rForm':rForm}
+	return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
+    
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
-    		#newRes.save()
-    		return HttpResponseRedirect('/%s/' %resident_id)
-    else:
-    	rForm = ResidentForm()
-    	
-    context = {'rForm':rForm}
-    return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
+    		#newRes.save()    
     
 #used to be def detail(request, resident_id):
 	#resident = get_object_or_404(Resident, pk=resident_id)
