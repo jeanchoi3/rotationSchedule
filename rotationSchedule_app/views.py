@@ -27,7 +27,11 @@ def detail(request, resident_id):
 		rForm = ResidentForm(request.POST)
 		if rForm.is_valid():
 			rForm.save()
-			return HttpResponseRedirect('/1/')
+			url = reverse('detail', kwargs={'resident_id': resident_id})
+			return HttpResponseRedirect(url)
+		else:
+			return HttpResponse('<h1>Form not valid</h1>')
+			
 	else:
 		rForm = ResidentForm()
     	
