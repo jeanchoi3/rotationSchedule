@@ -8,7 +8,6 @@ from rotationSchedule_app.models import Resident
 
 # Create your views here.
 def index(request):
-	resident = get_object_or_404(Resident, pk=resident_id)
 	if request.method == 'POST':
 		rForm = ResidentForm(request.POST)
 		if rForm.is_valid():
