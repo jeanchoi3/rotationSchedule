@@ -27,7 +27,7 @@ def detail(request, resident_id):
 		rForm = ResidentForm(request.POST)
 		if rForm.is_valid():
 			rForm.save()
-			return HttpResponseRedirect('/%s/' %resident_id)
+			return HttpResponseRedirect('/1/')
 	else:
 		rForm = ResidentForm()
     	
