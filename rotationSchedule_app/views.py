@@ -36,7 +36,7 @@ def detail(request, resident_id):
 		rForm = ResidentForm()
     	
 	context = {'rForm':rForm, 'resident_id':resident_id}
-	return render_to_response('detail.html', context, context_instance=RequestContext(request))
+	return render_to_response('rotationSchedule_app/detail.html', context, context_instance=RequestContext(request))
     
     		#temp_post = rForm.save(commit=False)
     		#temp_post.save()
