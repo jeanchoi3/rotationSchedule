@@ -35,7 +35,7 @@ def detail(request, resident_id):
     		#temp_post.save()
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
     		#newRes.save()
-    		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    		return HttpResponseRedirect('/%s/' %resident_id)
     else:
     	rForm = ResidentForm()
     	
