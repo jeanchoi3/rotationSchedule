@@ -93,6 +93,7 @@ STATIC_URL = '/static/'
 
 
 # Parse database configuration from $DATABASE_URL
+#MAKE SURE THIS IS HERE WHEN PUSHING TO HEROKU!
 DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
