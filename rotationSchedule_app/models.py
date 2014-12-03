@@ -28,7 +28,7 @@ class Resident(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
-    year = models.ForeignKey('Year', null=True)
+    year = models.ForeignKey('Year', null=True) #each resident can only be in one year
     track = models.CharField(max_length=200,choices=TRACKS)
     in_program = models.BooleanField(default=True)
 
