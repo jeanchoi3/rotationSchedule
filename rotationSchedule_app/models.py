@@ -15,6 +15,14 @@ class Greeting(models.Model):
 class Year(models.Model):
 	name = models.CharField(max_length=200)
 
+#Track
+class Track(models.Model):
+    name = models.CharField(max_length=200)
+
+#Program
+class Program(models.Model):
+    name = models.CharField(max_length=200)
+
 #Resident
 class Resident(models.Model):
     def __str__(self):
