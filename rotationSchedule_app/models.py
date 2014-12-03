@@ -11,6 +11,10 @@ TRACKS = (('track1','track1'),('track2','track2'),('track3','track3'),)
 class Greeting(models.Model):
     when = models.DateTimeField('date created', auto_now_add=True)
 
+#Year
+class Year(models.Model):
+	name = models.CharField(max_length=200)
+
 #Resident
 class Resident(models.Model):
     def __str__(self):
