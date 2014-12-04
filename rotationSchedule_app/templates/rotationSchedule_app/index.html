@@ -13,6 +13,19 @@
     <input type="submit" value="Submit Resident" />
     </form>
 
+<h1>Year Information</h1>
+	<form action="/" method="post">
+    {% csrf_token %}
+    <div>
+    {% for field in yForm %}
+        <div>
+            <label for="{{ field.label }}">{{ field.label_tag }}</label>
+        	{{ field }}
+        </div>
+    {% endfor %}
+    <input type="submit" value="Submit Year" />
+    </form>
+
 {% if resident_list %}
     <ul>
     {% for resident in resident_list %}

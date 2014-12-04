@@ -10,16 +10,20 @@ from rotationSchedule_app.models import Resident
 def index(request):
 	if request.method == 'POST':
 		rForm = ResidentForm(request.POST)
+        yForm = YearForm(request.POST)
 		if rForm.is_valid():
 			rForm.save()
 			return HttpResponseRedirect('/')
+        elif yForm.is_valid():
+            yForm.save()
+            return HttpResponseRedirect('/')
 		else:
 			return HttpResponse('<h1>Form not valid</h1>')
 			
 	else:
 		rForm = ResidentForm()
-    	
-	context = {'rForm':rForm}
+    	yForm = YearForm()
+	context = {'rForm':rForm,'yForm':yForm}
 	return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 def db(request):
