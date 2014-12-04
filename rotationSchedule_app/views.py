@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from rotationSchedule_app.forms import ResidentForm
+from rotationSchedule_app.forms import ResidentForm, YearForm
 
 from .models import Greeting
-from rotationSchedule_app.models import Resident
+from rotationSchedule_app.models import Resident, Year
 
 # Create your views here.
 def index(request):
