@@ -37,7 +37,7 @@ class Resident(models.Model):
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
     track = models.CharField(max_length=200,choices=TRACKS)
     tracks = models.ManyToManyField('Track', null=True, default=None, related_name='tracks')
-    in_program = models.BooleanField(default=True)
+    inProgram = models.BooleanField(default=True)
 
 #Rotation
 class Rotation(models.Model):
@@ -46,6 +46,7 @@ class Rotation(models.Model):
     name = models.CharField(max_length=200)
     length = models.PositiveIntegerField(default=1)
     demandTotal = models.PositiveIntegerField(default=1)
+    isElective = models.BooleanField(default=False)
 # year and track related demand
 # track, year, and program min and max
 # accommodates vacation or weekends?
