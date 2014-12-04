@@ -1,28 +1,43 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from rotationSchedule_app.forms import ResidentForm, YearForm
+from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm
 
 from .models import Greeting
-from rotationSchedule_app.models import Resident, Year
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
 
 # Create your views here.
 def index(request):
     if request.method == 'POST':
         rForm = ResidentForm(request.POST)
         yForm = YearForm(request.POST)
+        tForm = TrackForm(request.POST)
+        pForm = ProgramForm(request.POST)
+        rotationForm = RotationForm(request.POST)
         if rForm.is_valid():
             rForm.save()
             return HttpResponseRedirect('/')
         elif yForm.is_valid():
             yForm.save()
             return HttpResponseRedirect('/')
+        elif tForm.is_valid():
+            tForm.save()
+            return HttpResponseRedirect('/')
+        elif pForm.is_valid():
+            pForm.save()
+            return HttpResponseRedirect('/')
+        elif rotationForm.is_valid():
+            rotationForm.save()
+            return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
         rForm = ResidentForm()
         yForm = YearForm()
-    context = {'rForm':rForm,'yForm':yForm}
+        tForm = TrackForm()
+        pForm = ProgramForm()
+        rotationForm = RotationForm()
+    context = {'rForm':rForm,'yForm':yForm,'tForm':tForm,'pForm':pForm,'rotationForm':rotationForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 def db(request):
