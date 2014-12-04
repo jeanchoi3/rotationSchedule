@@ -30,7 +30,7 @@ class Resident(models.Model):
     name = models.CharField(max_length=200)
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
     track = models.CharField(max_length=200,choices=TRACKS)
-    tracks = models.ManyToManyField('Track', blank=True, null=True, default=None, related_name='tracks')
+    tracks = models.ManyToManyField('Track', null=True, default=None, related_name='tracks')
     in_program = models.BooleanField(default=True)
 
 #class Year(models.Model):
