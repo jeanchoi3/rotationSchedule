@@ -20,7 +20,7 @@ def index(request):
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
-		rForm = ResidentForm()
+        rForm = ResidentForm()
         yForm = YearForm()
     context = {'rForm':rForm,'yForm':yForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
