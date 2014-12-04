@@ -13,14 +13,20 @@ class Greeting(models.Model):
 
 #Year
 class Year(models.Model):
+    def __str__(self):
+        return self.name
 	name = models.CharField(max_length=200)
 
 #Track
 class Track(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=200)
 
 #Program
 class Program(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=200)
 
 #Resident
