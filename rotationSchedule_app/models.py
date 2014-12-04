@@ -33,6 +33,16 @@ class Resident(models.Model):
     tracks = models.ManyToManyField('Track', null=True, default=None, related_name='tracks')
     in_program = models.BooleanField(default=True)
 
-#class Year(models.Model):
-#    name = models.CharField(max_length=200)
-#add min and max for each rotation here?
+#Rotation
+class Rotation(models.Model):
+    def __str__(self):
+        return self.name
+    name = models.CharField(max_length=200)
+    length = models.PositiveIntegerField(default=1)
+    demandTotal = models.PositiveIntegerField(default=1)
+# year and track related demand
+# track, year, and program min and max
+# accommodates vacation or weekends?
+# is an elective?
+#
+
