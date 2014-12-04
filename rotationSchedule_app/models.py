@@ -15,7 +15,7 @@ class Greeting(models.Model):
 class Year(models.Model):
     def __str__(self):
         return self.name
-	name = models.CharField(max_length=200)
+    #name = models.CharField(max_length=200)
     yearName = models.CharField(max_length=200,default='default')
 
 #Track
