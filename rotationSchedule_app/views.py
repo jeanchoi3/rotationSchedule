@@ -14,21 +14,26 @@ def index(request):
         tForm = TrackForm(request.POST)
         pForm = ProgramForm(request.POST)
         rotationForm = RotationForm(request.POST)
-        if rForm.is_valid():
-            rForm.save()
-            return HttpResponseRedirect('/')
-        elif pForm.is_valid():
-            pForm.save()
-            return HttpResponseRedirect('/')
-        elif yForm.is_valid():
-            yForm.save()
-            return HttpResponseRedirect('/')
-        elif tForm.is_valid():
-            tForm.save()
-            return HttpResponseRedirect('/')
-        elif rotationForm.is_valid():
-            rotationForm.save()
-            return HttpResponseRedirect('/')
+        if 'resident' in request.POST:
+            if rForm.is_valid():
+                rForm.save()
+                return HttpResponseRedirect('/')
+        elif 'program' in request.POST:
+            if pForm.is_valid():
+                pForm.save()
+                return HttpResponseRedirect('/')
+        elif 'year' in request.POST:
+            if yForm.is_valid():
+                yForm.save()
+                return HttpResponseRedirect('/')
+        elif 'track' in request.POST:
+            if tForm.is_valid():
+                tForm.save()
+                return HttpResponseRedirect('/')
+        elif 'rotation' in request.POST:
+            if rotationForm.is_valid():
+                rotationForm.save()
+                return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
