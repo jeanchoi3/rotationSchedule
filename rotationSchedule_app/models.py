@@ -35,7 +35,7 @@ class Resident(models.Model):
         return self.name
     name = models.CharField(max_length=200)
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
-    track = models.CharField(max_length=200,choices=TRACKS) #remove this later
+    #track = models.CharField(max_length=200,choices=TRACKS) #remove this later
     tracks = models.ManyToManyField('Track', null=True, default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
 
