@@ -17,14 +17,14 @@ def index(request):
         if rForm.is_valid():
             rForm.save()
             return HttpResponseRedirect('/')
+        elif pForm.is_valid():
+            pForm.save()
+            return HttpResponseRedirect('/')
         elif yForm.is_valid():
             yForm.save()
             return HttpResponseRedirect('/')
         elif tForm.is_valid():
             tForm.save()
-            return HttpResponseRedirect('/')
-        elif pForm.is_valid():
-            pForm.save()
             return HttpResponseRedirect('/')
         elif rotationForm.is_valid():
             rotationForm.save()
