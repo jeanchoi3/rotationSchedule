@@ -41,10 +41,24 @@ class Rotation(models.Model):
     name = models.CharField(max_length=200)
     length = models.PositiveIntegerField(default=1)
     demandTotal = models.PositiveIntegerField(default=1)
+    demandYear = models.ManyToManyField('Year',blank=True,null=True,default=None,through='YearDemand')
     isElective = models.BooleanField(default=False)
 # year and track related demand
 # track, year, and program min and max
 # accommodates vacation or weekends?
 # is an elective?
 #
+
+#Demand by year, through field for rotation field demandYear
+class YearDemand(models.Model):
+    rotation = models.ForeignKey('Rotation')
+    year = models.ForeignKey('Year')
+    demand = models.PositiveIntegerField(default=0)
+
+
+
+
+
+
+
 
