@@ -1,78 +1,284 @@
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Rotation Dashboard</title>
+
+        <!-- Bootstrap core CSS -->
+        {% load static %}
+
+        {% block css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+        {% endblock %}
 
 
-<h1>Program Information</h1>
-    <form action="/" method="post">
-    {% csrf_token %}
-    <div>
-    {% for field in pForm %}
-        <div>
-            <label for="{{ field.label }}">{{ field.label_tag }}</label>
-            {{ field }}
+        <script type="text/javascript">
+            $(function()
+            {   
+                $('.datepicker').datepicker(
+                    {
+                        format: 'mm-dd-yyyy'
+                    }
+                );
+            });
+        </script>
+
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                <a class="navbar-brand" href="#">Project name</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
         </div>
-    {% endfor %}
-    <input type="submit" name="program" value="Submit Program" />
-    </form>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h1 class="page-header">Dashboard</h1>
 
-<h1>Year Information</h1>
-    <form action="/" method="post">
-    {% csrf_token %}
-    <div>
-    {% for field in yForm %}
-        <div>
-            <label for="{{ field.label }}">{{ field.label_tag }}</label>
-            {{ field }}
+
+            <!--********************************************************-->
+            <input data-provide="datepicker">
+
+            <form>
+                <div class="row">
+                    <div class="col-xs-6">
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <input type="checkbox">
+                        </span>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <input type="radio">
+                        </span>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+            </form>
+
+
+        <h1>BootStrap Datepicker</h1>
+        <form>
+            <div class="well span12 main">
+                <input type="text" id="dp1" class="span2 datepicker" placeholder="Date..." name="date"> <br>
+            </div>
+                <input type="submit" value="Search" class="btn">
+
+
+            <div class="input-append date" id="dp3" data-date="01-01-2015" data-date-format="mm-dd-yyyy">
+                <input class="span2" size="16" type="text" value="01-01-2015">
+                <span class="add-on"><i class="icon-th"></i></span>
+            </div>
+        </form>
+
+            <span class="label label-default">Intern</span>
+            <span class="label label-primary">PGY1</span>
+            <span class="label label-success">PGY2</span>
+            <span class="label label-info">PGY3</span>
+            <span class="label label-warning">Track1</span>
+            <span class="label label-danger">Track2</span>
+
+        <h2 class="sub-header">Section title</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                  <th>Header</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
-    {% endfor %}
-    <input type="submit" name="year" value="Submit Year" />
-    </form>
 
-<h1>Track Information</h1>
-    <form action="/" method="post">
-    {% csrf_token %}
-    <div>
-    {% for field in tForm %}
-        <div>
-            <label for="{{ field.label }}">{{ field.label_tag }}</label>
-            {{ field }}
+
+        <!--My old stuff!!!!!!!!!!!!!!!!-->
+
+
+            <select multiple="multiple">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+
+        <form>
+          <fieldset>
+            <legend>Program Information</legend>
+            <span class="help-block">General information about the residency program.</span>
+            <label>Program Name</label>
+            <input type="text">
+
+            <div class="control-group">
+                <div class="controls">
+                  <label class="checkbox">
+                    <input type="checkbox"> Remember me
+                  </label>
+                  <button type="submit" class="btn">Submit</button>
+                </div>
+            </div>
+          </fieldset>
+        </form>
+
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+        <h1>Program Information</h1>
+            <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+            {% for field in pForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="program" value="Submit Program" />
+            </form>
+
+        <h1>Year Information</h1>
+            <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+            {% for field in yForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="year" value="Submit Year" />
+            </form>
+
+        <h1>Track Information</h1>
+            <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+            {% for field in tForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="track" value="Submit Track" />
+            </form>
+
+        <h1>Resident Information</h1>
+            <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+            {% for field in rForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="resident" value="Submit Resident" />
+            </form>
+
+        <h1>Rotation Information</h1>
+            <form action="/" method="post">
+            {% csrf_token %}
+            <div>
+            {% for field in rotationForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <input type="submit" name="rotation" value="Submit Rotation" />
+            </form>
+
+
+
+
+
+
         </div>
-    {% endfor %}
-    <input type="submit" name="track" value="Submit Track" />
-    </form>
 
-<h1>Resident Information</h1>
-    <form action="/" method="post">
-    {% csrf_token %}
-    <div>
-    {% for field in rForm %}
-        <div>
-            <label for="{{ field.label }}">{{ field.label_tag }}</label>
-        	{{ field }}
-        </div>
-    {% endfor %}
-    <input type="submit" name="resident" value="Submit Resident" />
-    </form>
 
-<h1>Rotation Information</h1>
-    <form action="/" method="post">
-    {% csrf_token %}
-    <div>
-    {% for field in rotationForm %}
-        <div>
-            <label for="{{ field.label }}">{{ field.label_tag }}</label>
-            {{ field }}
-        </div>
-    {% endfor %}
-    <input type="submit" name="rotation" value="Submit Rotation" />
-    </form>
+        <!--
+        {% if resident_list %}
+            <ul>
+            {% for resident in resident_list %}
+                <li><a href="{% url 'detail' resident.id %}">{{ resident.name }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No residents are listed.</p>
+        {% endif %}-->
 
-<!--
-{% if resident_list %}
-    <ul>
-    {% for resident in resident_list %}
-        <li><a href="{% url 'detail' resident.id %}">{{ resident.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No residents are listed.</p>
-{% endif %}-->
+
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  </body>
+</html>

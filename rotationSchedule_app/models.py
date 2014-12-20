@@ -24,6 +24,8 @@ class Program(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
+    startDate = models.DateField(default=datetime.date.today)
+    endDate = models.DateField(default=datetime.date.today)
 
 #Resident
 class Resident(models.Model):
