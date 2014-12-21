@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
 
         <title>Rotation Dashboard</title>
 
@@ -13,29 +9,66 @@
         {% load static %}
 
         {% block css %}
-            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
         {% endblock %}
 
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/chosen.jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/chosen.proto.min.js' %}"></script>
 
-        <script type="text/javascript">
-            $(function()
-            {   
-                $('.datepicker').datepicker(
-                    {
-                        format: 'mm-dd-yyyy'
-                    }
-                );
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btnAdd').click(function() {
+                var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+ 
+                // create the new element via clone(), and manipulate it's ID using newNum value
+                var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+ 
+                // manipulate the name/id values of the input inside the new element
+                newElem.children(':first').attr('id', 'year' + newNum).attr('name', 'year' + newNum);
+ 
+                // insert the new element after the last "duplicatable" input field
+                $('#input' + num).after(newElem);
+ 
+                // enable the "remove" button
+                $('#btnDel').attr('disabled','');
+ 
+                // business rule: you can only add 5 names
+                if (newNum == 5)
+                    $('#btnAdd').attr('disabled','disabled');
             });
-        </script>
-
-
-    </head>
+ 
+            $('#btnDel').click(function() {
+                var num = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+                $('#input' + num).remove();     // remove the last element
+ 
+                // enable the "add" button
+                $('#btnAdd').attr('disabled','');
+ 
+                // if only one element remains, disable the "remove" button
+                if (num-1 == 1)
+                    $('#btnDel').attr('disabled','disabled');
+            });
+ 
+            $('#btnDel').attr('disabled','disabled');
+            $('#datepicker').datepicker();
+            $('#myForm').submit(function(){
+                var values=$('#myForm').serialize();
+                $('#results').text(values);
+            });
+            $(".chzn-select").chosen();
+        });
+    </script>
+</head>
 
     <body>
-
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -45,7 +78,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                <a class="navbar-brand" href="#">Project name</a>
+                <a class="navbar-brand" href="#">Rotation Scheduler</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -74,211 +107,40 @@
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Dashboard</h1>
-
-
-            <!--********************************************************-->
-            <input data-provide="datepicker">
-
-            <form>
-                <div class="row">
-                    <div class="col-xs-6">
-                      <div class="input-group">
-                        <span class="input-group-addon">
-                          <input type="checkbox">
-                        </span>
-                        <input type="text" class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="input-group">
-                        <span class="input-group-addon">
-                          <input type="radio">
-                        </span>
-                        <input type="text" class="form-control">
-                      </div>
-                    </div>
-                  </div>
-            </form>
-
-
-        <h1>BootStrap Datepicker</h1>
-        <form>
-            <div class="well span12 main">
-                <input type="text" id="dp1" class="span2 datepicker" placeholder="Date..." name="date"> <br>
-            </div>
-                <input type="submit" value="Search" class="btn">
-
-
-            <div class="input-append date" id="dp3" data-date="01-01-2015" data-date-format="mm-dd-yyyy">
-                <input class="span2" size="16" type="text" value="01-01-2015">
-                <span class="add-on"><i class="icon-th"></i></span>
-            </div>
-        </form>
-
-            <span class="label label-default">Intern</span>
-            <span class="label label-primary">PGY1</span>
-            <span class="label label-success">PGY2</span>
-            <span class="label label-info">PGY3</span>
-            <span class="label label-warning">Track1</span>
-            <span class="label label-danger">Track2</span>
-
-        <h2 class="sub-header">Section title</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-
-
-        <!--My old stuff!!!!!!!!!!!!!!!!-->
-
-
-            <select multiple="multiple">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-
-        <form>
-          <fieldset>
-            <legend>Program Information</legend>
-            <span class="help-block">General information about the residency program.</span>
-            <label>Program Name</label>
-            <input type="text">
-
-            <div class="control-group">
-                <div class="controls">
-                  <label class="checkbox">
-                    <input type="checkbox"> Remember me
-                  </label>
-                  <button type="submit" class="btn">Submit</button>
-                </div>
-            </div>
-          </fieldset>
-        </form>
-
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 
-        <h1>Program Information</h1>
-            <form action="/" method="post">
-            {% csrf_token %}
+
+        <form id="myForm">
+            <legend>Program Information</legend>
+            <span class="help-block">General information about the residency program.</span>
+            <!--label>Program Name</label-->
+            Program Name: <input type="text">
+
+            <div id="input1" style="margin-bottom:4px;" class="clonedInput">
+            Year: <input type="text" name="year1" id="year1" />
+            </div>
+         
             <div>
-            {% for field in pForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <input type="submit" name="program" value="Submit Program" />
-            </form>
+                <input type="button" id="btnAdd" value="add another year" />
+                <input type="button" id="btnDel" value="remove year" />
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        </form>
 
-        <h1>Year Information</h1>
-            <form action="/" method="post">
-            {% csrf_token %}
-            <div>
-            {% for field in yForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <input type="submit" name="year" value="Submit Year" />
-            </form>
+        <p>Results: <tt id="results"></p>
 
-        <h1>Track Information</h1>
-            <form action="/" method="post">
-            {% csrf_token %}
-            <div>
-            {% for field in tForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <input type="submit" name="track" value="Submit Track" />
-            </form>
-
-        <h1>Resident Information</h1>
-            <form action="/" method="post">
-            {% csrf_token %}
-            <div>
-            {% for field in rForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <input type="submit" name="resident" value="Submit Resident" />
-            </form>
-
-        <h1>Rotation Information</h1>
-            <form action="/" method="post">
-            {% csrf_token %}
-            <div>
-            {% for field in rotationForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
-                </div>
-            {% endfor %}
-            <input type="submit" name="rotation" value="Submit Rotation" />
-            </form>
-
-
-
-
-
-
+        <div>
+            <select class="chzn-select" multiple="true" name="faculty" style="width:200px;">
+                <option value="Option1">A</option>
+                <option value="Option2">B</option>
+                <option value="Option3">C</option>
+                <option value="Option4">D</option>
+            </select>
         </div>
 
+    </div>
 
-        <!--
-        {% if resident_list %}
-            <ul>
-            {% for resident in resident_list %}
-                <li><a href="{% url 'detail' resident.id %}">{{ resident.name }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>No residents are listed.</p>
-        {% endif %}-->
-
-
-
-<!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
   </body>
 </html>
