@@ -46,9 +46,17 @@
             $(".chzn-select").chosen();
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
-
         });
     </script>
+    <!--script>
+        function showValues() {
+            alert("You did it!");
+            /*var str = $("#rotationForm").serialize();
+            $("results").text(str);*/
+        }
+        $( "input[type='checkbox']" ).on( "click", showValues );
+        showValues();
+    </script-->
 </head>
 
 <style>
@@ -57,8 +65,45 @@
         max-width: 900px;
         margin: 0 auto;
     }
+.myButton {
+    -moz-box-shadow:inset 0px 1px 0px 0px #9acc85;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #9acc85;
+    box-shadow:inset 0px 1px 0px 0px #9acc85;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #74ad5a), color-stop(1, #68a54b));
+    background:-moz-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+    background:-webkit-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+    background:-o-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+    background:-ms-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
+    background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#74ad5a', endColorstr='#68a54b',GradientType=0);
+    background-color:#74ad5a;
+    border:1px solid #3b6e22;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:13px;
+    font-weight:bold;
+    padding:6px 12px;
+    text-decoration:none;
+}
+.myButton:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #68a54b), color-stop(1, #74ad5a));
+    background:-moz-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+    background:-webkit-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+    background:-o-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+    background:-ms-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
+    background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#68a54b', endColorstr='#74ad5a',GradientType=0);
+    background-color:#68a54b;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
 
 </style>
+
 
 <body>
 
@@ -86,8 +131,6 @@
                 </div>
             </div>
         </nav>
-
-
 
         <div class="container-fluid">
         <div class="row">
@@ -133,6 +176,8 @@
             <button type="submit" class="btn">Submit</button>
         </form>
 
+        <p><tt id="results"></tt></p>
+
         <br><br>
 
         <form id="blockForm">
@@ -145,6 +190,80 @@
             <form action="/" method="post" id="sign-up_area">
                 <div id="entry1" class="clonedInput">
                     <h4 id="reference" name="reference" class="heading-reference">Entry #1</h4>
+
+                    <fieldset>
+                        <label class="label_bn" for="block_name">Block name:</label>
+
+                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
+
+                            <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
+                    </fieldset>
+
+                    <!--fieldset class="radio entrylist"-->
+                    <fieldset>
+                        <label class="label_radio" for="radioitem">Block length:</label>
+                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
+                        <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
+                        <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months</label>
+                        <p class="form-help">E.g. "4" Weeks, "2" Months</p>
+                    </fieldset>
+                </div><!-- end #entry1 -->
+
+                <div id="addDelButtons">
+                    <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
+                </div>
+                <br>
+
+                <button type="submit" class="btn">Submit</button>
+                <!--fieldset class="form-actions">
+                    <input type="submit" value="Submit">
+                </fieldset-->
+            </form>
+        </div><!-- end cloned form -->
+        <br><br>
+        <!--form>
+        <select class="chosen" multiple="true" style="width:300px;">
+            <option>Choose...</option>
+            <option>jQuery</option>
+            <option>Prototype</option>
+        </select>
+        </form-->
+
+
+        <form id="rotationForm">
+            <legend>Rotation Information</legend>
+            <p><b>Rotation Name: </b><input type="text" id="rotation_name"></p>
+            <p><input type="checkbox" id="is_elective"><b>  Elective</b></p>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+
+
+        <br><br>
+
+        <div name="aggregate_rotation">
+        <table>
+            <tr><td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td></tr>
+            
+            <tr><td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td></tr>
+            
+            <tr><td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td>
+            <td><a href="#" class="myButton">x</a></td></tr>
+        </table>
+        </div>
+
+        <br><br>
+
+        <div id='calendar'></div>
+        </div>
+</body>
+</html>
+
+<!-- CLONED FORM EXAMPLES FOR DIFFERENT TYPES OF FIELDSETS -->
                     <!--fieldset>
                         <label class="label_ttl" for="title">Title:</label>
                         <select class="select_ttl" name="title" id="title">
@@ -170,14 +289,6 @@
                             </select>
                     </fieldset-->
 
-                    <fieldset>
-                        <label class="label_bn" for="block_name">Block name:</label>
-
-                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
-
-                            <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
-                    </fieldset>
-
                     <!--fieldset>
                         <label class="label_ln" for="last_name">Last name:</label>
                         <input class="input_ln" type="text" name="last_name" id="last_name" value="">
@@ -191,29 +302,3 @@
                             <li><label><input type="checkbox" id="colorWhite" value="colorWhite" name="checkboxitem" class="input_checkboxitem"> White</label></li>
                         </ul><!-- end .input_radio -->
                     <!--/fieldset-->
-
-                    <!--fieldset class="radio entrylist"-->
-                    <fieldset>
-                        <label class="label_radio" for="radioitem">Block length:</label>
-                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
-                        <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
-                        <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months</label>
-                        <p class="form-help">E.g. "4" Weeks, "2" Months</p>
-                    </fieldset>
-                </div><!-- end #entry1 -->
-
-                <div id="addDelButtons">
-                    <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
-                </div>
-                <br>
-
-                <button type="submit" class="btn">Submit</button>
-                <!--fieldset class="form-actions">
-                    <input type="submit" value="Submit">
-                </fieldset-->
-            </form>
-        </div><!-- end cloned form -->
-        <div id='calendar'></div>
-        </div>
-</body>
-</html>
