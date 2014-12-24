@@ -9,23 +9,33 @@
         {% load static %}
 
         {% block css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
+            <link rel="stylesheet" href="{% static 'css/fullcalendar.print.css' %}" media='print' />
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.min.css' %}">
+
         {% endblock %}
 
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script-->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/chosen.jquery.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/chosen.proto.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/clone-form-td.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -36,9 +46,19 @@
             $(".chzn-select").chosen();
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
+
         });
     </script>
 </head>
+
+<style>
+
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+</style>
 
 <body>
 
@@ -88,7 +108,7 @@
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
             <!--label>Program Name</label-->
-            <p><b>Program Name: <input type="text"></b></p>
+            <p><b>Program Name: </b><input type="text"></p>
 
             <!--div id="input1" style="margin-bottom:4px;" class="clonedInput">
             <p>Year: <input type="text" name="year1" id="year1" /></p>
@@ -107,8 +127,8 @@
             </div-->
             <p></p>
 
-            <p><b>Schedule Start Date: <input type="text" id="datepicker-1"></b></p>
-            <p><b>Schedule End Date: <input type="text" id="datepicker-2"></b></p>
+            <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1"></p>
+            <p><b>Schedule End Date: </b><input type="text" id="datepicker-2"></p>
 
             <button type="submit" class="btn">Submit</button>
         </form>
@@ -193,6 +213,7 @@
                 </fieldset-->
             </form>
         </div><!-- end cloned form -->
+        <div id='calendar'></div>
+        </div>
 </body>
 </html>
-
