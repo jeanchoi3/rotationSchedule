@@ -14,6 +14,11 @@
             <link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.print.css' %}">
         {% endblock %}
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
@@ -21,55 +26,29 @@
         <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/chosen.jquery.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/chosen.proto.min.js' %}"></script>
-
+        <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/clone-form-td.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#btnAdd').click(function() {
-                var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
-                var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
- 
-                // create the new element via clone(), and manipulate it's ID using newNum value
-                var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
- 
-                // manipulate the name/id values of the input inside the new element
-                newElem.children(':first').attr('id', 'year' + newNum).attr('name', 'year' + newNum);
- 
-                // insert the new element after the last "duplicatable" input field
-                $('#input' + num).after(newElem);
- 
-                // enable the "remove" button
-                $('#btnDel').attr('disabled','');
- 
-                // business rule: you can only add 5 names
-                if (newNum == 5)
-                    $('#btnAdd').attr('disabled','disabled');
-            });
- 
-            $('#btnDel').click(function() {
-                var num = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
-                $('#input' + num).remove();     // remove the last element
- 
-                // enable the "add" button
-                $('#btnAdd').attr('disabled','');
- 
-                // if only one element remains, disable the "remove" button
-                if (num-1 == 1)
-                    $('#btnDel').attr('disabled','disabled');
-            });
- 
-            $('#btnDel').attr('disabled','disabled');
-            $('#datepicker').datepicker();
             $('#myForm').submit(function(){
                 var values=$('#myForm').serialize();
                 $('#results').text(values);
             });
             $(".chzn-select").chosen();
+            $('#datepicker-1').datepicker();
+            $('#datepicker-2').datepicker();
         });
     </script>
 </head>
 
-    <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -111,36 +90,115 @@
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 
-
         <form id="myForm">
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
             <!--label>Program Name</label-->
-            Program Name: <input type="text">
+            <p><b>Program Name: <input type="text"></b></p>
 
-            <div id="input1" style="margin-bottom:4px;" class="clonedInput">
-            Year: <input type="text" name="year1" id="year1" />
+            <!--div id="input1" style="margin-bottom:4px;" class="clonedInput">
+            <p>Year: <input type="text" name="year1" id="year1" /></p>
+            </div-->
+            
+            <!--fieldset>
+                <label class="label_year" for="year">Year:</label>
+
+                <input class="input_year" type="text" name="year" id="year" value="">
+
+                    <p class="form-help">E.g. PGY1</p><!-- this is optional -->
+            <!--/fieldset>
+            
+            <div id="addDelButtons">
+                <input type="button" id="btnAdd" value="add another year"> <input type="button" id="btnDel" value="remove year above">
             </div>
-         
-            <div>
-                <input type="button" id="btnAdd" value="add another year" />
-                <input type="button" id="btnDel" value="remove year" />
-                <button type="submit" class="btn">Submit</button>
-            </div>
+            <p></p-->
+
+            <p><b>Schedule Start Date: <input type="text" id="datepicker-1"></b></p>
+            <p><b>Schedule End Date: <input type="text" id="datepicker-2"></b></p>
+
+            <button type="submit" class="btn">Submit</button>
         </form>
 
-        <p>Results: <tt id="results"></p>
+        <br><br>
+
+        <form id="blockForm">
+            <legend>Block Information</legend>
+            <span class="help-block">Input all types of blocks to be used in the schedule</span>
+
+        </form>
 
         <div>
-            <select class="chzn-select" multiple="true" name="faculty" style="width:200px;">
-                <option value="Option1">A</option>
-                <option value="Option2">B</option>
-                <option value="Option3">C</option>
-                <option value="Option4">D</option>
-            </select>
-        </div>
+            <form action="/" method="post" id="sign-up_area">
+                <div id="entry1" class="clonedInput">
+                    <h4 id="reference" name="reference" class="heading-reference">Entry #1</h4>
+                    <!--fieldset>
+                        <label class="label_ttl" for="title">Title:</label>
+                        <select class="select_ttl" name="title" id="title">
+                                <option value="" selected="selected" disabled="disabled">
+                                    Select your title
+                                </option>
 
-    </div>
+                                <option value="Dr.">
+                                    Dr.
+                                </option>
 
-  </body>
+                                <option value="Mr.">
+                                    Mr.
+                                </option>
+
+                                <option value="Mrs.">
+                                    Mrs.
+                                </option>
+
+                                <option value="Ms.">
+                                    Ms.
+                                </option>
+                            </select>
+                    </fieldset-->
+
+                    <fieldset>
+                        <label class="label_bn" for="block_name">Block name:</label>
+
+                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
+
+                            <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
+                    </fieldset>
+
+                    <!--fieldset>
+                        <label class="label_ln" for="last_name">Last name:</label>
+                        <input class="input_ln" type="text" name="last_name" id="last_name" value="">
+                    </fieldset>
+
+                    <fieldset class="checkbox entrylist">
+                        <label class="label_checkboxitem" for="checkboxitem">What color?</label>
+                        <ul>
+                            <li><label><input type="checkbox" id="colorBlue" value="colorBlue" name="checkboxitem" class="input_checkboxitem"> Blue</label></li>
+                            <li><label><input type="checkbox" id="colorRed" value="colorRed" name="checkboxitem" class="input_checkboxitem"> Red</label></li>
+                            <li><label><input type="checkbox" id="colorWhite" value="colorWhite" name="checkboxitem" class="input_checkboxitem"> White</label></li>
+                        </ul><!-- end .input_radio -->
+                    <!--/fieldset-->
+
+                    <!--fieldset class="radio entrylist"-->
+                    <fieldset>
+                        <label class="label_radio" for="radioitem">Block length:</label>
+                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
+                        <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
+                        <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months</label>
+                        <p class="form-help">E.g. "4" Weeks, "2" Months</p>
+                    </fieldset>
+                </div><!-- end #entry1 -->
+
+                <div id="addDelButtons">
+                    <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
+                </div>
+                <br>
+
+                <button type="submit" class="btn">Submit</button>
+                <!--fieldset class="form-actions">
+                    <input type="submit" value="Submit">
+                </fieldset-->
+            </form>
+        </div><!-- end cloned form -->
+</body>
 </html>
+
