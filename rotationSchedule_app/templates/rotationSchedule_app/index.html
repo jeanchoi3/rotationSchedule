@@ -17,8 +17,6 @@
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.min.css' %}">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.print.css' %}">
         {% endblock %}
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
@@ -28,11 +26,7 @@
         <script type="text/javascript" src="{% static 'js/chosen.proto.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/clone-form-td.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#myForm').submit(function(){
@@ -101,17 +95,17 @@
             </div-->
             
             <!--fieldset>
-                <label class="label_year" for="year">Year:</label>
+                <label class="label_year" for="year">Block name:</label>
 
-                <input class="input_year" type="text" name="year" id="year" value="">
+                <input class="input_bn" type="text" name="block_name" id="block_name" value="">
 
-                    <p class="form-help">E.g. PGY1</p><!-- this is optional -->
+                    <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
             <!--/fieldset>
             
             <div id="addDelButtons">
                 <input type="button" id="btnAdd" value="add another year"> <input type="button" id="btnDel" value="remove year above">
-            </div>
-            <p></p-->
+            </div-->
+            <p></p>
 
             <p><b>Schedule Start Date: <input type="text" id="datepicker-1"></b></p>
             <p><b>Schedule End Date: <input type="text" id="datepicker-2"></b></p>
