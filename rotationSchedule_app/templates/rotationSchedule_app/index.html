@@ -74,11 +74,10 @@
             $('#rotationForm').submit(function(){
                 var val = $('#rotationForm').serializeArray();
                 var optionsAsString = "";
-                optionsAsString += "<option value='" + val[0].value + "'>" + val[0].value + "</option>";
                 //NOTE: All fields must be filled in for this to work!
-                /*for(var i = 0; i < val.length; i=i+3) {
+                for(var i = 0; i < val.length; i++) {
                     optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
-                }*/
+                }
                 $('#rotation_select').empty();
                 $('#rotation_select').append(optionsAsString);
                 $('#rotation_select').trigger("chosen:updated");
@@ -195,29 +194,14 @@
         <form id="myForm">
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
-            <!--label>Program Name</label-->
+
             <p><b>Program Name: </b><input type="text" name="programName"></p>
 
-            <!--div id="input1" style="margin-bottom:4px;" class="clonedInput">
-            <p>Year: <input type="text" name="year1" id="year1" /></p>
-            </div-->
-            
-            <!--fieldset>
-                <label class="label_year" for="year">Block name:</label>
-
-                <input class="input_bn" type="text" name="block_name" id="block_name" value="">
-
-                    <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
-            <!--/fieldset>
-            
-            <div id="addDelButtons">
-                <input type="button" id="btnAdd" value="add another year"> <input type="button" id="btnDel" value="remove year above">
-            </div-->
             <p></p>
 
             <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
             <p><b>Schedule End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
-            <button type="submit" class="btn">Submit</button>
+            <button type="submit" class="btn">Save and Update</button>
         </form>
 
         <p><tt type="text" id="results"></tt></p>
@@ -259,7 +243,8 @@
                     <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
                 </div>
                 <br>
-                <button type="submit" class="btn">Submit</button>
+
+                <button type="submit" class="btn">Save and Update</button>
                 <!--fieldset class="form-actions">
                     <input type="submit" value="Submit">
                 </fieldset-->
@@ -274,14 +259,44 @@
         </select>
         </form-->
 
-
         <form id="rotationForm">
             <legend>Rotation Information</legend>
-            <p><b>Rotation Name: </b><input type="text" id="rotation_name" name="rotation_name"></p>
-            <p><input type="checkbox" id="is_elective" name="is_elective"><b>  Elective</b></p>
-            <br>
-            <button type="submit" class="btn">Submit</button>
+
+            <div id="rotation1" class="clonedRotation">
+                <!--h4 id="reference" name="reference" class="heading-reference">Rotation #1</h4-->
+
+                <label class="label_rn" for="rotation_name">Rotation Name:</label>
+                <input class="input_rn" type="text" name="rotation_name" id="rotation_name" value="">
+
+                <!--input type="checkbox" id="isElective" value="isElective" name="isElective" class="input_checkboxitem">  Elective-->
+            </div><br>
+
+            <div id="addDelButtons">
+                <input type="button" id="btnAddRotation" value="add rotation"> <input type="button" id="btnDelRotation" value="remove rotation above">
+            </div><br>
+
+            <button type="submit" class="btn">Save and Update</button>
         </form><br><br>
+
+
+        <!--form id="yearForm">
+            <legend>Year/Track Information</legend>
+
+            <div id="year1" class="clonedYear">
+
+                <label class="label_yn" for="year_name">Year/Track Name:</label>
+                <input class="input_yn" type="text" name="year_name" id="year_name" value="">
+
+            </div><br>
+
+            <div id="addDelButtons">
+                <input type="button" id="btnAddYear" value="add year/track"> <input type="button" id="btnDelYear" value="remove year/track above">
+            </div><br>
+
+            <button type="submit" class="btn">Save and Update</button>
+        </form><br><br-->
+
+
 
         <form id="rotationBlockForm">
             <legend>Rotation/Block Information</legend>
@@ -318,7 +333,7 @@
                     <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months
                 </div>
             </fieldset>
-            <button type="submit" class="btn">Submit</button>
+            <button type="submit" class="btn">Save and Update</button>
         </form><br><br>
 
         <div name="aggregate_rotation">
