@@ -38,14 +38,47 @@
         <script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function() {
+            $(".chosen-select").chosen()
             $('#myForm').submit(function(){
-                var values=$('#myForm').serialize();
-                $('#results').text(values);
+                var val = $('#myForm').serializeArray();
+                //$('#results').text(val[0].value);
+                $('#calendar').fullCalendar('gotoDate', val[1].value);
+                //select[name="block_select"]
+                /*$('#block_select').empty();
+                $('#block_select').append("<option value='" + val[0].value + "'>" + val[0].value +"</option>");
+                $('#block_select').trigger("chosen:updated");*/
+                return false;
+                //if val[1].value != null
+                    //$('#calendar').fullCalendar('gotoDate', val[1].value);
+                //var optionsAsString = "";
+                //for(var i = 0; i < val.length; i=i+3) {
+                    //optionsAsString += "<option value='" + val[i] + "'>" + val[i] + "</option>";
+                //optionsAsString += "<option>" + val[0].value + "</option>";
+                //}
+                //$( 'select[name="block_select"]' ).append( optionsAsString );
             });
-            $(".chzn-select").chosen();
+            $('#sign-up_area').submit(function(){
+                var val = $('#sign-up_area').serializeArray();
+                var optionsAsString = "";
+                //NOTE: All fields must be filled in for this to work!
+                for(var i = 0; i < val.length; i=i+3) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }
+                $('#block_select').empty();
+                $('#block_select').append(optionsAsString);
+                $('#block_select').trigger("chosen:updated");
+                return false;
+            });
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
+
+            /*var optionsAsString = "";
+            for(var i = 0; i < productArray.length; i++) {
+                optionsAsString += "<option value='" + productArray[i] + "'>" + productArray[i] + "</option>";
+            }
+            $( 'select[name="inptProduct"]' ).append( optionsAsString );*/
         });
     </script>
     <!--script>
@@ -136,22 +169,21 @@
         <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
+                <li class="active"><a href="#">Program Information <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Block Information</a></li>
+                <li><a href="#">Rotation Information</a></li>
+                <li><a href="#">Schedule</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-
         <form id="myForm">
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
             <!--label>Program Name</label-->
-            <p><b>Program Name: </b><input type="text"></p>
+            <p><b>Program Name: </b><input type="text" name="programName"></p>
 
             <!--div id="input1" style="margin-bottom:4px;" class="clonedInput">
             <p>Year: <input type="text" name="year1" id="year1" /></p>
@@ -170,13 +202,12 @@
             </div-->
             <p></p>
 
-            <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1"></p>
-            <p><b>Schedule End Date: </b><input type="text" id="datepicker-2"></p>
-
+            <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
+            <p><b>Schedule End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
             <button type="submit" class="btn">Submit</button>
         </form>
 
-        <p><tt id="results"></tt></p>
+        <p><tt type="text" id="results"></tt></p>
 
         <br><br>
 
@@ -187,7 +218,8 @@
         </form>
 
         <div>
-            <form action="/" method="post" id="sign-up_area">
+            <!--form action="/" method="post" id="sign-up_area"-->
+            <form id="sign-up_area">
                 <div id="entry1" class="clonedInput">
                     <h4 id="reference" name="reference" class="heading-reference">Entry #1</h4>
 
@@ -201,10 +233,11 @@
 
                     <!--fieldset class="radio entrylist"-->
                     <fieldset>
-                        <label class="label_radio" for="radioitem">Block length:</label>
-                        <input class="input_bn" type="text" name="block_name" id="block_name" value="">
-                        <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
-                        <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months</label>
+                        <label class="label_bl" for="block_length">Block length:</label>
+                        <input class="input_bl" type="text" name="block_length" id="block_length" value="">
+
+                        <label class="label_radio" for="radioitem"></label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks
+                        <label class="label_radio" for="radioitem"></label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months
                         <p class="form-help">E.g. "4" Weeks, "2" Months</p>
                     </fieldset>
                 </div><!-- end #entry1 -->
@@ -213,7 +246,6 @@
                     <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
                 </div>
                 <br>
-
                 <button type="submit" class="btn">Submit</button>
                 <!--fieldset class="form-actions">
                     <input type="submit" value="Submit">
@@ -234,6 +266,40 @@
             <legend>Rotation Information</legend>
             <p><b>Rotation Name: </b><input type="text" id="rotation_name"></p>
             <p><input type="checkbox" id="is_elective"><b>  Elective</b></p>
+            <br>
+            
+            <fieldset>
+                <div>
+                <em>Block(s)</em>
+                <select name="block_select" id="block_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                    <option value=""></option>
+                </select>
+                </div> <p></p>
+
+                <div>
+                <label class="label_min" for="min_length">Min length:</label>
+                <input class="input_min" type="text" name="min_length" id="min_length" value="">
+
+                <input type="radio" id="weeks_rot_min" value="weeks_rot_min" name="radioitem" class="input_radio"> Weeks
+                
+                <input type="radio" id="months_rot_min" value="months_rot_min" name="radioitem" class="input_radio"> Months
+                </div><p></p>
+
+                <div>
+                <label class="label_max" for="max_length">Max length:</label>
+                <input class="input_max" type="text" name="max_length" id="max_length" value="">
+                
+                <input type="radio" id="weeks_rot_max" value="weeks_rot_max" name="radioitem" class="input_radio"> Weeks
+                
+                <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months
+                </div>
+                <!--label class="label_radio" for="radioitem">Block length:</label>
+                <input class="input_bn" type="text" name="block_name" id="block_name" value="">
+                <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
+                <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Blocks</label>
+                <p class="form-help">E.g. "4" Weeks, "2" Months</p-->
+            </fieldset>
+
             <button type="submit" class="btn">Submit</button>
         </form>
 

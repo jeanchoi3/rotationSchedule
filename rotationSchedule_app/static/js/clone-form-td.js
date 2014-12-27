@@ -47,8 +47,13 @@ $(function () {
         newElem.find('.select_ttl').attr('id', 'ID' + newNum + '_title').attr('name', 'ID' + newNum + '_title').val('');
 
         // Block name - text
-        newElem.find('.label_fn').attr('for', 'ID' + newNum + '_block_name');
-        newElem.find('.input_fn').attr('id', 'ID' + newNum + '_block_name').attr('name', 'ID' + newNum + '_block_name').val('');
+        newElem.find('.label_bn').attr('for', 'ID' + newNum + '_block_name');
+        newElem.find('.input_bn').attr('id', 'ID' + newNum + '_block_name').attr('name', 'ID' + newNum + '_block_name').val('');
+
+
+        // Block name - text
+        newElem.find('.label_bl').attr('for', 'ID' + newNum + '_block_name');
+        newElem.find('.input_bl').attr('id', 'ID' + newNum + '_block_length').attr('name', 'ID' + newNum + '_block_length').val('');
 
         /* Year - text
         newElem.find('.label_year').attr('for', 'ID' + newNum + '_first_name');
@@ -82,7 +87,7 @@ $(function () {
         $('#btnDel').attr('disabled', false);
 
     // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
-        if (newNum == 5)
+        if (newNum == 20)
         $('#btnAdd').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached 
     });
 
