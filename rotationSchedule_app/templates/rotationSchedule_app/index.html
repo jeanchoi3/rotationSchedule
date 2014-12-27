@@ -71,6 +71,19 @@
                 $('#block_select').trigger("chosen:updated");
                 return false;
             });
+            $('#rotationForm').submit(function(){
+                var val = $('#rotationForm').serializeArray();
+                var optionsAsString = "";
+                optionsAsString += "<option value='" + val[0].value + "'>" + val[0].value + "</option>";
+                //NOTE: All fields must be filled in for this to work!
+                /*for(var i = 0; i < val.length; i=i+3) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }*/
+                $('#rotation_select').empty();
+                $('#rotation_select').append(optionsAsString);
+                $('#rotation_select').trigger("chosen:updated");
+                return false;
+            });
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
 
@@ -264,47 +277,49 @@
 
         <form id="rotationForm">
             <legend>Rotation Information</legend>
-            <p><b>Rotation Name: </b><input type="text" id="rotation_name"></p>
-            <p><input type="checkbox" id="is_elective"><b>  Elective</b></p>
+            <p><b>Rotation Name: </b><input type="text" id="rotation_name" name="rotation_name"></p>
+            <p><input type="checkbox" id="is_elective" name="is_elective"><b>  Elective</b></p>
             <br>
-            
+            <button type="submit" class="btn">Submit</button>
+        </form><br><br>
+
+        <form id="rotationBlockForm">
+            <legend>Rotation/Block Information</legend>
             <fieldset>
                 <div>
-                <em>Block(s)</em>
-                <select name="block_select" id="block_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
-                    <option value=""></option>
-                </select>
+                    <em>Block(s)</em>
+                    <select name="block_select" id="block_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                        <option value=""></option>
+                    </select>
                 </div> <p></p>
 
                 <div>
-                <label class="label_min" for="min_length">Min length:</label>
-                <input class="input_min" type="text" name="min_length" id="min_length" value="">
+                    <em>Rotation(s)</em>
+                    <select name="rotation_select" id="rotation_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                        <option value=""></option>
+                    </select>
+                </div> <p></p>
+                <p class="form-help">Enter the minimum and maximum lengths of the above rotation(s) within the above block(s); e.g. ICU rotation can be min 1 week and max 2 weeks in a 3-week block</p>
+                <div>
+                    <label class="label_min" for="min_length">Min length:</label>
+                    <input class="input_min" type="text" name="min_length" id="min_length" value="">
 
-                <input type="radio" id="weeks_rot_min" value="weeks_rot_min" name="radioitem" class="input_radio"> Weeks
-                
-                <input type="radio" id="months_rot_min" value="months_rot_min" name="radioitem" class="input_radio"> Months
+                    <input type="radio" id="weeks_rot_min" value="weeks_rot_min" name="radioitem" class="input_radio"> Weeks
+                    
+                    <input type="radio" id="months_rot_min" value="months_rot_min" name="radioitem" class="input_radio"> Months
                 </div><p></p>
 
                 <div>
-                <label class="label_max" for="max_length">Max length:</label>
-                <input class="input_max" type="text" name="max_length" id="max_length" value="">
-                
-                <input type="radio" id="weeks_rot_max" value="weeks_rot_max" name="radioitem" class="input_radio"> Weeks
-                
-                <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months
+                    <label class="label_max" for="max_length">Max length:</label>
+                    <input class="input_max" type="text" name="max_length" id="max_length" value="">
+                    
+                    <input type="radio" id="weeks_rot_max" value="weeks_rot_max" name="radioitem" class="input_radio"> Weeks
+                    
+                    <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months
                 </div>
-                <!--label class="label_radio" for="radioitem">Block length:</label>
-                <input class="input_bn" type="text" name="block_name" id="block_name" value="">
-                <label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks</label>
-                <label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Blocks</label>
-                <p class="form-help">E.g. "4" Weeks, "2" Months</p-->
             </fieldset>
-
             <button type="submit" class="btn">Submit</button>
-        </form>
-
-
-        <br><br>
+        </form><br><br>
 
         <div name="aggregate_rotation">
         <table>
