@@ -111,3 +111,13 @@ STATIC_URL = '/static/'
 #USED TO BE     os.path.join(BASE_DIR, 'static'),
 STATICFILES_DIRS = (
 )
+
+
+#TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'rotationSchedule_app/templates/rotationSchedule_app')]
+
+
+
+
+
+
+

@@ -63,7 +63,8 @@ def detail(request, resident_id):
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
     		#newRes.save()    
     
-#used to be def detail(request, resident_id):
+def schedule(request):
+    return render(request, 'schedule.html')
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
 #try:
