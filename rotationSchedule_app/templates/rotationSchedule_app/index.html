@@ -19,6 +19,9 @@
             <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.min.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.nouislider.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.nouislider.pips.min.css' %}">
+
 
         {% endblock %}
 
@@ -36,6 +39,8 @@
         <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.nouislider.all.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.nouislider.min.js' %}"></script>
 
     <script type="text/javascript">
 
@@ -96,6 +101,132 @@
             });
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
+            $('#slider').noUiSlider({
+                start: [5],
+                step: 1,
+                range: {
+                    'min': 0,
+                    'max': 10
+                }
+            });
+
+            var init = true;
+            var elements = $(".multislider").children(".slider.tied").length;
+            var MAX = 10;
+            var initValue = (MAX / elements) >> 0;
+            var InitMod = MAX % elements;
+
+            $(".slider.tied").each(function() {
+                var slidersTied = $(".slider.tied");
+                var context = $(this);
+
+                var input = context.prev(".amount");
+                var val = input.data('answer');
+                var min = input.data('min');
+                var max = input.data('max');
+                var range = 1;
+                var proceed = false;
+
+                $(this).empty().slider({
+                    value: val,
+                    min: min,
+                    max: max,
+                    range: range,
+                    animate: "slow",
+                    create: function(event, ui){
+
+                        if (InitMod > 0) {
+                            $(this).slider('value', initValue + 1);
+                            $(this).prev('.amount').val(initValue + 1);
+                            InitMod = InitMod - 1;
+                        }
+                        else
+                        {
+                            $(this).slider('value', initValue);
+                            $(this).prev('.amount').val(initValue);
+                        }
+
+                    },
+                    slide: function(e, ui) {
+
+                        // Update display to current value
+                        $(this).prev('.amount').val(ui.value);
+
+                        var current = ($(this).index() / 2) >> 0;
+                        var total = 0;
+                        var counter = 0
+
+                        slidersTied.not(this).each(function() {
+
+                            total += $(this).slider("option", "value");                
+                            counter += 1;
+                        });
+
+                        total += ui.value;
+
+                        if (total != MAX){
+                            proceed = true;
+                        }
+
+                        var missing = MAX - total;
+                        console.log("missing: " + missing);
+
+                        counter = 0;
+
+                        if(proceed) {
+
+                            //load elements array
+                            var elements = [];
+
+                            slidersTied.each(function() {
+                                elements[counter] = $(this);
+                                counter += 1;
+                            });
+
+                            var endIndex = counter - 1;
+                            counter = endIndex + 1;
+
+                            while (missing != 0) {
+
+                                console.log("current counter: " + counter);
+                                do {
+                                    if (counter == 0) 
+                                    {
+                                        counter = endIndex;
+                                    }
+                                    else
+                                    {
+                                        counter = counter - 1;
+                                    }
+                                } while(counter == current)
+
+                                console.log("elemento attuale: " + counter);
+
+                                var value = elements[counter].slider("option", "value");
+                                var result = value + missing;
+
+                                if (result >= 0) 
+                                {
+                                    elements[counter].slider('value', result);
+                                    elements[counter].prev('.amount').val(result);
+
+                                    missing = 0;    
+                                }
+                                else
+                                {
+                                    missing = result;
+                                    elements[counter].slider('value', 0);
+                                    elements[counter].prev('.amount').val(0);
+                                }
+
+                            }
+
+                        }
+
+                    }
+                });
+            });
+
         });
     </script>
 </head>
@@ -104,6 +235,15 @@
     #calendar {
         max-width: 900px;
         margin: 0 auto;
+    }
+
+    .amount {
+        box-shadow: none !important;
+        background: none !important;
+        border: none !important;
+        width: 2em !important;
+        color: #47A !important;
+        text-align: center;
     }
 </style>
 
@@ -360,11 +500,26 @@
         </table>
         </div-->
 
-        <br><br>
-
         <a id="objective"></a>
-        
 
+        <div id="objectiveFunction">
+            <legend>Objective</legend>
+
+        <span class='multislider'>
+            Option1 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+            <div class='slider tied'></div> <p></p>
+
+            Option 2 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+            <div class='slider tied'></div> <p></p>
+
+            Option 3 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+            <div class='slider tied'></div>
+
+        </span>
+    </div>
+
+
+        </div><br><br>
 
         <a id="schedule"></a>
         <div id='calendar'></div>
