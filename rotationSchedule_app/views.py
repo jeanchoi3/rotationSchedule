@@ -67,6 +67,8 @@ def schedule(request):
     return render(request, 'schedule.html')
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
+def resident(request):
+    return render(request, 'resident.html')
 #try:
     #    resident = Resident.objects.get(pk=resident_id)
     #except Resident.DoesNotExist:

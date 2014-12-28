@@ -1,0 +1,205 @@
+<!--DOCTYPE html>
+<html>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h1>Resident Information</h1>
+
+</html-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Rotation Dashboard</title>
+<!-- Bootstrap core CSS -->
+        {% load static %}
+
+        {% block css %}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/fullcalendar.min.css' %}">
+            <link rel="stylesheet" href="{% static 'css/fullcalendar.print.css' %}" media='print' />
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-responsive.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.structure.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-ui.theme.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.nouislider.min.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.nouislider.pips.min.css' %}">
+
+
+        {% endblock %}
+
+        <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script-->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/chosen.jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/chosen.proto.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/clone-form-td.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.nouislider.all.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.nouislider.min.js' %}"></script>
+
+        <script type="text/javascript">
+
+        $(document).ready(function() {
+            $(".chosen-select").chosen()
+            $('#myForm').submit(function(){
+                var val = $('#myForm').serializeArray();
+                //$('#results').text(val[0].value);
+                $('#calendar').fullCalendar('gotoDate', val[1].value);
+                return false;
+                //if val[1].value != null
+                    //$('#calendar').fullCalendar('gotoDate', val[1].value);
+                //var optionsAsString = "";
+                //for(var i = 0; i < val.length; i=i+3) {
+                    //optionsAsString += "<option value='" + val[i] + "'>" + val[i] + "</option>";
+                //optionsAsString += "<option>" + val[0].value + "</option>";
+                //}
+                //$( 'select[name="block_select"]' ).append( optionsAsString );
+            });
+            $('#sign-up_area').submit(function(){
+                var val = $('#sign-up_area').serializeArray();
+                var optionsAsString = "";
+                //NOTE: All fields must be filled in for this to work!
+                for(var i = 0; i < val.length; i=i+2) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }
+                $('#block_select').empty();
+                $('#block_select').append(optionsAsString);
+                $('#block_select').trigger("chosen:updated");
+                return false;
+            });
+            $('#rotationForm').submit(function(){
+                var val = $('#rotationForm').serializeArray();
+                var optionsAsString = "";
+                //NOTE: All fields must be filled in for this to work!
+                for(var i = 0; i < val.length; i++) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }
+                $('#rotation_select').empty();
+                $('#rotation_select').append(optionsAsString);
+                $('#rotation_select').trigger("chosen:updated");
+                $('#rotation_select_year').empty();
+                $('#rotation_select_year').append(optionsAsString);
+                $('#rotation_select_year').trigger("chosen:updated");
+                return false;
+            });
+            $('#yearForm').submit(function(){
+                var val = $('#yearForm').serializeArray();
+                var optionsAsString = "";
+                //NOTE: All fields must be filled in for this to work!
+                for(var i = 0; i < val.length; i++) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }
+                $('#year_select').empty();
+                $('#year_select').append(optionsAsString);
+                $('#year_select').trigger("chosen:updated");
+                return false;
+            });
+            $('#datepicker-1').datepicker();
+            $('#datepicker-2').datepicker();
+            $('#datepicker-3').datepicker();
+            $('#datepicker-4').datepicker();
+
+        });
+    </script>
+</head>
+
+<style>
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .amount {
+        box-shadow: none !important;
+        background: none !important;
+        border: none !important;
+        width: 2em !important;
+        color: #47A !important;
+        text-align: center;
+    }
+</style>
+
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                <a class="navbar-brand" href="#">Rotation Scheduler</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <!--li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li-->
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                    <!--form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form-->
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#program">General Information <span class="sr-only">(current)</span></a></li>
+                <li><a href="#vacation">Vacation Requests</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form id="myForm">
+        <legend>Resident Information</legend>
+
+        <p><b>Name: </b><input type="text" name="name"></p>
+        <p><b>Year/Track(s)</b>
+        <select name="year_select" id="year_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+            <option value="PGY1">PGY1</option>
+            <option value="PGY2">PGY2</option>
+            <option value="PGY3">PGY3</option>
+        </select></p>
+        <span class="help-block">Select all that apply</span>
+        <p></p>
+        <br>
+
+        <a id="vacation"></a>
+        <p><h4>Vacation Request 1</h4></p>
+        <p><b>Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
+        <p><b>End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
+        <br>
+
+        <p><h4>Vacation Request 2</h4></p>
+        <p><b>Start Date: </b><input type="text" id="datepicker-3" name="startDate"></p>
+        <p><b>End Date: </b><input type="text" id="datepicker-4" name="endDate"></p>
+    </form>    
+        <!--a id="schedule"></a>
+        <div id='calendar'></div>
+        </div-->
+        <button type="submit" class="btn">Submit</button>
+        <br><br>
+</body>
+</html>
+
