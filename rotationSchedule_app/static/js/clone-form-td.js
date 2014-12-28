@@ -206,4 +206,54 @@ $(function () {
     $('#btnDelYear').attr('disabled', true);
 
 
+
+    $('#btnAddResident').click(function () {
+        var num     = $('.clonedResident').length, // Checks to see how many "duplicatable" input fields we currently have
+            newNum  = new Number(num + 1),      // The numeric ID of the new input field being added, increasing by 1 each time
+            newElem = $('#resident' + num).clone().attr('id', 'resident' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+
+        
+        //rotation name
+        newElem.find('.label_dn').attr('for', 'ID' + newNum + '_resident_name');
+        newElem.find('.input_dn').attr('id', 'ID' + newNum + '_resident_name').attr('name', 'ID' + newNum + '_resident_name').val('');
+
+
+        //rotation name
+        newElem.find('.label_de').attr('for', 'ID' + newNum + '_resident_email');
+        newElem.find('.input_de').attr('id', 'ID' + newNum + '_resident_email').attr('name', 'ID' + newNum + '_resident_email').val('');
+
+        // Insert the new element after the last "duplicatable" input field
+        $('#resident' + num).after(newElem);
+        $('#ID' + newNum + '_title').focus();
+
+    // Enable the "remove" button. This only shows once you have a duplicated section.
+        $('#btnDelResident').attr('disabled', false);
+
+    // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
+        if (newNum == 20)
+        $('#btnAddResident').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached 
+    });
+
+
+    $('#btnDelResident').click(function () {
+    // Confirmation dialog box. Works on all desktop browsers and iPhone.
+        if (confirm("Are you sure you wish to remove this section? This cannot be undone."))
+            {
+                var num = $('.clonedResident').length;
+                // how many "duplicatable" input fields we currently have
+                $('#resident' + num).slideUp('slow', function () {$(this).remove();
+                // if only one element remains, disable the "remove" button
+                    if (num -1 === 1)
+                $('#btnDelResident').attr('disabled', true);
+                // enable the "add" button
+                $('#btnAddResident').attr('disabled', false).prop('value', "add resident");});
+            }
+        return false; // Removes the last section you added
+    });
+    // Enable the "add" button
+    $('#btnAddResident').attr('disabled', false);
+    // Disable the "remove" button
+    $('#btnDelResident').attr('disabled', true);
+
+
 });

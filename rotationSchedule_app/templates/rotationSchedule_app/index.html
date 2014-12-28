@@ -45,10 +45,6 @@
                 var val = $('#myForm').serializeArray();
                 //$('#results').text(val[0].value);
                 $('#calendar').fullCalendar('gotoDate', val[1].value);
-                //select[name="block_select"]
-                /*$('#block_select').empty();
-                $('#block_select').append("<option value='" + val[0].value + "'>" + val[0].value +"</option>");
-                $('#block_select').trigger("chosen:updated");*/
                 return false;
                 //if val[1].value != null
                     //$('#calendar').fullCalendar('gotoDate', val[1].value);
@@ -63,7 +59,7 @@
                 var val = $('#sign-up_area').serializeArray();
                 var optionsAsString = "";
                 //NOTE: All fields must be filled in for this to work!
-                for(var i = 0; i < val.length; i=i+3) {
+                for(var i = 0; i < val.length; i=i+2) {
                     optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
                 }
                 $('#block_select').empty();
@@ -81,72 +77,34 @@
                 $('#rotation_select').empty();
                 $('#rotation_select').append(optionsAsString);
                 $('#rotation_select').trigger("chosen:updated");
+                $('#rotation_select_year').empty();
+                $('#rotation_select_year').append(optionsAsString);
+                $('#rotation_select_year').trigger("chosen:updated");
+                return false;
+            });
+            $('#yearForm').submit(function(){
+                var val = $('#yearForm').serializeArray();
+                var optionsAsString = "";
+                //NOTE: All fields must be filled in for this to work!
+                for(var i = 0; i < val.length; i++) {
+                    optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                }
+                $('#year_select').empty();
+                $('#year_select').append(optionsAsString);
+                $('#year_select').trigger("chosen:updated");
                 return false;
             });
             $('#datepicker-1').datepicker();
             $('#datepicker-2').datepicker();
-
-            /*var optionsAsString = "";
-            for(var i = 0; i < productArray.length; i++) {
-                optionsAsString += "<option value='" + productArray[i] + "'>" + productArray[i] + "</option>";
-            }
-            $( 'select[name="inptProduct"]' ).append( optionsAsString );*/
         });
     </script>
-    <!--script>
-        function showValues() {
-            alert("You did it!");
-            /*var str = $("#rotationForm").serialize();
-            $("results").text(str);*/
-        }
-        $( "input[type='checkbox']" ).on( "click", showValues );
-        showValues();
-    </script-->
 </head>
 
 <style>
-
     #calendar {
         max-width: 900px;
         margin: 0 auto;
     }
-.myButton {
-    -moz-box-shadow:inset 0px 1px 0px 0px #9acc85;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #9acc85;
-    box-shadow:inset 0px 1px 0px 0px #9acc85;
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #74ad5a), color-stop(1, #68a54b));
-    background:-moz-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-    background:-webkit-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-    background:-o-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-    background:-ms-linear-gradient(top, #74ad5a 5%, #68a54b 100%);
-    background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#74ad5a', endColorstr='#68a54b',GradientType=0);
-    background-color:#74ad5a;
-    border:1px solid #3b6e22;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-family:arial;
-    font-size:13px;
-    font-weight:bold;
-    padding:6px 12px;
-    text-decoration:none;
-}
-.myButton:hover {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #68a54b), color-stop(1, #74ad5a));
-    background:-moz-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-    background:-webkit-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-    background:-o-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-    background:-ms-linear-gradient(top, #68a54b 5%, #74ad5a 100%);
-    background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#68a54b', endColorstr='#74ad5a',GradientType=0);
-    background-color:#68a54b;
-}
-.myButton:active {
-    position:relative;
-    top:1px;
-}
-
 </style>
 
 
@@ -165,14 +123,14 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Dashboard</a></li>
+                        <!--li><a href="#">Dashboard</a></li>
                         <li><a href="#">Settings</a></li>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Profile</a></li-->
                         <li><a href="#">Help</a></li>
                     </ul>
-                    <form class="navbar-form navbar-right">
+                    <!--form class="navbar-form navbar-right">
                         <input type="text" class="form-control" placeholder="Search...">
-                    </form>
+                    </form-->
                 </div>
             </div>
         </nav>
@@ -181,16 +139,22 @@
         <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Program Information <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Block Information</a></li>
-                <li><a href="#">Rotation Information</a></li>
-                <li><a href="#">Schedule</a></li>
+                <li class="active"><a href="#program">Program Information <span class="sr-only">(current)</span></a></li>
+                <li><a href="#block">Block Information</a></li>
+                <li><a href="#rotation">Rotation Information</a></li>
+                <li><a href="#year">Year/Track Information</a></li>
+                <li><a href="#rotation_block">Rotation/Block Information</a></li>
+                <li><a href="#rotation_year">Rotation/Year Information</a></li>
+                <li><a href="#resident">Resident Information</a></li>
+                <li><a href="#objective">Objective</a></li>
+                <li><a href="#schedule">Schedule</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
+        <a id="program"></a>
         <form id="myForm">
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
@@ -208,6 +172,7 @@
 
         <br><br>
 
+        <a id="block"></a>
         <form id="blockForm">
             <legend>Block Information</legend>
             <span class="help-block">Input all types of blocks to be used in the schedule</span>
@@ -231,11 +196,11 @@
                     <!--fieldset class="radio entrylist"-->
                     <fieldset>
                         <label class="label_bl" for="block_length">Block length:</label>
-                        <input class="input_bl" type="text" name="block_length" id="block_length" value="">
+                        <input class="input_bl" type="text" name="block_length" id="block_length" value=""> Weeks
 
-                        <label class="label_radio" for="radioitem"></label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks
+                        <!--label class="label_radio" for="radioitem"></label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks
                         <label class="label_radio" for="radioitem"></label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months
-                        <p class="form-help">E.g. "4" Weeks, "2" Months</p>
+                        <p class="form-help">E.g. "4" Weeks, "2" Months</p-->
                     </fieldset>
                 </div><!-- end #entry1 -->
 
@@ -251,20 +216,12 @@
             </form>
         </div><!-- end cloned form -->
         <br><br>
-        <!--form>
-        <select class="chosen" multiple="true" style="width:300px;">
-            <option>Choose...</option>
-            <option>jQuery</option>
-            <option>Prototype</option>
-        </select>
-        </form-->
 
+        <a id="rotation"></a>
         <form id="rotationForm">
             <legend>Rotation Information</legend>
 
             <div id="rotation1" class="clonedRotation">
-                <!--h4 id="reference" name="reference" class="heading-reference">Rotation #1</h4-->
-
                 <label class="label_rn" for="rotation_name">Rotation Name:</label>
                 <input class="input_rn" type="text" name="rotation_name" id="rotation_name" value="">
 
@@ -278,7 +235,7 @@
             <button type="submit" class="btn">Save and Update</button>
         </form><br><br>
 
-
+        <a id="year"></a>
         <form id="yearForm">
             <legend>Year/Track Information</legend>
 
@@ -297,7 +254,7 @@
         </form><br><br>
 
 
-
+        <a id="rotation_block"></a>
         <form id="rotationBlockForm">
             <legend>Rotation/Block Information</legend>
             <fieldset>
@@ -317,26 +274,77 @@
                 <p class="form-help">Enter the minimum and maximum lengths of the above rotation(s) within the above block(s); e.g. ICU rotation can be min 1 week and max 2 weeks in a 3-week block</p>
                 <div>
                     <label class="label_min" for="min_length">Min length:</label>
-                    <input class="input_min" type="text" name="min_length" id="min_length" value="">
+                    <input class="input_min" type="text" name="min_length" id="min_length" value=""> Weeks
 
-                    <input type="radio" id="weeks_rot_min" value="weeks_rot_min" name="radioitem" class="input_radio"> Weeks
+                    <!--input type="radio" id="weeks_rot_min" value="weeks_rot_min" name="radioitem" class="input_radio"> Weeks
                     
-                    <input type="radio" id="months_rot_min" value="months_rot_min" name="radioitem" class="input_radio"> Months
+                    <input type="radio" id="months_rot_min" value="months_rot_min" name="radioitem" class="input_radio"> Months-->
                 </div><p></p>
 
                 <div>
                     <label class="label_max" for="max_length">Max length:</label>
-                    <input class="input_max" type="text" name="max_length" id="max_length" value="">
+                    <input class="input_max" type="text" name="max_length" id="max_length" value=""> Weeks
                     
-                    <input type="radio" id="weeks_rot_max" value="weeks_rot_max" name="radioitem" class="input_radio"> Weeks
+                    <!--input type="radio" id="weeks_rot_max" value="weeks_rot_max" name="radioitem" class="input_radio"> Weeks
                     
-                    <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months
+                    <input type="radio" id="months_rot_max" value="months_rot_max" name="radioitem" class="input_radio"> Months-->
                 </div>
             </fieldset>
             <button type="submit" class="btn">Save and Update</button>
         </form><br><br>
 
-        <div name="aggregate_rotation">
+        <a id="rotation_year"></a>
+        <form id="rotationYearForm">
+            <legend>Rotation/Year Information</legend>
+            <fieldset>
+                <div>
+                    <em>Year/Track(s)</em>
+                    <select name="year_select" id="year_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                        <option value=""></option>
+                    </select>
+                </div> <p></p>
+
+                <div>
+                    <em>Rotation(s)</em>
+                    <select name="rotation_select_year" id="rotation_select_year" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                        <option value=""></option>
+                    </select>
+                </div> <p></p>
+                <p class="form-help">Enter the minimum and maximum lengths of the above rotation(s) for residents of the above year/track(s); e.g. PGY1's can have min 5 weeks and max 8 weeks of ICU in their schedule.</p>
+                <div>
+                    <label class="label_min_year" for="min_year_length">Min length:</label>
+                    <input class="input_min_year" type="text" name="min_year_length" id="min_year_length" value=""> Weeks
+                </div><p></p>
+
+                <div>
+                    <label class="label_max_year" for="max_year_length">Max length:</label>
+                    <input class="input_max_year" type="text" name="max_year_length" id="max_year_length" value=""> Weeks
+                </div>
+            </fieldset>
+            <button type="submit" class="btn">Save and Update</button>
+        </form><br><br>
+
+        <a id="resident"></a>
+        <form id="residentForm">
+            <legend>Resident Information</legend>
+
+            <div id="resident1" class="clonedResident">
+                <label class="label_dn" for="resident_name">Resident Name:</label>
+                <input class="input_dn" type="text" name="resident_name" id="resident_name" value="">
+
+                <label class="label_de" for="resident_email">Email:</label>
+                <input class="input_de" type="text" name="resident_email" id="resident_email" value="">
+            </div><br>
+
+            <div id="addDelButtons">
+                <input type="button" id="btnAddResident" value="add resident"> <input type="button" id="btnDelResident" value="remove resident above">
+            </div><br>
+
+            <button type="submit" class="btn">Save and Update</button>
+        </form><br><br>
+
+
+        <!--div name="aggregate_rotation">
         <table>
             <tr><td><a href="#" class="myButton">x</a></td>
             <td><a href="#" class="myButton">x</a></td>
@@ -350,10 +358,15 @@
             <td><a href="#" class="myButton">x</a></td>
             <td><a href="#" class="myButton">x</a></td></tr>
         </table>
-        </div>
+        </div-->
 
         <br><br>
 
+        <a id="objective"></a>
+        
+
+
+        <a id="schedule"></a>
         <div id='calendar'></div>
         </div>
 </body>
