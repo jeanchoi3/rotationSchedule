@@ -212,19 +212,26 @@ $(function () {
             newNum  = new Number(num + 1),      // The numeric ID of the new input field being added, increasing by 1 each time
             newElem = $('#resident' + num).clone().attr('id', 'resident' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
 
-        
-        //rotation name
+        //resident name
         newElem.find('.label_dn').attr('for', 'ID' + newNum + '_resident_name');
         newElem.find('.input_dn').attr('id', 'ID' + newNum + '_resident_name').attr('name', 'ID' + newNum + '_resident_name').val('');
 
 
-        //rotation name
+        //resident email
         newElem.find('.label_de').attr('for', 'ID' + newNum + '_resident_email');
         newElem.find('.input_de').attr('id', 'ID' + newNum + '_resident_email').attr('name', 'ID' + newNum + '_resident_email').val('');
+
+        //resident year/track
+        newElem.find('.label_ys').attr('for', 'ID' + newNum + '_res_year_select');
+        newElem.find('.select_year').attr('id', 'ID' + newNum + '_res_year_select');
+        
+        //newElem.removeClass("chzn-done").removeAttr("id").css("display", "block").next().remove();
+        //$(".chsn").chosen();
 
         // Insert the new element after the last "duplicatable" input field
         $('#resident' + num).after(newElem);
         $('#ID' + newNum + '_title').focus();
+
 
     // Enable the "remove" button. This only shows once you have a duplicated section.
         $('#btnDelResident').attr('disabled', false);
@@ -255,5 +262,126 @@ $(function () {
     // Disable the "remove" button
     $('#btnDelResident').attr('disabled', true);
 
+
+    $('#btnAddRotationBlock').click(function () {
+        var num     = $('.clonedRotationBlock').length, // Checks to see how many "duplicatable" input fields we currently have
+            newNum  = new Number(num + 1),      // The numeric ID of the new input field being added, increasing by 1 each time
+            newElem = $('#rotationBlock' + num).clone().attr('id', 'rotationBlock' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+
+        
+        //block select
+        //newElem.find('.label_bs').attr('for', 'ID' + newNum + '_block_select');
+        //newElem.find('.select_block').attr('id', 'ID' + newNum + '_block_select').attr('name', 'ID' + newNum + '_block_select').val('');
+
+
+        //rotation select
+        //newElem.find('.label_rs').attr('for', 'ID' + newNum + '_rotation_select');
+        //newElem.find('.select_rotation').attr('id', 'ID' + newNum + '_rotation_select').attr('name', 'ID' + newNum + '_rotation_select').val('');
+
+        // H4 - section
+        newElem.find('.heading-reference').attr('id', 'ID' + newNum + '_rotationBlockEntry').attr('name', 'ID' + newNum + '_rotationBlockEntry').html('Entry #' + newNum);
+
+
+        //min select
+        newElem.find('.label_max').attr('for', 'ID' + newNum + '_max_length');
+        newElem.find('.input_max').attr('id', 'ID' + newNum + '_max_length').attr('name', 'ID' + newNum + '_max_length').val('');
+
+        //max select
+        newElem.find('.label_min').attr('for', 'ID' + newNum + '_min_length');
+        newElem.find('.input_min').attr('id', 'ID' + newNum + '_min_length').attr('name', 'ID' + newNum + '_min_length').val('');
+
+        // Insert the new element after the last "duplicatable" input field
+        $('#rotationBlock' + num).after(newElem);
+        $('#ID' + newNum + '_title').focus();
+
+    // Enable the "remove" button. This only shows once you have a duplicated section.
+        $('#btnDelRotationBlock').attr('disabled', false);
+
+    // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
+        if (newNum == 20)
+        $('#btnAddRotationBlock').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached 
+    });
+
+
+    $('#btnDelRotationBlock').click(function () {
+    // Confirmation dialog box. Works on all desktop browsers and iPhone.
+        if (confirm("Are you sure you wish to remove this section? This cannot be undone."))
+            {
+                var num = $('.clonedRotationBlock').length;
+                // how many "duplicatable" input fields we currently have
+                $('#rotationBlock' + num).slideUp('slow', function () {$(this).remove();
+                // if only one element remains, disable the "remove" button
+                    if (num -1 === 1)
+                $('#btnDelRotationBlock').attr('disabled', true);
+                // enable the "add" button
+                $('#btnAddRotationBlock').attr('disabled', false).prop('value', "add section");});
+            }
+        return false; // Removes the last section you added
+    });
+    // Enable the "add" button
+    $('#btnAddRotationBlock').attr('disabled', false);
+    // Disable the "remove" button
+    $('#btnDelRotationBlock').attr('disabled', true);
+
+
+    $('#btnAddRotationYear').click(function () {
+        var num     = $('.clonedRotationYear').length, // Checks to see how many "duplicatable" input fields we currently have
+            newNum  = new Number(num + 1),      // The numeric ID of the new input field being added, increasing by 1 each time
+            newElem = $('#rotationYear' + num).clone().attr('id', 'rotationYear' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+
+        
+        //year select
+        //newElem.find('.label_ys').attr('for', 'ID' + newNum + '_year_select');
+        //newElem.find('.select_year').attr('id', 'ID' + newNum + '_year_select').attr('name', 'ID' + newNum + '_year_select').val('');
+
+
+        //rotation select
+        //newElem.find('.label_rys').attr('for', 'ID' + newNum + '_rotationYear_select');
+        //newElem.find('.select_rotationYear').attr('id', 'ID' + newNum + '_rotationYear_select').attr('name', 'ID' + newNum + '_rotationYear_select').val('');
+
+        // H4 - section
+        newElem.find('.heading-reference').attr('id', 'ID' + newNum + '_rotationYearEntry').attr('name', 'ID' + newNum + '_rotationYearEntry').html('Entry #' + newNum);
+
+
+        //min select
+        newElem.find('.label_max_year').attr('for', 'ID' + newNum + '_max_year_length');
+        newElem.find('.input_max_year').attr('id', 'ID' + newNum + '_max_year_length').attr('name', 'ID' + newNum + '_max_year_length').val('');
+
+        //max select
+        newElem.find('.label_min_year').attr('for', 'ID' + newNum + '_min_year_length');
+        newElem.find('.input_min_year').attr('id', 'ID' + newNum + '_min_year_length').attr('name', 'ID' + newNum + '_min_year_length').val('');
+
+        // Insert the new element after the last "duplicatable" input field
+        $('#rotationYear' + num).after(newElem);
+        $('#ID' + newNum + '_title').focus();
+
+    // Enable the "remove" button. This only shows once you have a duplicated section.
+        $('#btnDelRotationYear').attr('disabled', false);
+
+    // Right now you can only add 4 sections, for a total of 5. Change '5' below to the max number of sections you want to allow.
+        if (newNum == 20)
+        $('#btnAddRotationYear').attr('disabled', true).prop('value', "You've reached the limit"); // value here updates the text in the 'add' button when the limit is reached 
+    });
+
+
+    $('#btnDelRotationYear').click(function () {
+    // Confirmation dialog box. Works on all desktop browsers and iPhone.
+        if (confirm("Are you sure you wish to remove this section? This cannot be undone."))
+            {
+                var num = $('.clonedRotationYear').length;
+                // how many "duplicatable" input fields we currently have
+                $('#rotationYear' + num).slideUp('slow', function () {$(this).remove();
+                // if only one element remains, disable the "remove" button
+                    if (num -1 === 1)
+                $('#btnDelRotationYear').attr('disabled', true);
+                // enable the "add" button
+                $('#btnAddRotationYear').attr('disabled', false).prop('value', "add section");});
+            }
+        return false; // Removes the last section you added
+    });
+    // Enable the "add" button
+    $('#btnAddRotationYear').attr('disabled', false);
+    // Disable the "remove" button
+    $('#btnDelRotationYear').attr('disabled', true);
 
 });
