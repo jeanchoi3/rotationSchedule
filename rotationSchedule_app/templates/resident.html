@@ -55,17 +55,8 @@
             $(".chosen-select").chosen()
             $('#myForm').submit(function(){
                 var val = $('#myForm').serializeArray();
-                //$('#results').text(val[0].value);
                 $('#calendar').fullCalendar('gotoDate', val[1].value);
                 return false;
-                //if val[1].value != null
-                    //$('#calendar').fullCalendar('gotoDate', val[1].value);
-                //var optionsAsString = "";
-                //for(var i = 0; i < val.length; i=i+3) {
-                    //optionsAsString += "<option value='" + val[i] + "'>" + val[i] + "</option>";
-                //optionsAsString += "<option>" + val[0].value + "</option>";
-                //}
-                //$( 'select[name="block_select"]' ).append( optionsAsString );
             });
             $('#sign-up_area').submit(function(){
                 var val = $('#sign-up_area').serializeArray();
@@ -111,6 +102,131 @@
             $('#datepicker-3').datepicker();
             $('#datepicker-4').datepicker();
 
+            $('#slider').noUiSlider({
+                start: [5],
+                step: 1,
+                range: {
+                    'min': 0,
+                    'max': 10
+                }
+            });
+
+            var init = true;
+            var elements = $(".multislider").children(".slider.tied").length;
+            var MAX = 10;
+            var initValue = (MAX / elements) >> 0;
+            var InitMod = MAX % elements;
+
+            $(".slider.tied").each(function() {
+                var slidersTied = $(".slider.tied");
+                var context = $(this);
+
+                var input = context.prev(".amount");
+                var val = input.data('answer');
+                var min = input.data('min');
+                var max = input.data('max');
+                var range = 1;
+                var proceed = false;
+
+                $(this).empty().slider({
+                    value: val,
+                    min: min,
+                    max: max,
+                    range: range,
+                    animate: "slow",
+                    create: function(event, ui){
+
+                        if (InitMod > 0) {
+                            $(this).slider('value', initValue + 1);
+                            $(this).prev('.amount').val(initValue + 1);
+                            InitMod = InitMod - 1;
+                        }
+                        else
+                        {
+                            $(this).slider('value', initValue);
+                            $(this).prev('.amount').val(initValue);
+                        }
+
+                    },
+                    slide: function(e, ui) {
+
+                        // Update display to current value
+                        $(this).prev('.amount').val(ui.value);
+
+                        var current = ($(this).index() / 2) >> 0;
+                        var total = 0;
+                        var counter = 0
+
+                        slidersTied.not(this).each(function() {
+
+                            total += $(this).slider("option", "value");                
+                            counter += 1;
+                        });
+
+                        total += ui.value;
+
+                        if (total != MAX){
+                            proceed = true;
+                        }
+
+                        var missing = MAX - total;
+                        console.log("missing: " + missing);
+
+                        counter = 0;
+
+                        if(proceed) {
+
+                            //load elements array
+                            var elements = [];
+
+                            slidersTied.each(function() {
+                                elements[counter] = $(this);
+                                counter += 1;
+                            });
+
+                            var endIndex = counter - 1;
+                            counter = endIndex + 1;
+
+                            while (missing != 0) {
+
+                                console.log("current counter: " + counter);
+                                do {
+                                    if (counter == 0) 
+                                    {
+                                        counter = endIndex;
+                                    }
+                                    else
+                                    {
+                                        counter = counter - 1;
+                                    }
+                                } while(counter == current)
+
+                                console.log("elemento attuale: " + counter);
+
+                                var value = elements[counter].slider("option", "value");
+                                var result = value + missing;
+
+                                if (result >= 0) 
+                                {
+                                    elements[counter].slider('value', result);
+                                    elements[counter].prev('.amount').val(result);
+
+                                    missing = 0;    
+                                }
+                                else
+                                {
+                                    missing = result;
+                                    elements[counter].slider('value', 0);
+                                    elements[counter].prev('.amount').val(0);
+                                }
+
+                            }
+
+                        }
+
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -175,14 +291,14 @@
         <legend>Resident Information</legend>
 
         <p><b>Name: </b><input type="text" name="name"></p>
-        <p><b>Year/Track(s)</b>
+        <!--p><b>Year/Track(s)</b>
         <select name="year_select" id="year_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
             <option value="PGY1">PGY1</option>
             <option value="PGY2">PGY2</option>
             <option value="PGY3">PGY3</option>
         </select></p>
         <span class="help-block">Select all that apply</span>
-        <p></p>
+        <p></p-->
         <br>
 
         <a id="vacation"></a>
@@ -194,7 +310,50 @@
         <p><h4>Vacation Request 2</h4></p>
         <p><b>Start Date: </b><input type="text" id="datepicker-3" name="startDate"></p>
         <p><b>End Date: </b><input type="text" id="datepicker-4" name="endDate"></p>
-    </form>    
+    
+        <br><br>
+
+        <a id="electives"></a>
+        
+        <label class="label_elective1" for="elective_select1">Elective Choice 1:</label>
+        <select name="select_elective1" id="select_elective1" class="chosen-select" style="width:350px;" tabindex="8">
+            <option value="cardiology">Cardiology</option>
+            <option value="GI">GI</option>
+            <option value="rheumatology">Rheumatology</option>
+        </select><p></p>
+
+        <label class="label_elective2" for="elective_select2">Elective Choice 2:</label>
+        <select name="select_elective2" id="select_elective2" class="chosen-select" style="width:350px;" tabindex="8">
+            <option value="cardiology">Cardiology</option>
+            <option value="GI">GI</option>
+            <option value="rheumatology">Rheumatology</option>
+        </select><p></p>
+
+        <label class="label_elective3" for="elective_select3">Elective Choice 3:</label>
+        <select name="select_elective3" id="select_elective3" class="chosen-select" style="width:350px;" tabindex="8">
+            <option value="cardiology">Cardiology</option>
+            <option value="GI">GI</option>
+            <option value="rheumatology">Rheumatology</option>
+        </select><p></p>
+    </form><br><br>
+
+
+    <a id="objective"></a>
+        <div id="objectiveFunction">
+            <legend>Objective</legend>
+
+            <span class='multislider'>
+                Vacation Preference (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+                <div class='slider tied'></div> <p></p>
+
+                Elective Preference (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+                <div class='slider tied'></div> <p></p>
+
+                <!--couple matching, electives/vacation, -->
+
+            </span>
+        </div><br><br>
+
         <!--a id="schedule"></a>
         <div id='calendar'></div>
         </div-->

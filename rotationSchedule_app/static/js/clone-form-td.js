@@ -125,6 +125,26 @@ $(function () {
         newElem.find('.label_rn').attr('for', 'ID' + newNum + '_rotation_name');
         newElem.find('.input_rn').attr('id', 'ID' + newNum + '_rotation_name').attr('name', 'ID' + newNum + '_rotation_name').val('');
 
+        //"easy" radio
+        newElem.find('.label_easy').attr('for', 'ID' + newNum + '_radio_easy');
+        newElem.find('.input_easy').attr('id', 'ID' + newNum + '_radio_easy').attr('name', 'ID' + newNum + '_radio_easy').val('');
+
+        //"medium" radio
+        newElem.find('.label_medium').attr('for', 'ID' + newNum + '_radio_medium');
+        newElem.find('.input_medium').attr('id', 'ID' + newNum + '_radio_medium').attr('name', 'ID' + newNum + '_radio_medium').val('');
+
+        //"hard" radio
+        newElem.find('.label_hard').attr('for', 'ID' + newNum + '_radio_hard');
+        newElem.find('.input_hard').attr('id', 'ID' + newNum + '_radio_hard').attr('name', 'ID' + newNum + '_radio_hard').val('');
+
+        //min residents
+        newElem.find('.label_min_res').attr('for', 'ID' + newNum + '_min_res');
+        newElem.find('.input_min_res').attr('id', 'ID' + newNum + '_min_res').attr('name', 'ID' + newNum + '_min_res').val('');
+
+        //max residents
+        newElem.find('.label_max_res').attr('for', 'ID' + newNum + '_max_res');
+        newElem.find('.input_max_res').attr('id', 'ID' + newNum + '_max_res').attr('name', 'ID' + newNum + '_max_res').val('');
+
         //newElem.find('.label_checkboxitem').attr('for', 'ID' + newNum + '_checkboxitem');
         newElem.find('.input_checkboxitem').attr('id', 'ID' + newNum + '_checkboxitem').attr('name', 'ID' + newNum + '_checkboxitem').val([]);
 

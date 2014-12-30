@@ -42,12 +42,602 @@
         <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script>
+        <!--script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script-->
 
+        <script>
+        $(document).ready(function() {
+            $('#gen_med_calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '2015-01-01',
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end) {
+                var title = prompt('Event Title:');
+                var eventData;
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#gen_med_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#gen_med_calendar').fullCalendar('unselect');
+            },
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'A',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'B',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'C',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'E',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'F',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'G',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'I',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'J',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'E',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'F',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'B',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'C',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'G',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'E',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'F',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'I',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'J',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'B',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'C',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                }
+            ]
+        });
+        //$('#calendar').fullCalendar('gotoDate', 2015, 1);
+        $('#icu_calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '2015-01-01',
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end) {
+                var title = prompt('Event Title:');
+                var eventData;
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#icu_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#icu_calendar').fullCalendar('unselect');
+            },
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'H',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'I',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'J',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'B',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'C',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'E',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'F',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'G',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'B',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'C',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'G',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'E',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'F',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'I',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'J',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'B',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'C',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'G',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'I',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'J',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                }
+            ]
+        });
+
+        $('#pulmonary_calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: '2015-01-01',
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end) {
+                var title = prompt('Event Title:');
+                var eventData;
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#pulmonary_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#pulmonary_calendar').fullCalendar('unselect');
+            },
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'D',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'E',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'F',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+                {
+                    title: 'G',
+                    start: '2014-12-28',
+                    end: '2015-01-11',
+                    color: 'red'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'I',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+                {
+                    title: 'J',
+                    start: '2015-01-11',
+                    end: '2015-01-25',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'B',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+                {
+                    title: 'C',
+                    start: '2015-01-25',
+                    end: '2015-02-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'H',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'I',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'J',
+                    start: '2015-02-01',
+                    end: '2015-02-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'H',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+                {
+                    title: 'I',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'J',
+                    start: '2015-02-15',
+                    end: '2015-03-01',
+                    color: 'red'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'B',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'C',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+                {
+                    title: 'G',
+                    start: '2015-03-01',
+                    end: '2015-03-15',
+                    color: 'orange'
+                },
+
+                {
+                    title: 'A',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'D',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'E',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+                {
+                    title: 'F',
+                    start: '2015-03-15',
+                    end: '2015-03-29',
+                    color: 'red'
+                },
+
+                {
+                    title: 'D',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'E',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'F',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+                {
+                    title: 'G',
+                    start: '2015-03-29',
+                    end: '2015-04-05',
+                    color: 'orange'
+                },
+            ]
+        });
+        
+    });
+        </script>
 
 <style>
     #calendar {
-        max-width: 900px;
+        max-width: 800px;
         margin: 0 auto;
     }
 
@@ -63,9 +653,50 @@
 
 
 <body>
-        <a id="schedule"></a>
-        <div id='calendar'></div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            <a class="navbar-brand" href="#">Rotation Scheduler</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Help</a></li>
+                </ul>
+                <!--form class="navbar-form navbar-right">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form-->
+            </div>
         </div>
+    </nav>
+
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+            <li class="active">
+            <a href="#gen_med">General Medicine<span class="sr-only">(current)</span></a></li>
+            <li><a href="#icu">ICU</a></li>
+            <li><a href="#pulmonary">Pulmonary</a></li>
+            <li><a href="#">Vacation</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <a id="gen_med"></a>
+        <div id='gen_med_calendar'></div><br><br>
+
+        <a id="icu"></a>
+        <div id='icu_calendar'></div><br><br>
+
+        <a id="pulmonary"></a>
+        <div id='pulmonary_calendar'></div><br><br>
+    </div>
+
 </body>
 </html>
 

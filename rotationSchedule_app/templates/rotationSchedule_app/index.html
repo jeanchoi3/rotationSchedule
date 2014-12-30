@@ -100,7 +100,7 @@
                 var val = $('#rotationForm').serializeArray();
                 var optionsAsString = "";
                 //NOTE: All fields must be filled in for this to work!
-                for(var i = 0; i < val.length; i++) {
+                for(var i = 0; i < val.length; i=i+4) {
                     optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
                 }
                 $('#rotation_select').empty();
@@ -479,7 +479,19 @@
                 <label class="label_rn" for="rotation_name">Rotation Name:</label>
                 <input class="input_rn" type="text" name="rotation_name" id="rotation_name" value="">
 
+                <label class="label_easy" for="radio_easy"></label><input type="radio" id="radio_easy" value="radio_easy" name="radio_easy" class="input_radio"> Easy
+                <label class="label_medium" for="radio_medium"></label><input type="radio" id="radio_medium" value="radio_medium" name="radio_medium" class="input_radio"> Medium
+                <label class="label_hard" for="radio_hard"></label><input type="radio" id="radio_hard" value="radio_hard" name="radio_hard" class="input_radio"> Hard
+
+                <fieldset>
+                <label class="label_min_res" for="min_res">Min # Residents:</label>
+                <input class="input_min_res" type="text" name="min_res" id="min_res" value="" style="width:50px;">
+
+                <label class="label_max_res" for="max_res">Max # Residents:</label>
+                <input class="input_max_res" type="text" name="max_res" id="max_res" value="" style="width:50px;">
+                </fieldset>
                 <!--input type="checkbox" id="isElective" value="isElective" name="isElective" class="input_checkboxitem">  Elective-->
+                <br>
             </div><br>
 
             <div id="addDelButtons">
@@ -631,14 +643,16 @@
             <legend>Objective</legend>
 
             <span class='multislider'>
-                Option1 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+                Average resident utility (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
                 <div class='slider tied'></div> <p></p>
 
-                Option 2 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+                Minimum resident utility (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
                 <div class='slider tied'></div> <p></p>
 
-                Option 3 (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
+                Time between difficult rotations (<input type='text' required name='question_3' class='amount' value='0' data-min='0' data-max='10'/>)
                 <div class='slider tied'></div>
+
+                <!--couple matching, electives/vacation, -->
 
             </span>
         </div><br><br>
