@@ -55,15 +55,47 @@
             $('#sign-up_area').submit(function(){
                 var val = $('#sign-up_area').serializeArray();
                 var optionsAsString = "";
+                var eventsAsString = "";
                 //NOTE: All fields must be filled in for this to work!
                 for(var i = 0; i < val.length; i=i+2) {
                     optionsAsString += "<option value='" + val[i].value + "'>" + val[i].value + "</option>";
+                    eventsAsString += "<div class='fc-event' data-duration='" + (val[i+1].value * 7 * 24) + ":00'>" + val[i].value + "</div>";
+                    /*var myCalendar = $('#calendar'); 
+                    myCalendar.fullCalendar();
+                    var myEvent = {
+                      title:""+val[i].value,
+                      duration:val[i+1].value * 7 * 24
+                    };
+                    myCalendar.fullCalendar( 'renderEvent', myEvent );*/
                 }
                 $('#block_select').empty();
                 $('#block_select').append(optionsAsString);
                 $('#block_select').trigger("chosen:updated");
+                $('#calendar').fullCalendar('removeEvents');
+                $('#external-events').empty();
+                $('#external-events').append(eventsAsString);
+                $('#external-events .fc-event').each(function() {
+
+                    // store data so the calendar knows to render an event upon drop
+                    $(this).data('event', {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                        //allDay: true,
+                        //duration: 2419200000, //in milliseconds
+                        stick: true // maintain when user navigates (see docs on the renderEvent method)
+                    });
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,      // will cause the event to go back to its
+                        revertDuration: 0  //  original position after the drag
+                    });
+
+                });
+                //$('#calendar').fullCalendar( 'refetchEvents' );
                 return false;
             });
+
             $('#rotationForm').submit(function(){
                 var val = $('#rotationForm').serializeArray();
                 var optionsAsString = "";
@@ -144,39 +176,6 @@
                     }
                 }
             });
-
-            /*$('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar
-                drop: function(date, allDay) {
-                    // retrieve the dropped element's stored Event Object
-                    var originalEventObject = $(this).data('eventObject');
-
-                    // we need to copy it, so that multiple events don't have a reference to the same object
-                    var copiedEventObject = $.extend({}, originalEventObject);
-
-                    // assign it the date that was reported
-                    copiedEventObject.start = date;
-                    // HERE I force the end date based on the start date + duration
-                    copiedEventObject.end = new Date(date.getTime() + copiedEventObject.duration * 60 * 1000);
-                    copiedEventObject.allDay = allDay;
-
-                    // render the event on the calendar
-                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                    $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-                    // is the "remove after drop" checkbox checked?
-                    if ($('#drop-remove').is(':checked')) {
-                        // if so, remove the element from the "Draggable Events" list
-                        $(this).remove();
-                    }
-                }
-            });*/
 
             $('#slider').noUiSlider({
                 start: [5],
@@ -401,8 +400,8 @@
                 <li><a href="#rotation_block">Rotation/Block Information</a></li>
                 <li><a href="#rotation_year">Rotation/Year Information</a></li>
                 <li><a href="#resident">Resident Information</a></li>
+                <li><a href="#block_template">Block Template</a></li>
                 <li><a href="#objective">Objective</a></li>
-                <li><a href="#schedule">Schedule</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -611,23 +610,20 @@
         </form><br><br>
 
 
+        <a id="block_template"></a>
+        <legend>Block Template</legend>
+        <span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span>
         <div id='wrap'>
-
-        <div id='external-events'>
-            <h4>Blocks</h4>
-            <div class='fc-event' data-duration="672:00">Four-Week Block</div>
-            <div class='fc-event' data-duration="504:00">Three-Week Block</div>
-            <p>
-                <input type='checkbox' id='drop-remove' />
-                <label for='drop-remove'>remove after drop</label>
-            </p>
+            <div id='external-events'>
+                <!--p>
+                    <input type='checkbox' id='drop-remove' />
+                    <label for='drop-remove'>remove after drop</label>
+                </p-->
+            </div>
+        
+            <div id='calendar'></div>
+            <div style='clear:both'></div>
         </div>
-
-        <div id='calendar'></div>
-
-        <div style='clear:both'></div>
-
-    </div>
 
 
         <a id="objective"></a>
