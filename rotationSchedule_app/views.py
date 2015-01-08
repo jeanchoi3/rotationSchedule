@@ -8,7 +8,7 @@ from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
 
 # Create your views here.
 def index(request):
-    if request.method == 'POST':
+    '''if request.method == 'POST':
         rForm = ResidentForm(request.POST)
         yForm = YearForm(request.POST)
         tForm = TrackForm(request.POST)
@@ -36,12 +36,12 @@ def index(request):
                 return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')
-    else:
-        rForm = ResidentForm()
-        yForm = YearForm()
-        tForm = TrackForm()
-        pForm = ProgramForm()
-        rotationForm = RotationForm()
+    else:'''
+    rForm = ResidentForm()
+    yForm = YearForm()
+    tForm = TrackForm()
+    pForm = ProgramForm()
+    rotationForm = RotationForm()
     context = {'rForm':rForm,'yForm':yForm,'tForm':tForm,'pForm':pForm,'rotationForm':rotationForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
