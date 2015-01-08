@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm
+import json
 
 from .models import Greeting
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
@@ -44,6 +45,33 @@ def index(request):
     rotationForm = RotationForm()
     context = {'rForm':rForm,'yForm':yForm,'tForm':tForm,'pForm':pForm,'rotationForm':rotationForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
+
+
+def create_post(request):
+    if request.method == 'POST':
+        form = ProgramForm(request.POST)
+        if form.is_valid():
+            form.save()
+            pass
+        return render(request, 'index.html',{'pForm':form})
+        '''program_name = request.POST.get('the_program')
+        response_data = {}
+
+        program = Program(name=program_name)
+        program.save()
+
+        response_data['result'] = 'Create post successful!'
+        response_data['programpk'] = program.pk
+        
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )'''
 
 def db(request):
 	greeting = Greeting()

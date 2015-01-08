@@ -21,8 +21,8 @@ class ProgramForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProgramForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'id': 'program-name','placeholder':'E.g. Penn Neurology','required':True})
-        self.fields['startDate'].widget.attrs.update({'id': 'datepicker-1','required':True})
-        self.fields['endDate'].widget.attrs.update({'id': 'datepicker-2','required':True})
+        self.fields['startDate'].widget.attrs.update({'id': 'datepicker-1'})
+        self.fields['endDate'].widget.attrs.update({'id': 'datepicker-2'})
 
 class RotationForm(ModelForm):
     class Meta:
