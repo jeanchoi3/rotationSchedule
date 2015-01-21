@@ -41,10 +41,10 @@ class Rotation(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
-    length = models.PositiveIntegerField(default=1)
-    demandTotal = models.PositiveIntegerField(default=1)
-    demandYear = models.ManyToManyField('Year',blank=True,null=True,default=None,through='YearDemand')
-    isElective = models.BooleanField(default=False)
+    #length = models.PositiveIntegerField(default=1)
+    #demandTotal = models.PositiveIntegerField(default=1)
+    #demandYear = models.ManyToManyField('Year',blank=True,null=True,default=None,through='YearDemand')
+    #isElective = models.BooleanField(default=False)
 # year and track related demand
 # track, year, and program min and max
 # accommodates vacation or weekends?

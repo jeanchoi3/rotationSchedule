@@ -45,7 +45,7 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            $('#program-form').on('submit', function(event){
+            /*$('#program-form').on('submit', function(event){
                 event.preventDefault();
                 alert("form submitted!")  // sanity check
                 create_post();
@@ -459,7 +459,7 @@
             <button type="submit" class="btn">Save and Update</button>
         </form><br><br-->
 
-        <form action="/create_post/" method="post" id="program-form">
+        <!--form action="/create_post/" method="post" id="program-form">
             <legend>Program Information</legend>
                 <span class="help-block">General information about the residency program.</span>
             {% csrf_token %}
@@ -471,10 +471,37 @@
                 </div>
             {% endfor %}
             </div>
-            <div id="results"></div> <!--errors go here-->
+            <div id="results"></div> 
             <input type="submit" name="program" value="Submit Program" />
-        </form>
+        </form-->
 
+
+        <form action="/" method="post" id="multiple-form">
+            <legend>Program Information</legend>
+                <span class="help-block">General information about the residency program.</span>
+            {% csrf_token %}
+            <div>
+            {% for field in pForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div><br><br>
+
+            <legend>Rotation Information</legend>
+            <div>
+            {% for field in rotationForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div>
+
+
+            <input type="submit" name="multiple" value="Save and Continue" />
+        </form>
 
         <!--p><tt type="text" id="results"></tt></p-->
 
