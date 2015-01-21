@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^db', views.db, name='db'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^schedule/', views.schedule, name='schedule'),
+    url(r'^create_post/', views.create_post, name='create_post'),
     url(r'^resident/', views.resident, name='resident'),
     url(r'^(?P<resident_id>[0-9]+)/$', views.detail, name='detail'),
                        #ex: /residentSchedule/1/

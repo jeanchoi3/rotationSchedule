@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm
 import json
+from django.core.management import call_command
 
 from .models import Greeting
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
@@ -49,19 +50,19 @@ def index(request):
 
 def create_post(request):
     if request.method == 'POST':
-        form = ProgramForm(request.POST)
+        '''form = ProgramForm(request.POST)
         if form.is_valid():
             form.save()
             pass
-        return render(request, 'index.html',{'pForm':form})
-        '''program_name = request.POST.get('the_program')
+        return render(request, 'index.html',{'pForm':form})'''
+        program_name = request.POST.get('the_program')
         response_data = {}
 
         program = Program(name=program_name)
         program.save()
 
-        response_data['result'] = 'Create post successful!'
-        response_data['programpk'] = program.pk
+        response_data['result'] = 'Create program successful!'
+        #response_data['programpk'] = program.pk
         
         return HttpResponse(
             json.dumps(response_data),
@@ -71,7 +72,7 @@ def create_post(request):
         return HttpResponse(
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
-        )'''
+        )
 
 def db(request):
 	greeting = Greeting()
@@ -92,6 +93,11 @@ def detail(request, resident_id):
     		#newRes.save()    
     
 def schedule(request):
+    call_command('x')
+    #programs = call_command('x')
+    #context = {'programs':programs,}
+    #return render_to_response('rotationSchedule_app/schedule.html', context, context_instance=RequestContext(request))
+
     return render(request, 'schedule.html')
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
