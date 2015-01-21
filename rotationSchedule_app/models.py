@@ -41,6 +41,8 @@ class Rotation(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
+    minResidents = models.PositiveIntegerField(default=1)
+    maxResidents = models.PositiveIntegerField(default=1)
     #length = models.PositiveIntegerField(default=1)
     #demandTotal = models.PositiveIntegerField(default=1)
     #demandYear = models.ManyToManyField('Year',blank=True,null=True,default=None,through='YearDemand')
