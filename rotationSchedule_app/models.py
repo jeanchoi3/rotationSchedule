@@ -53,6 +53,13 @@ class Rotation(models.Model):
 # is an elective?
 #
 
+#Block
+class Block(models.Model):
+    def __str__(self):
+        return self.name
+    name = models.CharField(max_length=200)
+    length = models.PositiveIntegerField(default=1)
+
 #Demand by year, through field for rotation field demandYear
 class YearDemand(models.Model):
     rotation = models.ForeignKey('Rotation')

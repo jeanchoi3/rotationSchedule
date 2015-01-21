@@ -6,7 +6,7 @@ import json
 from django.core.management import call_command
 
 from .models import Greeting
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
 
 # Create your views here.
 def index(request):

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
 from django.utils.translation import ugettext_lazy as _
 
 class ResidentForm(ModelForm):
