@@ -1,50 +1,38 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm
+from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm
 import json
 from django.core.management import call_command
+from django.forms.models import modelformset_factory
+
 
 from .models import Greeting
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
 
 # Create your views here.
 def index(request):
-    '''if request.method == 'POST':
-        rForm = ResidentForm(request.POST)
-        yForm = YearForm(request.POST)
-        tForm = TrackForm(request.POST)
+    RotationFormSet = modelformset_factory(Rotation, form=RotationForm, extra=2)
+    if request.method == 'POST':
+        rotation_formset = RotationFormSet(request.POST, prefix='rotations')
         pForm = ProgramForm(request.POST)
         rotationForm = RotationForm(request.POST)
-        if 'resident' in request.POST:
-            if rForm.is_valid():
-                rForm.save()
-                return HttpResponseRedirect('/')
-        elif 'program' in request.POST:
-            if pForm.is_valid():
+        bForm = BlockForm(request.POST)
+        if 'multiple' in request.POST:
+            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid():
                 pForm.save()
-                return HttpResponseRedirect('/')
-        elif 'year' in request.POST:
-            if yForm.is_valid():
-                yForm.save()
-                return HttpResponseRedirect('/')
-        elif 'track' in request.POST:
-            if tForm.is_valid():
-                tForm.save()
-                return HttpResponseRedirect('/')
-        elif 'rotation' in request.POST:
-            if rotationForm.is_valid():
                 rotationForm.save()
+                bForm.save()
+                rotation_formset.save()
                 return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')
-    else:'''
-    rForm = ResidentForm()
-    yForm = YearForm()
-    tForm = TrackForm()
-    pForm = ProgramForm()
-    rotationForm = RotationForm()
-    context = {'rForm':rForm,'yForm':yForm,'tForm':tForm,'pForm':pForm,'rotationForm':rotationForm}
+    else:
+        pForm = ProgramForm()
+        rotationForm = RotationForm()
+        bForm = BlockForm()
+        rotation_formset = RotationFormSet(prefix='rotations')
+    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 

@@ -41,6 +41,7 @@
         <!--script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script-->
         <script type="text/javascript" src="{% static 'js/jquery.nouislider.all.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.nouislider.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
 
     <script type="text/javascript">
 
@@ -81,7 +82,9 @@
                 //$('#results')
                 alert($('#program-name').val())
             }*/
-
+            $('#multiple-form tbody tr').formset({
+                prefix: '{{formset.prefix}}'
+            })
             $(".chosen-select").chosen()
             $('#myForm').submit(function(){
                 var val = $('#myForm').serializeArray();
@@ -478,7 +481,7 @@
 
         <form action="/" method="post" id="multiple-form">
             <legend>Program Information</legend>
-                <span class="help-block">General information about the residency program.</span>
+                <span class="help-block">General information about the residency program</span>
             {% csrf_token %}
             <div>
             {% for field in pForm %}
@@ -497,8 +500,35 @@
                     {{ field }}
                 </div>
             {% endfor %}
-            </div>
+            </div><br><br>
 
+            <legend>Block Information</legend>
+                <span class="help-block">Input all types of blocks to be used in the schedule</span>
+            <div>
+            {% for field in bForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div><br><br>
+
+            <legend>Rotation Formset</legend>
+            {{ rotation_formset.management_form }}
+            <table>
+            <tbody>
+            {% for form in rotation_formset %}
+            <tr>
+                {% for field in form %}
+                <td>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
 
             <input type="submit" name="multiple" value="Save and Continue" />
         </form>
