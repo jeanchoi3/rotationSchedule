@@ -23,7 +23,19 @@ def index(request):
                 pForm.save()
                 rotationForm.save()
                 bForm.save()
-                rotation_formset.save()
+                #rotation_formset.save()
+                #rotation_instances = rotation_formset.save(commit=False)
+                rotation_instances = rotation_formset.save(commit=False)
+                print rotation_formset.deleted_objects
+                for instance in rotation_instances:
+                	if instance not in rotation_formset.deleted_objects:
+                		instance.save()
+                '''for instance in rotation_formset.deleted_objects:
+                	instance.delete()
+                for instance in rotation_formset.changed_objects:
+                	instance.save()
+                for instance in rotation_formset.new_objects:
+                	instance.save()'''
                 return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')

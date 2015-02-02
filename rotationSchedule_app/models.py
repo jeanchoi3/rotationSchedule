@@ -33,7 +33,7 @@ class Resident(models.Model):
         return self.name
     name = models.CharField(max_length=200)
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
-    tracks = models.ManyToManyField('Track', null=True, default=None, related_name='tracks')
+    tracks = models.ManyToManyField('Track', null=True, blank=True,default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
 
 #Rotation

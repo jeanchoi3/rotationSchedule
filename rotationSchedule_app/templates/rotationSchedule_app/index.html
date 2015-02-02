@@ -84,7 +84,7 @@
             }*/
             $('#multiple-form tbody tr').formset({
                 prefix: '{{formset.prefix}}'
-            })
+            });
             $(".chosen-select").chosen()
             $('#myForm').submit(function(){
                 var val = $('#myForm').serializeArray();
@@ -526,6 +526,11 @@
                 </td>
                 {% endfor %}
             </tr>
+            <div>
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+            </div>
             {% endfor %}
             </tbody>
             </table>
