@@ -29,17 +29,13 @@ class Command(BaseCommand):
 
         for resident in all_residents:
             residents.append(str(resident.name))
-            
-            #i'm treating year as if it's required, and only one is allowed
-            #do i need to deal with mutual exclusivity of year?
+
             resident_ids[str(resident.name)] = []
             if resident.year != None and resident.year != "":
                 resident_ids[str(resident.name)].append(str(resident.year.name))
             for track in resident.tracks.all():
                 if track != None and track != "":
                     resident_ids[str(resident.name)].append(str(track.name))
-            #resident.year
-            #resident.tracks
 
         print residents
         print resident_ids
@@ -59,10 +55,6 @@ class Command(BaseCommand):
 
         rotation_list = [0]*len(rotations)
 
-        #THIS IS HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        weeks = ['0','1','2','3','4','5'] #DO I NEED THIS? OR JUST RANGE(NUM_WEEKS)
-        num_weeks = len(weeks)
-
         all_blocks = Block.objects.all()
         blocks = []
         for block in all_blocks:
@@ -75,10 +67,14 @@ class Command(BaseCommand):
             years.append(str(year.name))
         print years
 
-        schedule = np.array([[[0]*len(rotations) for j in range(len(weeks))] for i in range(len(residents))])
-
         #THE FOLLOWING IS HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         ##############################################################
+        weeks = ['0','1','2','3','4','5'] #DO I NEED THIS? OR JUST RANGE(NUM_WEEKS)
+        num_weeks = len(weeks)
+
+        #next line is not hardcoded
+        schedule = np.array([[[0]*len(rotations) for j in range(len(weeks))] for i in range(len(residents))])
+
         year_demand_min = dict((key, [0]*len(rotations)) for key in years)
         year_demand_max = dict((key, [sys.maxint]*len(rotations)) for key in years)
         rotation_demand_min[0] = 3
