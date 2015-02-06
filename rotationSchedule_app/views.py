@@ -93,12 +93,12 @@ def detail(request, resident_id):
     		#newRes.save()    
     
 def schedule(request):
-    call_command('x')
+    #call_command('x')
     #programs = call_command('x')
-    #context = {'programs':programs,}
-    #return render_to_response('rotationSchedule_app/schedule.html', context, context_instance=RequestContext(request))
+    context = {'programs':programs,}
+    return render_to_response('rotationSchedule_app/schedule.html', context, context_instance=RequestContext(request))
 
-    return render(request, 'schedule.html')
+    #return render(request, 'schedule.html')
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
 def resident(request):
