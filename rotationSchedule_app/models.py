@@ -60,13 +60,15 @@ class RotationLength(models.Model):
 class YearDemand(models.Model):
     rotation = models.ForeignKey('Rotation')
     year = models.ForeignKey('Year')
+    minResidents = models.PositiveIntegerField(default=1)
+    maxResidents = models.PositiveIntegerField(default=1)
     #demand = models.PositiveIntegerField(default=0)
 
 class EducationReq(models.Model):
     year = models.ForeignKey(Year)
     rotation = models.ForeignKey(Rotation)
     minLength = models.PositiveIntegerField(default=1)
-    maxLength = models.PositiveIntegerField(default=1) 
+    maxLength = models.PositiveIntegerField(default=1)
 
 
 
