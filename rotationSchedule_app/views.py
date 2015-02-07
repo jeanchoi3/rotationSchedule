@@ -6,8 +6,6 @@ import json
 from django.core.management import call_command
 from django.forms.models import modelformset_factory
 
-
-from .models import Greeting
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
 
 # Create your views here.
@@ -73,12 +71,6 @@ def create_post(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
-
-def db(request):
-	greeting = Greeting()
-	greeting.save()
-	greetings = Greeting.objects.all()
-	return render(request, 'db.html', {'greetings': greetings})
 
 
 def detail(request, resident_id):
