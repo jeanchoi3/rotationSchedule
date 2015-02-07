@@ -1,13 +1,10 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq
 from django.http import HttpResponse
 
 # Register your models here.
 admin.site.register(Resident)
-admin.site.register(Year)
 admin.site.register(Track)
-admin.site.register(Rotation)
-admin.site.register(Block)
 
 def export_csv(modeladmin, request, queryset):
     import csv
@@ -38,7 +35,32 @@ class ResidentAdmin(admin.ModelAdmin):
 class ProgramAdmin(admin.ModelAdmin):
 	actions = [export_csv]
 
+class RotationLengthInline(admin.TabularInline):
+    model=RotationLength
+    extra=1
+
+class YearDemandInline(admin.TabularInline):
+    model=YearDemand
+    extra=1
+
+class EducationReqInline(admin.TabularInline):
+    model=EducationReq
+    extra=1
+
+class BlockAdmin(admin.ModelAdmin):
+    inlines = (RotationLengthInline,)
+
+class RotationAdmin(admin.ModelAdmin):
+    inlines = (RotationLengthInline,YearDemandInline,EducationReqInline)
+
+class YearAdmin(admin.ModelAdmin):
+    inlines=(YearDemandInline,EducationReqInline)
+
+
 admin.site.register(Program, ProgramAdmin)
+admin.site.register(Block, BlockAdmin)
+admin.site.register(Rotation, RotationAdmin)
+admin.site.register(Year, YearAdmin)
 
 
 

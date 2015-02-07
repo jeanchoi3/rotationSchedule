@@ -47,10 +47,11 @@ class RotationForm(ModelForm):
 class BlockForm(ModelForm):
     class Meta:
         model = Block
-        fields = ['name','length']
+        fields = ['name','length', 'includedRotation']
         labels = {
             'name': _('Block Name'),
-            'length': _('Block Length (Weeks)')
+            'length': _('Block Length (Weeks)'),
+            'includedRotation': _('Included Rotation')
         }
     def __init__(self, *args, **kwargs):
         super(BlockForm, self).__init__(*args, **kwargs)

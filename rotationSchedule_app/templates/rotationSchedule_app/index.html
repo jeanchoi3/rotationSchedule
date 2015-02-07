@@ -448,7 +448,7 @@
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        <a id="program"></a>
+        <!--a id="program"></a>
         <form id="myForm">
             <legend>Program Information</legend>
             <span class="help-block">General information about the residency program.</span>
@@ -460,7 +460,7 @@
             <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
             <p><b>Schedule End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
             <button type="submit" class="btn">Save and Update</button>
-        </form><br><br>
+        </form><br><br-->
 
         <!--form action="/create_post/" method="post" id="program-form">
             <legend>Program Information</legend>
@@ -479,7 +479,7 @@
         </form-->
 
 
-        <!--form action="/" method="post" id="multiple-form">
+        <form action="/" method="post" id="multiple-form">
             <legend>Program Information</legend>
                 <span class="help-block">General information about the residency program</span>
             {% csrf_token %}
@@ -536,7 +536,7 @@
             </table>
 
             <input type="submit" name="multiple" value="Save and Continue" />
-        </form-->
+        </form>
 
         <!--p><tt type="text" id="results"></tt></p-->
 

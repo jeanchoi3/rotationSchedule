@@ -10,7 +10,7 @@ from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
 
 # Create your views here.
 def index(request):
-    RotationFormSet = modelformset_factory(Rotation, form=RotationForm, extra=2)
+    RotationFormSet = modelformset_factory(Rotation, form=RotationForm)
     if request.method == 'POST':
         rotation_formset = RotationFormSet(request.POST, prefix='rotations')
         pForm = ProgramForm(request.POST)
