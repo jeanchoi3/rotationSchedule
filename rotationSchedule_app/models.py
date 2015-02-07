@@ -3,15 +3,21 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
-class Greeting(models.Model):
-    when = models.DateTimeField('date created', auto_now_add=True)
+#Rotation
+class Rotation(models.Model):
+    def __str__(self):
+        return self.name
+    name = models.CharField(max_length=200)
+    minResidents = models.PositiveIntegerField(default=1)
+    maxResidents = models.PositiveIntegerField(default=1)
 
 #Year
 class Year(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200, default='PGY1')
+    requiredRotations = models.ManyToManyField(Rotation, related_name='requiredRotations', through='EducationReq')
+    rotationDemand = models.ManyToManyField(Rotation, related_name='rotationDemand',through='YearDemand')
 
 #Track
 class Track(models.Model):
@@ -36,36 +42,31 @@ class Resident(models.Model):
     tracks = models.ManyToManyField('Track', null=True, blank=True,default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
 
-#Rotation
-class Rotation(models.Model):
-    def __str__(self):
-        return self.name
-    name = models.CharField(max_length=200)
-    minResidents = models.PositiveIntegerField(default=1)
-    maxResidents = models.PositiveIntegerField(default=1)
-    #length = models.PositiveIntegerField(default=1)
-    #demandTotal = models.PositiveIntegerField(default=1)
-    #demandYear = models.ManyToManyField('Year',blank=True,null=True,default=None,through='YearDemand')
-    #isElective = models.BooleanField(default=False)
-# year and track related demand
-# track, year, and program min and max
-# accommodates vacation or weekends?
-# is an elective?
-#
-
 #Block
 class Block(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
     length = models.PositiveIntegerField(default=1)
+    includedRotation = models.ManyToManyField(Rotation, related_name='includedRotation',through='RotationLength')
+
+class RotationLength(models.Model):
+    rotation = models.ForeignKey(Rotation)
+    block = models.ForeignKey(Block)
+    minLength = models.PositiveIntegerField(default=1)
+    maxLength = models.PositiveIntegerField(default=1) 
 
 #Demand by year, through field for rotation field demandYear
 class YearDemand(models.Model):
     rotation = models.ForeignKey('Rotation')
     year = models.ForeignKey('Year')
-    demand = models.PositiveIntegerField(default=0)
+    #demand = models.PositiveIntegerField(default=0)
 
+class EducationReq(models.Model):
+    year = models.ForeignKey(Year)
+    rotation = models.ForeignKey(Rotation)
+    minLength = models.PositiveIntegerField(default=1)
+    maxLength = models.PositiveIntegerField(default=1) 
 
 
 
