@@ -72,6 +72,12 @@ def create_post(request):
             content_type="application/json"
         )
 
+def db(request):
+	#greeting = Greeting()
+	#greeting.save()
+	#greetings = Greeting.objects.all()
+	return render(request, 'db.html')
+
 
 def detail(request, resident_id):
     resident_list = Resident.objects.order_by('-name')[:5]
