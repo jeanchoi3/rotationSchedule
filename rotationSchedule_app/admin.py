@@ -1,10 +1,12 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule
 from django.http import HttpResponse
 
 # Register your models here.
 admin.site.register(Resident)
 admin.site.register(Track)
+admin.site.register(Event)
+admin.site.register(Schedule)
 
 def export_csv(modeladmin, request, queryset):
     import csv

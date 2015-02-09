@@ -12,19 +12,19 @@ from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation
 # Create your views here.
 def index(request):
     RotationFormSet = modelformset_factory(Rotation, form=RotationForm)
-    RotationLengthForm = inlineformset_factory(Rotation, Block.includedRotation.through)
+    #RotationLengthForm = inlineformset_factory(Rotation, Block.includedRotation.through)
     if request.method == 'POST':
         rotation_formset = RotationFormSet(request.POST, prefix='rotations')
         pForm = ProgramForm(request.POST)
         rotationForm = RotationForm(request.POST)
         bForm = BlockForm(request.POST)
-        RotationLengthForm = RotationLength(request.POST)
+        #RotationLengthForm = RotationLength(request.POST)
         if 'multiple' in request.POST:
-            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid() and RotationLengthForm.is_valid():
+            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid():# and RotationLengthForm.is_valid():
                 pForm.save()
                 rotationForm.save()
                 bForm.save()
-                RotationLengthForm.save()
+                #RotationLengthForm.save()
                 #rotation_formset.save()
                 #rotation_instances = rotation_formset.save(commit=False)
                 rotation_instances = rotation_formset.save(commit=False)
@@ -46,8 +46,8 @@ def index(request):
         rotationForm = RotationForm()
         bForm = BlockForm()
         rotation_formset = RotationFormSet(prefix='rotations')
-        RotationLengthForm = RotationLength()
-    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset,'RotationLengthForm':RotationLengthForm}
+        #RotationLengthForm = RotationLength()
+    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset}#,'RotationLengthForm':RotationLengthForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 
