@@ -4,23 +4,27 @@ from django.template import RequestContext, loader
 from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm
 import json
 from django.core.management import call_command
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, inlineformset_factory
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength
 
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block
 
+#could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
 def index(request):
     RotationFormSet = modelformset_factory(Rotation, form=RotationForm)
+    RotationLengthForm = inlineformset_factory(Rotation, Block.includedRotation.through)
     if request.method == 'POST':
         rotation_formset = RotationFormSet(request.POST, prefix='rotations')
         pForm = ProgramForm(request.POST)
         rotationForm = RotationForm(request.POST)
         bForm = BlockForm(request.POST)
+        RotationLengthForm = RotationLength(request.POST)
         if 'multiple' in request.POST:
-            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid():
+            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid() and RotationLengthForm.is_valid():
                 pForm.save()
                 rotationForm.save()
                 bForm.save()
+                RotationLengthForm.save()
                 #rotation_formset.save()
                 #rotation_instances = rotation_formset.save(commit=False)
                 rotation_instances = rotation_formset.save(commit=False)
@@ -42,7 +46,8 @@ def index(request):
         rotationForm = RotationForm()
         bForm = BlockForm()
         rotation_formset = RotationFormSet(prefix='rotations')
-    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset}
+        RotationLengthForm = RotationLength()
+    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset,'RotationLengthForm':RotationLengthForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 

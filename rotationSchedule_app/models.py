@@ -50,6 +50,7 @@ class Block(models.Model):
     length = models.PositiveIntegerField(default=1)
     includedRotation = models.ManyToManyField(Rotation, related_name='includedRotation',through='RotationLength')
 
+# the block-dependent length of a rotation
 class RotationLength(models.Model):
     rotation = models.ForeignKey(Rotation)
     block = models.ForeignKey(Block)
@@ -64,14 +65,23 @@ class YearDemand(models.Model):
     maxResidents = models.PositiveIntegerField(default=1)
     #demand = models.PositiveIntegerField(default=0)
 
+#Education requirements for weeks of rotation for a year
 class EducationReq(models.Model):
     year = models.ForeignKey(Year)
     rotation = models.ForeignKey(Rotation)
     minLength = models.PositiveIntegerField(default=1)
     maxLength = models.PositiveIntegerField(default=1)
 
+class Schedule(models.Model):
+    name = models.CharField(max_length=200)
+    utility = models.DecimalField(default=0)
 
-
+class Event(models.Model):
+    resident = models.ForeignKey(Resident)
+    rotation = models.ForeignKey(Rotation)
+    startDate = models.DateField(default=datetime.date.today)
+    endDate = models.DateField(default=datetime.date.today)
+    schedule = models.ForeignKey(Schedule)
 
 
 

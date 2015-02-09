@@ -47,11 +47,12 @@ class RotationForm(ModelForm):
 class BlockForm(ModelForm):
     class Meta:
         model = Block
-        fields = ['name','length', 'includedRotation']
+        exclude=('includedRotation',)
+        fields = ['name','length']
         labels = {
             'name': _('Block Name'),
             'length': _('Block Length (Weeks)'),
-            'includedRotation': _('Included Rotation')
+            #'includedRotation': _('Included Rotation')
         }
     def __init__(self, *args, **kwargs):
         super(BlockForm, self).__init__(*args, **kwargs)
