@@ -74,7 +74,7 @@ class EducationReq(models.Model):
 
 class Schedule(models.Model):
     name = models.CharField(max_length=200)
-    utility = models.DecimalField(default=0)
+    utility = models.DecimalField(default=0, max_digits=10, decimal_places=9)
 
 class Event(models.Model):
     resident = models.ForeignKey(Resident)
