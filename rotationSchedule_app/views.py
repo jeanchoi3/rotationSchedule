@@ -5,8 +5,8 @@ from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, Progra
 import json
 from django.core.management import call_command
 from django.forms.models import modelformset_factory, inlineformset_factory
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength
-
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule
+import json
 
 #could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
@@ -101,7 +101,83 @@ def schedule(request):
     #context = {'programs':programs,}
     #return render_to_response('rotationSchedule_app/schedule.html', context, context_instance=RequestContext(request))
 
-    return render(request, 'schedule.html')
+    # separating events by schedule
+    schedules = Schedule.objects.all()
+    schedule_list = []
+####    schedule_events = dict()
+    schedule_events = []
+
+    rotations = Rotation.objects.all()
+    rotation_list = []
+
+    for rotation in rotations:
+        rotation_list.append(str(rotation.name))
+
+    residents = Resident.objects.all()
+    resident_list = []
+
+    for resident in residents:
+        resident_list.append(str(resident.name))
+
+    schedule_index = 0
+    for schedule in schedules:
+        schedule_list.append({'name': str(schedule.name),
+                            'utility':str(schedule.utility)})
+        #schedEvents = Event.objects.filter(schedule__name=str(schedule.name))
+        
+####        rot_res_dict = dict()
+        rot_res_dict = []
+
+        rotation_index = 0
+        for rotation in rotation_list:
+            rotation_event_list = []
+            rotation_events = Event.objects.filter(schedule__name=str(schedule.name), rotation__name=rotation)
+            for event in rotation_events:
+                rotation_event_list.append({'title': str(event.resident),
+                            'start':str(event.startDate),
+                            'end':str(event.endDate)})
+                rot_res_dict.append(rotation_event_list)
+                rotation_index += 1
+####            rot_res_dict[rotation] = rotation_event_list
+        schedule_index += 1
+        schedule_events.append(rot_res_dict)
+        '''        for resident in resident_list:
+            resident_event_list = []
+            resident_events = Event.objects.filter(schedule__name=str(schedule.name), resident__name=resident)
+            for event in resident_events:
+                resident_event_list.append({'title': str(event.rotation),
+                            'start':str(event.startDate),
+                            'end':str(event.endDate)})
+                rot_res_dict[resident_list.index(resident)] = resident_event_list'''
+####            rot_res_dict[resident] = resident_event_list
+
+
+####            schedule_events[str(schedule.name)] = rot_res_dict
+
+    context = {'schedule_events':json.dumps(schedule_events),'schedule_list':json.dumps(schedule_list),'rotation_list':json.dumps(rotation_list),'resident_list':json.dumps(resident_list)}
+    return render_to_response('schedule.html', context, context_instance=RequestContext(request))
+
+    '''for event in schedEvents:
+            posts_counts_temp.append({'title': str(event.resident),
+                            'start':str(event.startDate),
+                            'end':str(event.endDate)})
+        schedule_events.append(posts_counts_temp)'''
+'''
+    events = Event.objects.all()
+    posts_counts = []
+
+    for event in events:
+        posts_counts.append({'title': str(event.resident),
+                            'start':str(event.startDate),
+                            'end':str(event.endDate)})'''
+    #http://stackoverflow.com/questions/10069997/using-jquery-fullcalendar-in-django-app
+    #event_list = []
+    #for event in events:
+    #    event_list.append(str(event.resident_name))
+    #context = {'events':events, 'posts_counts':json.dumps(posts_counts),'schedule_events':json.dumps(schedule_events),'schedule_list':json.dumps(schedule_list)}
+
+
+    #return render(request, 'schedule.html')
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
 def resident(request):

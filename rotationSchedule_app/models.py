@@ -73,6 +73,8 @@ class EducationReq(models.Model):
     maxLength = models.PositiveIntegerField(default=1)
 
 class Schedule(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=200)
     utility = models.FloatField(default=0)
 
@@ -82,7 +84,10 @@ class Event(models.Model):
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today)
     schedule = models.ForeignKey(Schedule)
-
+    def _get_resident_name(self):
+        "Returns resident's name"
+        return '%s' %(self.resident)
+    resident_name = property(_get_resident_name)
 
 
 

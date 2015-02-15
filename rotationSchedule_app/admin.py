@@ -5,8 +5,6 @@ from django.http import HttpResponse
 # Register your models here.
 admin.site.register(Resident)
 admin.site.register(Track)
-admin.site.register(Event)
-admin.site.register(Schedule)
 
 def export_csv(modeladmin, request, queryset):
     import csv
@@ -58,11 +56,17 @@ class RotationAdmin(admin.ModelAdmin):
 class YearAdmin(admin.ModelAdmin):
     inlines=(YearDemandInline,EducationReqInline)
 
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('rotation', 'resident', 'startDate','endDate','schedule')
+
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = ('name','utility')
 
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(Block, BlockAdmin)
 admin.site.register(Rotation, RotationAdmin)
 admin.site.register(Year, YearAdmin)
-
+admin.site.register(Event, EventAdmin)
+admin.site.register(Schedule, ScheduleAdmin)
 
 

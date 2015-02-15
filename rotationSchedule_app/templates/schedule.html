@@ -1,11 +1,3 @@
-<!--DOCTYPE html>
-<html>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<h1>Resident Information</h1>
-
-</html-->
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,10 +34,181 @@
         <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
+         <script type="text/javascript" src="{% static 'js/underscore.js' %}"></script>
         <!--script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script-->
+        <!--http://stackoverflow.com/questions/6467812/how-to-return-a-dictionary-in-python-django-and-view-it-in-javascript-->
 
         <script>
+
         $(document).ready(function() {
+
+            //create new calendar for each rotation
+            var length = {{rotation_list|safe}}.length
+            for (i = 0; i < length; i++) {
+                $('#calendars').append('<div id='+String({{rotation_list|safe}}[i])+'></div><br><br>');
+
+                $('#'+String({{rotation_list|safe}}[i])).fullCalendar({
+                    header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2015-01-01',
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#my_calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: {{ schedule_events|safe }}[0][i] //CHANGE FIRST 0!!
+                });
+            }
+            
+            /*{% for rotation in rotation_list|safe %}
+                $('#calendars').append('<p>'+{{rotation_list|safe}}+'</p>')
+            {% endfor %}*/
+
+            /*$('#test_calendar').fullCalendar({
+                    header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2015-01-01',
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#my_calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: {{ schedule_events|safe }}[0][0]
+            });
+
+
+            /*$('#test_calendar2').fullCalendar({
+                    header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2015-01-01',
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#my_calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: {{ schedule_events|safe }}[1]
+            });
+
+
+
+            $('#my_calendar').fullCalendar({
+                    header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2015-01-01',
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#my_calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: {{ posts_counts|safe }}
+            });*/
+            ///////////////////////////////////////////////////////////////////////////////
+
+            /*$('#my_calendar').fullCalendar({
+                    header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultDate: '2015-01-01',
+                selectable: true,
+                selectHelper: true,
+                select: function(start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#my_calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    { 
+                        title: 'hi',
+                        start:'2015-01-05',
+                        end:'2015-01-06'
+                    },
+                    {
+                        title: 'bye',
+                        start:'2015-01-05',
+                        end:'2015-01-06'
+                    }
+                        ]
+            });*/
+
+            /*{% for thing in events %}
+                var newEvent = new Object();
+                newEvent.title = thing.resident
+                newEvent.start = '2015-01-03';
+                $('#my_calendar').fullCalendar('renderEvent', newEvent);
+            {% endfor %}*/
+
             $('#gen_med_calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -696,6 +859,23 @@
         {% endfor %}
         </div-->
 
+        <div id="results"></div>
+        <!--{% for thing in lol %}
+            <div>
+            {{thing}}
+            </div>
+        {% endfor %}-->
+
+        <div id='calendars'></div><br><br>
+
+        <a id="test"></a>
+        <div id='test_calendar'></div><br><br>
+
+        <a id="test"></a>
+        <div id='test_calendar2'></div><br><br>
+
+        <a id="my"></a>
+        <div id='my_calendar'></div><br><br>
 
         <a id="gen_med"></a>
         <div id='gen_med_calendar'></div><br><br>
