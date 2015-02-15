@@ -45,8 +45,19 @@
             //create new calendar for each rotation
             var length = {{rotation_list|safe}}.length
             for (i = 0; i < length; i++) {
+
+                //add new calendar to html
                 $('#calendars').append('<div id='+String({{rotation_list|safe}}[i])+'></div><br><br>');
 
+                //add rotation calendar navigation to sidebar
+                if (i == 0) {
+                    $('#rotation-sidebar').append('<li class="active"><a href="#'+String({{rotation_list|safe}}[i])+'">'+String({{rotation_list|safe}}[i])+'<span class="sr-only">(current)</span></a></li>');    
+                }
+                else {
+                    $('#rotation-sidebar').append('<li><a href="#'+String({{rotation_list|safe}}[i])+'">'+String({{rotation_list|safe}}[i])+'</a></li>');   
+                }
+
+                //activate calendar and add events
                 $('#'+String({{rotation_list|safe}}[i])).fullCalendar({
                     header: {
                     left: 'prev,next today',
@@ -209,7 +220,7 @@
                 $('#my_calendar').fullCalendar('renderEvent', newEvent);
             {% endfor %}*/
 
-            $('#gen_med_calendar').fullCalendar({
+            /*$('#gen_med_calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -793,7 +804,7 @@
                     color: 'orange'
                 },
             ]
-        });
+        });*/
         
     });
         </script>
@@ -841,12 +852,12 @@
     <div class="container-fluid">
     <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
-        <ul class="nav nav-sidebar">
-            <li class="active">
+        <ul class="nav nav-sidebar" id="rotation-sidebar">
+            <!--li class="active">
             <a href="#gen_med">General Medicine<span class="sr-only">(current)</span></a></li>
             <li><a href="#icu">ICU</a></li>
             <li><a href="#pulmonary">Pulmonary</a></li>
-            <li><a href="#">Vacation</a></li>
+            <li><a href="#">Vacation</a></li-->
         </ul>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -868,7 +879,7 @@
 
         <div id='calendars'></div><br><br>
 
-        <a id="test"></a>
+        <!--a id="test"></a>
         <div id='test_calendar'></div><br><br>
 
         <a id="test"></a>
@@ -884,7 +895,7 @@
         <div id='icu_calendar'></div><br><br>
 
         <a id="pulmonary"></a>
-        <div id='pulmonary_calendar'></div><br><br>
+        <div id='pulmonary_calendar'></div><br><br-->
     </div>
 
 </body>
