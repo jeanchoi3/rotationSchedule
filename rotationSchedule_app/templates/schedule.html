@@ -44,52 +44,63 @@
 
             var numSchedules = {{schedule_list|safe}}.length
 
-            for (i = 0; i < numSchedules; i++) {
+            for (i = 1; i <= numSchedules; i++) {
+                //add schedule to tabs
+                if (i==1) {
+                    $('#myTab').append('<li role="presentation" class="active"><a href="#schedule-'+i+'" role="tab" id="schedule-'+i+'-tab" data-toggle="tab" aria-controls="schedule-'+i+'" aria-expanded="true">Schedule '+i+'</a></li>');
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'" aria-labelledBy="schedule-'+i+'-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="calendars-'+i+'"></div><br><br></div></div></div></div>');
 
-            }
-
-            //create new calendar for each rotation
-            var length = {{rotation_list|safe}}.length
-            for (i = 0; i < length; i++) {
-
-                //add new calendar to html
-                $('#calendars').append('<div id='+String({{rotation_list|safe}}[i])+'></div><br><br>');
-
-                //add rotation calendar navigation to sidebar
-                if (i == 0) {
-                    $('#rotation-sidebar').append('<li class="active"><a href="#'+String({{rotation_list|safe}}[i])+'">'+String({{rotation_list|safe}}[i])+'<span class="sr-only">(current)</span></a></li>');    
                 }
                 else {
-                    $('#rotation-sidebar').append('<li><a href="#'+String({{rotation_list|safe}}[i])+'">'+String({{rotation_list|safe}}[i])+'</a></li>');   
+                    $('#myTab').append('<li role="presentation"><a href="#schedule-'+i+'" role="tab" id="schedule-'+i+'-tab" data-toggle="tab" aria-controls="schedule-'+i+'">Schedule '+i+'</a></li>');
+
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade" id="schedule-'+i+'" aria-labelledBy="schedule-'+i+'-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="calendars-'+i+'"></div><br><br></div></div></div></div>');
+                //<li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Profile</a></li>
                 }
 
-                //activate calendar and add events
-                $('#'+String({{rotation_list|safe}}[i])).fullCalendar({
-                    header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                defaultDate: '2015-01-01',
-                selectable: true,
-                selectHelper: true,
-                select: function(start, end) {
-                    var title = prompt('Event Title:');
-                    var eventData;
-                    if (title) {
-                        eventData = {
-                            title: title,
-                            start: start,
-                            end: end
-                        };
-                        $('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                //create new calendar for each rotation
+                var length = {{rotation_list|safe}}.length
+                for (j = 0; j < length; j++) {
+                    //add new calendar to html
+                    $('#calendars-'+i).append('<h3>'+String({{rotation_list|safe}}[j])+'</h3><div id='+String({{rotation_list|safe}}[j])+i+'></div><br><br>');
+
+                    //add rotation calendar navigation to sidebar
+                    if (i == 0) {
+                        $('#rotation-sidebar-'+i).append('<li class="active"><a href="#'+String({{rotation_list|safe}}[j])+'">'+String({{rotation_list|safe}}[j])+'<span class="sr-only">(current)</span></a></li>');    
                     }
-                    $('#my_calendar').fullCalendar('unselect');
-                },
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: {{ schedule_events|safe }}[0][i] //CHANGE FIRST 0!!
-                });
+                    else {
+                        $('#rotation-sidebar-'+i).append('<li><a href="#'+String({{rotation_list|safe}}[j])+'">'+String({{rotation_list|safe}}[j])+'</a></li>');
+                    }
+
+                    //activate calendar and add events
+                    $('#'+String({{rotation_list|safe}}[j])+i).fullCalendar({
+                        header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    defaultDate: '2015-01-01',
+                    selectable: true,
+                    selectHelper: true,
+                    select: function(start, end) {
+                        var title = prompt('Event Title:');
+                        var eventData;
+                        if (title) {
+                            eventData = {
+                                title: title,
+                                start: start,
+                                end: end
+                            };
+                            //$('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                        }
+                        //$('#my_calendar').fullCalendar('unselect');
+                    },
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: {{ schedule_events|safe }}[i-1][j]
+                    });
+                }
+
             }
         
     });
@@ -137,7 +148,7 @@
 
 <div class="schedule-tab">
     <ul id="myTab" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a></li>
+      <!--li role="presentation" class="active"><a href="#home" role="tab" id="home-tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a></li>
       <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Profile</a></li>
       <li role="presentation" class="dropdown">
         <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Dropdown <span class="caret"></span></a>
@@ -145,12 +156,13 @@
           <li><a href="#dropdown1" tabindex="-1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">Rotation View</a></li>
           <li><a href="#dropdown2" tabindex="-1" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Resident View</a></li>
         </ul>
-      </li>
+      </li-->
+      
     </ul>
     <div id="myTabContent" class="tab-content">
-      <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+      <!--div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
             <!--ALL THE ROTATION CALENDARS ARE INSIDE THE TAB-->
-            <div class="container-fluid">
+            <!--div class="container-fluid">
                 <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar" id="rotation-sidebar"></ul>
@@ -171,8 +183,7 @@
         <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
       </div>
     </div>
-</div>
-    
+</div>-->
 
 </body>
 </html>

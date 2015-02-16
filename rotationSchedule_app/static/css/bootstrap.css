@@ -3619,7 +3619,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   max-width: none;
 }
 .nav-tabs {
-  padding-left: 179px;
+  padding-left: 25%;
   border-bottom: 1px solid #ddd;
 }
 .nav-tabs > li {
