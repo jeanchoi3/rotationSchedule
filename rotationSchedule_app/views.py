@@ -105,7 +105,8 @@ def schedule(request):
     schedules = Schedule.objects.all()
     schedule_list = []
 ####    schedule_events = dict()
-    schedule_events = []
+    schedule_rotation_events = []
+    schedule_resident_events = []
 
     rotations = Rotation.objects.all()
     rotation_list = []
@@ -126,8 +127,10 @@ def schedule(request):
         #schedEvents = Event.objects.filter(schedule__name=str(schedule.name))
         
 ####        rot_res_dict = dict()
-        rot_res_dict = []
+        rot_dict = []
+        res_dict = []
 
+#ARE ANY OF THE INDEX THINGS NECESSARY???????????????
         rotation_index = 0
         for rotation in rotation_list:
             rotation_event_list = []
@@ -136,25 +139,32 @@ def schedule(request):
                 rotation_event_list.append({'title': str(event.resident),
                             'start':str(event.startDate),
                             'end':str(event.endDate)})
-                rot_res_dict.append(rotation_event_list)
-                rotation_index += 1
+            rot_dict.insert(rotation_index, rotation_event_list)
+            rotation_index += 1
+            ##BOTH THE ABOVE 2 LINES USED TO BE INDENTED ONCE MORE!!
 ####            rot_res_dict[rotation] = rotation_event_list
-        schedule_index += 1
-        schedule_events.append(rot_res_dict)
-        '''        for resident in resident_list:
+        schedule_rotation_events.insert(schedule_index, rot_dict)
+
+
+        resident_index = 0
+        for resident in resident_list:
             resident_event_list = []
             resident_events = Event.objects.filter(schedule__name=str(schedule.name), resident__name=resident)
             for event in resident_events:
                 resident_event_list.append({'title': str(event.rotation),
                             'start':str(event.startDate),
                             'end':str(event.endDate)})
-                rot_res_dict[resident_list.index(resident)] = resident_event_list'''
+            res_dict.insert(resident_index, resident_event_list)
+            resident_index += 1
+
+        schedule_index += 1
+        schedule_resident_events.insert(schedule_index, res_dict)
 ####            rot_res_dict[resident] = resident_event_list
 
 
 ####            schedule_events[str(schedule.name)] = rot_res_dict
 
-    context = {'schedule_events':json.dumps(schedule_events),'schedule_list':json.dumps(schedule_list),'rotation_list':json.dumps(rotation_list),'resident_list':json.dumps(resident_list)}
+    context = {'schedule_rotation_events':json.dumps(schedule_rotation_events),'schedule_resident_events':json.dumps(schedule_resident_events),'schedule_list':json.dumps(schedule_list),'rotation_list':json.dumps(rotation_list),'resident_list':json.dumps(resident_list)}
     return render_to_response('schedule.html', context, context_instance=RequestContext(request))
 
     '''for event in schedEvents:
