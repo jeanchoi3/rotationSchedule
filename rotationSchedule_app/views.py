@@ -11,44 +11,67 @@ import json
 #could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
 def index(request):
-    RotationFormSet = modelformset_factory(Rotation, form=RotationForm)
-    #RotationLengthForm = inlineformset_factory(Rotation, Block.includedRotation.through)
     if request.method == 'POST':
-        rotation_formset = RotationFormSet(request.POST, prefix='rotations')
         pForm = ProgramForm(request.POST)
         rotationForm = RotationForm(request.POST)
         bForm = BlockForm(request.POST)
-        #RotationLengthForm = RotationLength(request.POST)
         if 'multiple' in request.POST:
-            if pForm.is_valid() and rotationForm.is_valid() and bForm.is_valid() and rotation_formset.is_valid():# and RotationLengthForm.is_valid():
-                pForm.save()
+            if rotationForm.is_valid() and bForm.is_valid() and pForm.is_valid():
                 rotationForm.save()
                 bForm.save()
-                #RotationLengthForm.save()
-                #rotation_formset.save()
-                #rotation_instances = rotation_formset.save(commit=False)
-                rotation_instances = rotation_formset.save(commit=False)
-                print rotation_formset.deleted_objects
-                for instance in rotation_instances:
-                	if instance not in rotation_formset.deleted_objects:
-                		instance.save()
-                '''for instance in rotation_formset.deleted_objects:
-                	instance.delete()
-                for instance in rotation_formset.changed_objects:
-                	instance.save()
-                for instance in rotation_formset.new_objects:
-                	instance.save()'''
+                yForm.save()
                 return HttpResponseRedirect('/')
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
-        pForm = ProgramForm()
         rotationForm = RotationForm()
         bForm = BlockForm()
-        rotation_formset = RotationFormSet(prefix='rotations')
-        #RotationLengthForm = RotationLength()
-    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'rotation_formset':rotation_formset}#,'RotationLengthForm':RotationLengthForm}
+        pForm = ProgramForm()
+    context = {'rotationForm':rotationForm,'bForm':bForm,'pForm':pForm}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
+
+
+'''def index(request):
+    RotationFormSet = modelformset_factory(Rotation, form=RotationForm)
+    #RotationLengthForm = inlineformset_factory(Rotation, Block.includedRotation.through)
+    if request.method == 'POST':
+        #rotation_formset = RotationFormSet(request.POST, prefix='rotations')
+        #pForm = ProgramForm(request.POST)
+        rotationForm = RotationForm(request.POST)
+        bForm = BlockForm(request.POST)
+        yForm = YearForm(request.POST)
+        #RotationLengthForm = RotationLength(request.POST)
+        if 'multiple' in request.POST:
+            if rotationForm.is_valid() and bForm.is_valid() and yForm.is_valid():
+                rotationForm.save()
+                bForm.save()
+                yForm.save()
+                #RotationLengthForm.save()
+                #rotation_formset.save()
+                #rotation_instances = rotation_formset.save(commit=False)'''
+                #rotation_instances = rotation_formset.save(commit=False)
+                #print rotation_formset.deleted_objects
+                #for instance in rotation_instances:
+               # 	if instance not in rotation_formset.deleted_objects:
+               # 		instance.save()'''
+                #for instance in rotation_formset.deleted_objects:
+                #	instance.delete()
+                #for instance in rotation_formset.changed_objects:
+               # 	instance.save()
+                #for instance in rotation_formset.new_objects:
+               # 	instance.save()'''
+                #'''return HttpResponseRedirect('/')
+        #else:
+        #    return HttpResponse('<h1>Form not valid</h1>')
+    #else:
+        #pForm = ProgramForm()
+        #rotationForm = RotationForm()
+        #bForm = BlockForm()
+        #yForm = BlockForm()
+        #rotation_formset = RotationFormSet(prefix='rotations')
+        #RotationLengthForm = RotationLength()
+    #context = {'rotationForm':rotationForm,'bForm':bForm,'yForm':yForm}#'pForm':pForm,,'rotation_formset':rotation_formset}#,'RotationLengthForm':RotationLengthForm}
+    #return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 
 def create_post(request):
@@ -191,7 +214,19 @@ def schedule(request):
 	#resident = get_object_or_404(Resident, pk=resident_id)
 
 def resident(request):
-    return render(request, 'resident.html')
+    if request.method == 'POST':
+        resForm = ResidentForm(request.POST)
+        if 'personal' in request.POST:
+            if resForm.is_valid():
+                resForm.save()
+                return HttpResponseRedirect('/resident/')
+        else:
+            return HttpResponse('<h1>Form not valid</h1>')
+    else:
+        resForm = ResidentForm()
+    context = {'resForm':resForm}
+    return render_to_response('rotationSchedule_app/resident.html', context, context_instance=RequestContext(request))
+#    return render(request, 'resident.html')
 #try:
     #    resident = Resident.objects.get(pk=resident_id)
     #except Resident.DoesNotExist:
@@ -199,4 +234,4 @@ def resident(request):
     #return render(request, 'rotationSchedule_app/detail.html', {'resident': resident,})
 
 
-
+ 

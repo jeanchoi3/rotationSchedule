@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 #Rotation
 class Rotation(models.Model):
@@ -10,6 +11,7 @@ class Rotation(models.Model):
     name = models.CharField(max_length=200)
     minResidents = models.PositiveIntegerField(default=1)
     maxResidents = models.PositiveIntegerField(default=1)
+    isElective = models.BooleanField(default=False)
 
 #Year
 class Year(models.Model):
@@ -41,6 +43,19 @@ class Resident(models.Model):
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
     tracks = models.ManyToManyField('Track', null=True, blank=True,default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
+    vacationStart1 = models.DateField(null=True, blank=True)
+    vacationEnd1 = models.DateField(null=True, blank=True) 
+    vacationStart2 = models.DateField(null=True, blank=True)
+    vacationEnd2 = models.DateField(null=True, blank=True) 
+    vacationStart3 = models.DateField(null=True, blank=True)
+    vacationEnd3 = models.DateField(null=True, blank=True)
+    elective1 = models.ForeignKey(Rotation, related_name='elective1',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective2 = models.ForeignKey(Rotation, related_name='elective2',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective3 = models.ForeignKey(Rotation, related_name='elective3',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective4 = models.ForeignKey(Rotation, related_name='elective4',limit_choices_to={'isElective':True},null=True,blank=True)
+    vacationPreference = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(10)],default=5,help_text='Weight out of 10, indicating importance versus elective, e.g. 5 = vacation and elective are of equal importance; 10 = only vacation is important')
+
+    #http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
 #Block
 class Block(models.Model):

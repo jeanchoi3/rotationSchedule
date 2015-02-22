@@ -52,6 +52,16 @@
         <script type="text/javascript">
 
         $(document).ready(function() {
+            $('#vacationStart1').datepicker();
+            $('#vacationStart2').datepicker();
+            $('#vacationStart3').datepicker();
+            $('#vacationStart4').datepicker();
+
+            $('#vacationEnd1').datepicker();
+            $('#vacationEnd2').datepicker();
+            $('#vacationEnd3').datepicker();
+            $('#vacationEnd4').datepicker();
+
             $(".chosen-select").chosen()
             $('#myForm').submit(function(){
                 var val = $('#myForm').serializeArray();
@@ -97,10 +107,6 @@
                 $('#year_select').trigger("chosen:updated");
                 return false;
             });
-            $('#datepicker-1').datepicker();
-            $('#datepicker-2').datepicker();
-            $('#datepicker-3').datepicker();
-            $('#datepicker-4').datepicker();
 
             $('#slider').noUiSlider({
                 start: [5],
@@ -275,19 +281,39 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <!--div class="container-fluid">
         <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <!--div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#program">General Information <span class="sr-only">(current)</span></a></li>
                 <li><a href="#vacation">Vacation Requests</a></li>
             </ul>
-        </div>
+        </div-->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form id="myForm">
+        {{resForm.errors}}
+        {{resForm.non_field_errors}}
+
+        <form action="/resident/" method="post" id="personal-form">
+            <legend>Resident Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in resForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    <p>{{ field }}</p>
+                    <p>{{ field.help_text }}</p>
+                </div>
+            {% endfor %}
+            </div><br><br>
+
+            <input type="submit" name="personal" value="Save and Continue" />
+        </form>
+
+
+    <!--form id="myForm">
         <legend>Resident Information</legend>
 
         <p><b>Name: </b><input type="text" name="name"></p>
@@ -299,7 +325,7 @@
         </select></p>
         <span class="help-block">Select all that apply</span>
         <p></p-->
-        <br>
+        <!--br>
 
         <a id="vacation"></a>
         <p><h4>Vacation Request 1</h4></p>
@@ -351,14 +377,14 @@
 
                 <!--couple matching, electives/vacation, -->
 
-            </span>
-        </div><br><br>
+            <!--/span>
+        </div><br><br-->
 
         <!--a id="schedule"></a>
         <div id='calendar'></div>
         </div-->
-        <button type="submit" class="btn">Submit</button>
-        <br><br>
+        <!--button type="submit" class="btn">Submit</button>
+        <br><br-->
 </body>
 </html>
 

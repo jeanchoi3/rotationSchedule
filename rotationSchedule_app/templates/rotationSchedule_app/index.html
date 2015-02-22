@@ -479,7 +479,9 @@
             {% endfor %}
             </div><br><br>
 
+
             <legend>Rotation Information</legend>
+            {% csrf_token %}
             <div>
             {% for field in rotationForm %}
                 <div>
@@ -500,7 +502,7 @@
             {% endfor %}
             </div><br><br>
 
-            <legend>Rotation Formset</legend>
+            <!--legend>Rotation Formset</legend>
             {{ rotation_formset.management_form }}
             <table>
             <tbody>
@@ -520,7 +522,7 @@
             </div>
             {% endfor %}
             </tbody>
-            </table>
+            </table-->
 
             <input type="submit" name="multiple" value="Save and Continue" />
         </form>
