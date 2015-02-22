@@ -117,7 +117,8 @@ def detail(request, resident_id):
     		#temp_post.save()
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
     		#newRes.save()    
-    
+
+
 def schedule(request):
     #call_command('x')
     #programs = call_command('x')

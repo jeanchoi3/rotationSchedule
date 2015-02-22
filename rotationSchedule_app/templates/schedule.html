@@ -21,7 +21,6 @@
 
         {% endblock %}
 
-        <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script-->
         <script src="{% static 'js/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
@@ -35,9 +34,7 @@
         <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
          <script type="text/javascript" src="{% static 'js/underscore.js' %}"></script>
-        <!--script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script-->
-        <!--http://stackoverflow.com/questions/6467812/how-to-return-a-dictionary-in-python-django-and-view-it-in-javascript-->
-
+ 
         <script>
 
         $(document).ready(function() {
@@ -45,23 +42,13 @@
             var numSchedules = {{schedule_list|safe}}.length
 
             for (i = 1; i <= numSchedules; i++) {
-                //add schedule to tabs
-                //if (i==1) {
-                    /*$('#myTab').append('<li role="presentation" class="active"><a href="#schedule-'+i+'" role="tab" id="schedule-'+i+'-tab" data-toggle="tab" aria-controls="schedule-'+i+'" aria-expanded="true">Schedule '+i+'</a></li>');
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'" aria-labelledBy="schedule-'+i+'-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="calendars-'+i+'"></div><br><br></div></div></div></div>');*/
+
                     $('#myTab').append('<li role="presentation" class="dropdown"><a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Schedule '+i+'<span class="caret"></span></a><ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"><li><a href="#schedule-'+i+'-dropdown1" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown1-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown1">Rotation View</a></li><li><a href="#schedule-'+i+'-dropdown2" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown2-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown2">Resident View</a></li></ul></li>');
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="rotation-calendars-'+i+'"></div><br><br></div></div></div></div>');
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="resident-calendars-'+i+'"></div><br><br></div></div></div></div>');
-                /*}
-                else {
-                    /*$('#myTab').append('<li role="presentation"><a href="#schedule-'+i+'" role="tab" id="schedule-'+i+'-tab" data-toggle="tab" aria-controls="schedule-'+i+'">Schedule '+i+'</a></li>');
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="rotation-calendar-info"></div><div id="rotation-calendars-'+i+'"></div><br><br></div></div></div></div>');
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="resident-calendar-info"></div><div id="resident-calendars-'+i+'"></div><br><br></div></div></div></div>');
 
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'" aria-labelledBy="schedule-'+i+'-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="calendars-'+i+'"></div><br><br></div></div></div></div>');*/
-
-
-                //<li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Profile</a></li>
-                //}
-
+                $('#rotation-calendar-info').text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
+                $('#resident-calendar-info').text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
 
                 //create new calendar for each rotation
                 var length = {{rotation_list|safe}}.length
@@ -96,13 +83,21 @@
                                 start: start,
                                 end: end
                             };
-                            //$('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
                         }
-                        //$('#my_calendar').fullCalendar('unselect');
+
                     },
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
-                    events: {{ schedule_rotation_events|safe }}[i-1][j]
+                    events: {{ schedule_rotation_events|safe }}[i-1][j],
+                    eventDrop: function(event, delta, revertFunc) {
+                        /*alert(event.title + " was dropped on "+event.start.format());
+                        if (!confirm("Are you sure about this change?")) {
+                            revertFunc();*/
+                            //http://fullcalendar.io/docs/event_data/clientEvents/
+                        }
+                    }
+
                     });
                 }
                 
@@ -139,9 +134,9 @@
                                 start: start,
                                 end: end
                             };
-                            //$('#my_calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
                         }
-                        //$('#my_calendar').fullCalendar('unselect');
+
                     },
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
@@ -187,51 +182,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Help</a></li>
                 </ul>
-                <!--form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form-->
             </div>
         </div>
     </nav>
 
 <div class="schedule-tab">
-    <ul id="myTab" class="nav nav-tabs" role="tablist">
-      <!--li role="presentation" class="active"><a href="#home" role="tab" id="home-tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Home</a></li>
-      <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Profile</a></li>
-      <li role="presentation" class="dropdown">
-        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Dropdown <span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
-          <li><a href="#dropdown1" tabindex="-1" role="tab" id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">Rotation View</a></li>
-          <li><a href="#dropdown2" tabindex="-1" role="tab" id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">Resident View</a></li>
-        </ul>
-      </li-->
-      
-    </ul>
-    <div id="myTabContent" class="tab-content">
-      <!--div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
-            <!--ALL THE ROTATION CALENDARS ARE INSIDE THE TAB-->
-            <!--div class="container-fluid">
-                <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar" id="rotation-sidebar"></ul>
-                </div>
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        <div id='calendars'></div><br><br>
-                    </div>
-                </div>
-            </div>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledBy="profile-tab">
-        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="dropdown1" aria-labelledBy="dropdown1-tab">
-        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="dropdown2" aria-labelledBy="dropdown2-tab">
-        <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
-      </div>
-    </div>
-</div>-->
+    <ul id="myTab" class="nav nav-tabs" role="tablist"></ul>
+    <div id="myTabContent" class="tab-content"></div>
+</div>
+
 
 </body>
 </html>
