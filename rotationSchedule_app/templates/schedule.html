@@ -91,11 +91,43 @@
                     eventLimit: true, // allow "more" link when too many events
                     events: {{ schedule_rotation_events|safe }}[i-1][j],
                     eventDrop: function(event, delta, revertFunc) {
+                        $.ajax({
+                            url: "/changeEvent/",
+                            type: "POST",
+                            data: {
+                                events: "hi",
+                            },
+                            success: function(json) {
+                                alert("success!")
+                            },
+                            error: function(xhr, errmsg,err) {
+                                alert("fail "+errmsg+err+xhr.responseText)
+                            }
+                        });
+
+                        //alert ("event changed!")
+                        /*$.ajax({
+                            type: "POST",
+                            url: "/changeEvent/",
+                            data: {
+                                events: "hi",
+                            },
+                            /*data: {
+                                events: $('#'+String({{rotation_list|safe}}[j])+i).fullCalendar('clientEvents')
+                            },*/
+                            /*dataType:"json",
+                            success: function(data) {
+                                alert("Congratulations!"+data)
+                            }
+                            /*error: function (xhr, textStatus, errorThrown) {
+                                alert("error!")
+                            }*//*
+                        })
                         /*alert(event.title + " was dropped on "+event.start.format());
                         if (!confirm("Are you sure about this change?")) {
                             revertFunc();*/
                             //http://fullcalendar.io/docs/event_data/clientEvents/
-                        }
+                        //}
                     }
 
                     });

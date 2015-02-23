@@ -6,7 +6,7 @@ import json
 from django.core.management import call_command
 from django.forms.models import modelformset_factory, inlineformset_factory
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule
-import json
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 #could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
@@ -117,6 +117,26 @@ def detail(request, resident_id):
     		#temp_post.save()
     		#newRes = Resident(name=rForm.cleaned_data['name'],year=rForm.cleaned_data['year'],track=rForm.cleaned_data['track'])
     		#newRes.save()    
+
+#http://stackoverflow.com/questions/18113179/run-django-function-from-javascript-command
+#http://stackoverflow.com/questions/3790335/calling-a-django-url-from-javascript
+
+#@ensure_csrf_cookie
+@csrf_exempt
+def changeEvent(request):
+    if request.method == 'POST':
+        response_data = {}
+        response_data['yo']='Create post successful!'
+        return HttpResponse(json.dumps(response_data),content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}),content_type="application/json")
+
+    #json_data = json.dumps({"HTTPRESPONSE":1})
+    #return HttpResponse(json_data, content_type="application/json")
+    #print "yoyoyo"
+    #return "Hi there!"
+#if call_command('check_hard_constraints') == True:
+#    else 
 
 
 def schedule(request):
