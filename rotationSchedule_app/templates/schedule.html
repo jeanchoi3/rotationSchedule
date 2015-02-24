@@ -91,6 +91,24 @@
                     eventLimit: true, // allow "more" link when too many events
                     events: {{ schedule_rotation_events|safe }}[i-1][j],
                     eventDrop: function(event, delta, revertFunc) {
+                        //alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule+", pk: "+event.pk)
+                        $.ajax({
+                            url: "/changeEvent/",
+                            type: "POST",
+                            data: {
+                                resident: event.resident,
+                                rotation: event.rotation,
+                                schedule: event.schedule,
+                                pk: event.pk
+                            },
+                            success: function(json) {
+                                alert("success!"+JSON.stringify(json))
+                            },
+                            error: function(xhr, errmsg,err) {
+                                alert("fail "+errmsg+err+xhr.responseText)
+                            }
+                        });
+
                         //alert("Current events: "+$.each($('#'+String({{rotation_list|safe}}[j])+i).fullCalendar('clientEvents'), function(key, value) {key + ": "+value)})
                         //ideas: make a var using the each function, and it might not just be key/value, bc each event has a lot
 
@@ -102,20 +120,6 @@
                         //alert("Current events: "+$('#'+String({{rotation_list|safe}}[j])+i).fullCalendar('clientEvents'))
                         //alert("Res index: "+{{ resident_list|safe }}.indexOf(event.title))
                         //alert("Resident: "+event.title+", Rotation: "+{{rotation_list|safe}}[j]+", Schedule: Schedule "+event.schedule)
-                        alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule)
-                        $.ajax({
-                            url: "/changeEvent/",
-                            type: "POST",
-                            data: {
-                                hi: "hihihi"
-                            },
-                            success: function(json) {
-                                alert("success!"+JSON.stringify(json))
-                            },
-                            error: function(xhr, errmsg,err) {
-                                alert("fail "+errmsg+err+xhr.responseText)
-                            }
-                        });
 
                         //alert ("event changed!")
                         /*$.ajax({

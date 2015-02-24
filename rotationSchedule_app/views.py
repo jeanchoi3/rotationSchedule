@@ -123,13 +123,25 @@ def detail(request, resident_id):
 #http://stackoverflow.com/questions/3790335/calling-a-django-url-from-javascript
 
 #@ensure_csrf_cookie
+
+
+#        if request.POST['pk'] == 3:
+#            response_data['yo']="You moved yu!!"
+#        else:
 @csrf_exempt
 def changeEvent(request):
     if request.method == 'POST':
         response_data = {}
-        out = StringIO()
-        call_command('check_hard_constraints', stdout=out)
-        response_data['yo']=out.getvalue()
+        #NOTE!! PK WILL BE A STRING WHEN IT COMES THROUGH!!
+        event_match = Event.objects.filter(pk=int(request.POST['pk']))
+
+        #if request.POST['pk'] == '3':
+        #    response_data['yo']="You moved yu!!"
+        #else:
+        #    out = StringIO()
+        #    call_command('check_hard_constraints', stdout=out)
+        #response_data['yo']=out.getvalue()
+        response_data['yo']=str(event_match[0].resident)
         return HttpResponse(json.dumps(response_data),content_type="application/json")
     else:
         return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}),content_type="application/json")
@@ -188,7 +200,8 @@ def schedule(request):
                             'end':str(event.endDate),
                             'schedule':str(event.schedule),
                             'resident':str(event.resident),
-                            'rotation':str(event.rotation)})
+                            'rotation':str(event.rotation),
+                            'pk':event.pk})
             rot_dict.insert(rotation_index, rotation_event_list)
             rotation_index += 1
             ##BOTH THE ABOVE 2 LINES USED TO BE INDENTED ONCE MORE!!
@@ -206,7 +219,8 @@ def schedule(request):
                             'end':str(event.endDate),
                             'schedule':str(event.schedule),
                             'resident':str(event.resident),
-                            'rotation':str(event.rotation)})
+                            'rotation':str(event.rotation),
+                            'pk':event.pk})
             res_dict.insert(resident_index, resident_event_list)
             resident_index += 1
 
