@@ -7,6 +7,7 @@ from django.core.management import call_command
 from django.forms.models import modelformset_factory, inlineformset_factory
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from StringIO import StringIO
 
 #could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
@@ -126,7 +127,9 @@ def detail(request, resident_id):
 def changeEvent(request):
     if request.method == 'POST':
         response_data = {}
-        response_data['yo']='Create post successful!'
+        out = StringIO()
+        call_command('check_hard_constraints', stdout=out)
+        response_data['yo']=out.getvalue()
         return HttpResponse(json.dumps(response_data),content_type="application/json")
     else:
         return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}),content_type="application/json")
@@ -182,7 +185,10 @@ def schedule(request):
             for event in rotation_events:
                 rotation_event_list.append({'title': str(event.resident),
                             'start':str(event.startDate),
-                            'end':str(event.endDate)})
+                            'end':str(event.endDate),
+                            'schedule':str(event.schedule),
+                            'resident':str(event.resident),
+                            'rotation':str(event.rotation)})
             rot_dict.insert(rotation_index, rotation_event_list)
             rotation_index += 1
             ##BOTH THE ABOVE 2 LINES USED TO BE INDENTED ONCE MORE!!
@@ -197,7 +203,10 @@ def schedule(request):
             for event in resident_events:
                 resident_event_list.append({'title': str(event.rotation),
                             'start':str(event.startDate),
-                            'end':str(event.endDate)})
+                            'end':str(event.endDate),
+                            'schedule':str(event.schedule),
+                            'resident':str(event.resident),
+                            'rotation':str(event.rotation)})
             res_dict.insert(resident_index, resident_event_list)
             resident_index += 1
 
