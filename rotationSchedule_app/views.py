@@ -134,6 +134,9 @@ def changeEvent(request):
         response_data = {}
         #NOTE!! PK WILL BE A STRING WHEN IT COMES THROUGH!!
         event_match = Event.objects.filter(pk=int(request.POST['pk']))
+        out = StringIO()
+        call_command('check_hard_constraints', request.POST['pk'], request.POST['start'], request.POST['end'], stdout=out)
+        response_data['yo']=out.getvalue()
 
         #if request.POST['pk'] == '3':
         #    response_data['yo']="You moved yu!!"
@@ -141,7 +144,7 @@ def changeEvent(request):
         #    out = StringIO()
         #    call_command('check_hard_constraints', stdout=out)
         #response_data['yo']=out.getvalue()
-        response_data['yo']=str(event_match[0].resident)
+        #response_data['yo']=str(event_match[0].resident)
         return HttpResponse(json.dumps(response_data),content_type="application/json")
     else:
         return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}),content_type="application/json")

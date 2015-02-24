@@ -91,15 +91,15 @@
                     eventLimit: true, // allow "more" link when too many events
                     events: {{ schedule_rotation_events|safe }}[i-1][j],
                     eventDrop: function(event, delta, revertFunc) {
-                        //alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule+", pk: "+event.pk)
+                        //alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule+", pk: "+event.pk+", start: "+event.start.format())
+                        alert("end: "+event.end.format())
                         $.ajax({
                             url: "/changeEvent/",
                             type: "POST",
                             data: {
-                                resident: event.resident,
-                                rotation: event.rotation,
-                                schedule: event.schedule,
-                                pk: event.pk
+                                pk: event.pk,
+                                start: event.start.format(),
+                                end: event.end.format()
                             },
                             success: function(json) {
                                 alert("success!"+JSON.stringify(json))

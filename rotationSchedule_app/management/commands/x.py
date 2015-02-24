@@ -14,7 +14,7 @@ logging.basicConfig(stream=sys.stdout, format='%(message)s',level=logging.INFO)
 # 1. just generate one set of random schedules, then check against each doctor
 #    and add them to all possible_schedule lists where possible
 
-'''
+
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--long', '-l', dest='long',
@@ -245,6 +245,6 @@ class Command(BaseCommand):
         print possible_schedules
          #prog = Program(name="ScriptNewProgram")
          #prog.save()
-'''
+
  #NoArgsCommand, LabelCommand or AppCommand
  # handle_noargs, handle_label, handle_app
