@@ -44,8 +44,8 @@
             for (i = 1; i <= numSchedules; i++) {
 
                     $('#myTab').append('<li role="presentation" class="dropdown"><a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown" aria-controls="myTabDrop1-contents">Schedule '+i+'<span class="caret"></span></a><ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents"><li><a href="#schedule-'+i+'-dropdown1" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown1-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown1">Rotation View</a></li><li><a href="#schedule-'+i+'-dropdown2" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown2-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown2">Resident View</a></li></ul></li>');
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="rotation-calendar-info"></div><div id="rotation-calendars-'+i+'"></div><br><br></div></div></div></div>');
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="resident-calendar-info"></div><div id="resident-calendars-'+i+'"></div><br><br></div></div></div></div>');
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="rotation-calendar-info"></div><div id="calendar-edit-warning"></div><div id="rotation-calendars-'+i+'"></div><br><br></div></div></div></div>');
+                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab"><div class="container-fluid"><div class="row"><div class="col-sm-3 col-md-2 sidebar"><ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul></div><div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"><div id="resident-calendar-info"></div><div id="calendar-edit-warning"><div id="resident-calendars-'+i+'"></div><br><br></div></div></div></div>');
 
                 $('#rotation-calendar-info').text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
                 $('#resident-calendar-info').text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
@@ -102,7 +102,8 @@
                                 end: event.end.format()
                             },
                             success: function(json) {
-                                alert("success!"+JSON.stringify(json))
+                                //alert("success!"+JSON.stringify(json))
+                                $('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
                             },
                             error: function(xhr, errmsg,err) {
                                 alert("fail "+errmsg+err+xhr.responseText)

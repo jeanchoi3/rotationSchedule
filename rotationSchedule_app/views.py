@@ -134,9 +134,16 @@ def changeEvent(request):
         response_data = {}
         #NOTE!! PK WILL BE A STRING WHEN IT COMES THROUGH!!
         event_match = Event.objects.filter(pk=int(request.POST['pk']))
+        #try:
+        #    replaced_event = Event.objects.get(resident=event_match[0].resident,startDate=request.POST['start'],endDate=request.POST['end'])
+        #except Event.DoesNotExist:
+        #    response_data['yo'] = "The res doesn't have a corresponding rotation at this time!"
+        #    return HttpResponse(json.dumps(response_data),content_type="application/json")
         out = StringIO()
         call_command('check_hard_constraints', request.POST['pk'], request.POST['start'], request.POST['end'], stdout=out)
-        response_data['yo']=out.getvalue()
+        response_data['outcome']=out.getvalue()
+
+        #response_data['yo'] = str(replaced_event)
 
         #if request.POST['pk'] == '3':
         #    response_data['yo']="You moved yu!!"

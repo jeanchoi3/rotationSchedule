@@ -26,6 +26,7 @@ class Track(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
+    trackRequiredRotations = models.ManyToManyField(Rotation, related_name='trackRequiredRotations', through='TrackEducationReq')
 
 #Program
 class Program(models.Model):
@@ -53,6 +54,12 @@ class Resident(models.Model):
     elective2 = models.ForeignKey(Rotation, related_name='elective2',limit_choices_to={'isElective':True},null=True,blank=True)
     elective3 = models.ForeignKey(Rotation, related_name='elective3',limit_choices_to={'isElective':True},null=True,blank=True)
     elective4 = models.ForeignKey(Rotation, related_name='elective4',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective5 = models.ForeignKey(Rotation, related_name='elective5',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective6 = models.ForeignKey(Rotation, related_name='elective6',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective7 = models.ForeignKey(Rotation, related_name='elective7',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective8 = models.ForeignKey(Rotation, related_name='elective8',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective9 = models.ForeignKey(Rotation, related_name='elective9',limit_choices_to={'isElective':True},null=True,blank=True)
+    elective10 = models.ForeignKey(Rotation, related_name='elective10',limit_choices_to={'isElective':True},null=True,blank=True)
     vacationPreference = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(10)],default=5,help_text='Weight out of 10, indicating importance versus elective, e.g. 5 = vacation and elective are of equal importance; 10 = only vacation is important')
 
     #http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
@@ -63,6 +70,7 @@ class Block(models.Model):
         return self.name
     name = models.CharField(max_length=200)
     length = models.PositiveIntegerField(default=1)
+    maxNumRotations = models.PositiveIntegerField(default=5)
     includedRotation = models.ManyToManyField(Rotation, related_name='includedRotation',through='RotationLength')
 
 # the block-dependent length of a rotation
@@ -70,14 +78,14 @@ class RotationLength(models.Model):
     rotation = models.ForeignKey(Rotation)
     block = models.ForeignKey(Block)
     minLength = models.PositiveIntegerField(default=1)
-    maxLength = models.PositiveIntegerField(default=1) 
+    maxLength = models.PositiveIntegerField(default=100) 
 
 #Demand by year, through field for rotation field demandYear
 class YearDemand(models.Model):
     rotation = models.ForeignKey('Rotation')
     year = models.ForeignKey('Year')
     minResidents = models.PositiveIntegerField(default=1)
-    maxResidents = models.PositiveIntegerField(default=1)
+    maxResidents = models.PositiveIntegerField(default=100)
     #demand = models.PositiveIntegerField(default=0)
 
 #Education requirements for weeks of rotation for a year
@@ -85,7 +93,14 @@ class EducationReq(models.Model):
     year = models.ForeignKey(Year)
     rotation = models.ForeignKey(Rotation)
     minLength = models.PositiveIntegerField(default=1)
-    maxLength = models.PositiveIntegerField(default=1)
+    maxLength = models.PositiveIntegerField(default=100)
+
+#Education requirements for weeks of rotation for a track
+class TrackEducationReq(models.Model):
+    trackEducationReq_track = models.ForeignKey(Track)
+    trackEducationReq_rotation = models.ForeignKey(Rotation)
+    trackEducationReq_minLength = models.PositiveIntegerField(default=1)
+    trackEducationReq_maxLength = models.PositiveIntegerField(default=100)
 
 class Schedule(models.Model):
     def __str__(self):
