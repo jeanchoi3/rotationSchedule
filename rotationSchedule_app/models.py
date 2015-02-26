@@ -12,6 +12,7 @@ class Rotation(models.Model):
     minResidents = models.PositiveIntegerField(default=1)
     maxResidents = models.PositiveIntegerField(default=1)
     isElective = models.BooleanField(default=False)
+    recurrenceWindow = models.IntegerField(default=0)
 
 #Year
 class Year(models.Model):
@@ -119,5 +120,10 @@ class Event(models.Model):
         return '%s' %(self.resident)
     resident_name = property(_get_resident_name)
 
+class TemplateEvent(models.Model):
+    block = models.ForeignKey(Block)
+    year = models.ForeignKey(Year)
+    blockStartDate = models.DateField(default=datetime.date.today)
+    blockEndDate = models.DateField(default=datetime.date.today)
 
 
