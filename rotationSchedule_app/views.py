@@ -1,22 +1,73 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm
+from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm, ScheduleForm, EventForm, TemplateForm, TemplateEventForm
 import json
 from django.core.management import call_command
 from django.forms.models import modelformset_factory, inlineformset_factory
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule, Event, Template, TemplateEvent
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from StringIO import StringIO
 
 #could i try to associate the rotationlength with each rotation? so you can specify the length for each block
 # Create your views here.
+
+#http://stackoverflow.com/questions/11021242/accessing-many-to-many-through-relation-fields-in-formsets
 def index(request):
+    RotationLengthFormset = inlineformset_factory(Rotation, Block.includedRotation.through)
     if request.method == 'POST':
-        pForm = ProgramForm(request.POST)
-        rotationForm = RotationForm(request.POST)
-        bForm = BlockForm(request.POST)
-        if 'multiple' in request.POST:
+        #formset = RotationLengthFormset(request.POST)
+        pForm = ProgramForm(request.POST) #
+        rotationForm = RotationForm(request.POST) #
+        bForm = BlockForm(request.POST) ####
+        yForm = YearForm(request.POST) ####
+        tForm = TrackForm(request.POST) ####
+        residentForm = ResidentForm(request.POST) #this is in the resident side....
+        sForm = ScheduleForm(request.POST) #
+        eForm = EventForm(request.POST) #
+        templateForm = TemplateForm(request.POST) #
+        tEventForm = TemplateEventForm(request.POST) #
+        
+        if 'rotation' in request.POST:
+            if rotationForm.is_valid():
+                rot = rotationForm.save()
+                formset = RotationLengthFormset(request.POST, instance=rot)
+                if formset.is_valid():
+                    formset.save()
+                return HttpResponseRedirect('/')
+        elif 'year' in request.POST:
+            if yForm.is_valid():
+                yForm.save()
+                return HttpResponseRedirect('/')
+        elif 'track' in request.POST:
+            if tForm.is_valid():
+                tForm.save()
+                return HttpResponseRedirect('/')
+        elif 'resident' in request.POST:
+            if residentForm.is_valid():
+                residentForm.save()
+                return HttpResponseRedirect('/')
+        elif 'event' in request.POST:
+            if eForm.is_valid():
+                eForm.save()
+                return HttpResponseRedirect('/')
+        elif 'block' in request.POST:
+            if bForm.is_valid():
+                bForm.save()
+                return HttpResponseRedirect('/')
+        elif 'program' in request.POST:
+            if pForm.is_valid():
+                pForm.save()
+                return HttpResponseRedirect('/')
+        elif 'template' in request.POST:
+            if templateForm.is_valid():
+                templateForm.save()
+                return HttpResponseRedirect('/')
+        elif 'template-event' in request.POST:
+            if tEventForm.is_valid():
+                tEventForm.save()
+                return HttpResponseRedirect('/')
+        elif 'multiple' in request.POST:
             if rotationForm.is_valid() and bForm.is_valid() and pForm.is_valid():
                 rotationForm.save()
                 bForm.save()
@@ -25,10 +76,18 @@ def index(request):
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
+        formset = RotationLengthFormset(instance=Rotation())
+        pForm = ProgramForm()
         rotationForm = RotationForm()
         bForm = BlockForm()
-        pForm = ProgramForm()
-    context = {'rotationForm':rotationForm,'bForm':bForm,'pForm':pForm}
+        yForm = YearForm()
+        tForm = TrackForm()
+        residentForm = ResidentForm()
+        sForm = ScheduleForm()
+        eForm = EventForm()
+        templateForm = TemplateForm()
+        tEventForm = TemplateEventForm()
+    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'residentForm':residentForm,'yForm':yForm,'sForm':sForm,'eForm':eForm,'templateForm':templateForm,'tEventForm':tEventForm,'tForm':tForm,'formset':formset}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 

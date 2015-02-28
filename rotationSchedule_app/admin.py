@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule, Template, TemplateEvent
 from django.http import HttpResponse
 
 # Register your models here.
@@ -68,5 +68,6 @@ admin.site.register(Rotation, RotationAdmin)
 admin.site.register(Year, YearAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
-
+admin.site.register(Template)
+admin.site.register(TemplateEvent)
 

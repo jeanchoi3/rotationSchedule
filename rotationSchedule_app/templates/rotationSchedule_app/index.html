@@ -46,6 +46,10 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
+            function myAlert() {
+                alert("hi");
+                //alert($('#calendar').fullCalendar('clientEvents'));
+            };
             $('#multiple-form tbody tr').formset({
                 prefix: '{{formset.prefix}}'
             });
@@ -442,6 +446,132 @@
             <input type="submit" name="program" value="Submit Program" />
         </form-->
 
+        <form action="/" method="post" id="rotation-form">
+            <legend>Rotation Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in rotationForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            {{ formset}}
+            <input type="submit" name="rotation" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="year-form">
+            <legend>Year Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in yForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="year" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="track-form">
+            <legend>Track Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in tForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="track" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="block-form">
+            <legend>Block Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in bForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="block" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="resident-form">
+            <legend>Resident Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in residentForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="resident" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="event-form">
+            <legend>Event Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in eForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="event" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="program-form">
+            <legend>Program Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in pForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}{{ field.help_text }}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="program" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="template-form">
+            <legend>Template Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in templateForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="template" value="Save and Continue" />
+        </form>
+
+        <form action="/" method="post" id="template-event-form">
+            <legend>Template Event Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in tEventForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div><br><br>
+            <input type="submit" name="template-event" value="Save and Continue" />
+        </form>
 
         <form action="/" method="post" id="multiple-form">
             <!--legend>Rotation Length Formset</legend>
@@ -738,6 +868,7 @@
         
             <div id='calendar'></div>
             <div style='clear:both'></div>
+            <button onclick="myAlert()">alert with events</button>
         </div>
 
 

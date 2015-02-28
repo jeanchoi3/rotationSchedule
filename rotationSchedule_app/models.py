@@ -1,5 +1,4 @@
 import datetime
-
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -12,7 +11,7 @@ class Rotation(models.Model):
     minResidents = models.PositiveIntegerField(default=1)
     maxResidents = models.PositiveIntegerField(default=1)
     isElective = models.BooleanField(default=False)
-    recurrenceWindow = models.IntegerField(default=0)
+    recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')
 
 #Year
 class Year(models.Model):
@@ -36,12 +35,14 @@ class Program(models.Model):
     name = models.CharField(max_length=200)
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today)
+    rigidXY = models.BooleanField(default=False,help_text='Check box if your program has a rigid X+Y or X+Y+Z structure that cannot be violated.  If this is a preference that can be violated, do not check the box.')
 
 #Resident
 class Resident(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     year = models.ForeignKey('Year', null=True) #each resident can only be in one year
     tracks = models.ManyToManyField('Track', null=True, blank=True,default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
@@ -76,6 +77,8 @@ class Block(models.Model):
 
 # the block-dependent length of a rotation
 class RotationLength(models.Model):
+    class Meta():
+        auto_created=True
     rotation = models.ForeignKey(Rotation)
     block = models.ForeignKey(Block)
     minLength = models.PositiveIntegerField(default=1)
@@ -83,6 +86,8 @@ class RotationLength(models.Model):
 
 #Demand by year, through field for rotation field demandYear
 class YearDemand(models.Model):
+    class Meta():
+        auto_created=True
     rotation = models.ForeignKey('Rotation')
     year = models.ForeignKey('Year')
     minResidents = models.PositiveIntegerField(default=1)
@@ -91,6 +96,8 @@ class YearDemand(models.Model):
 
 #Education requirements for weeks of rotation for a year
 class EducationReq(models.Model):
+    class Meta():
+        auto_created=True
     year = models.ForeignKey(Year)
     rotation = models.ForeignKey(Rotation)
     minLength = models.PositiveIntegerField(default=1)
@@ -98,6 +105,8 @@ class EducationReq(models.Model):
 
 #Education requirements for weeks of rotation for a track
 class TrackEducationReq(models.Model):
+    class Meta():
+        auto_created=True
     trackEducationReq_track = models.ForeignKey(Track)
     trackEducationReq_rotation = models.ForeignKey(Rotation)
     trackEducationReq_minLength = models.PositiveIntegerField(default=1)
@@ -120,10 +129,17 @@ class Event(models.Model):
         return '%s' %(self.resident)
     resident_name = property(_get_resident_name)
 
+class Template(models.Model):
+    def __str__(self):
+        return self.templateName
+    templateName = models.CharField(max_length=200)
+    templateYears = models.ManyToManyField('Year', blank=True, default=None, related_name='templateYears')
+
 class TemplateEvent(models.Model):
     block = models.ForeignKey(Block)
-    year = models.ForeignKey(Year)
+    template = models.ForeignKey(Template)
     blockStartDate = models.DateField(default=datetime.date.today)
     blockEndDate = models.DateField(default=datetime.date.today)
+
 
 
