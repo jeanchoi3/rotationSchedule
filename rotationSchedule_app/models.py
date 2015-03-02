@@ -47,7 +47,7 @@ class Resident(models.Model):
     tracks = models.ManyToManyField('Track', null=True, blank=True,default=None, related_name='tracks')
     inProgram = models.BooleanField(default=True)
     vacationStart1 = models.DateField(null=True, blank=True)
-    vacationEnd1 = models.DateField(null=True, blank=True) 
+    vacationEnd1 = models.DateField(null=True, blank=True)
     vacationStart2 = models.DateField(null=True, blank=True)
     vacationEnd2 = models.DateField(null=True, blank=True) 
     vacationStart3 = models.DateField(null=True, blank=True)

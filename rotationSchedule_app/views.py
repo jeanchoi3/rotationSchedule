@@ -14,26 +14,51 @@ from StringIO import StringIO
 
 #http://stackoverflow.com/questions/11021242/accessing-many-to-many-through-relation-fields-in-formsets
 def index(request):
-    RotationLengthFormset = inlineformset_factory(Rotation, Block.includedRotation.through)
+    RotationLengthFormset = inlineformset_factory(Rotation, Block.includedRotation.through, extra=2)
+    EducationReqFormset = inlineformset_factory(Rotation, Year.requiredRotations.through, extra=3)
+    YearDemandFormset = inlineformset_factory(Rotation, Year.rotationDemand.through, extra=3)
+    TrackEducationReqFormset = inlineformset_factory(Rotation, Track.trackRequiredRotations.through, extra=3)
+    
+    blocks = Block.objects.all()
+    block_list = []
+
+    for block in blocks:
+        block_list.append({'title': str(block.name),
+                            'length':str(block.length)})
+
+    templates = Template.objects.all()
+    template_list = []
+
+    for template in templates:
+        template_list.append({'name': str(template.templateName)})
+
     if request.method == 'POST':
-        #formset = RotationLengthFormset(request.POST)
-        pForm = ProgramForm(request.POST) #
-        rotationForm = RotationForm(request.POST) #
-        bForm = BlockForm(request.POST) ####
-        yForm = YearForm(request.POST) ####
-        tForm = TrackForm(request.POST) ####
+        pForm = ProgramForm(request.POST) 
+        rotationForm = RotationForm(request.POST)
+        bForm = BlockForm(request.POST)
+        yForm = YearForm(request.POST) 
+        tForm = TrackForm(request.POST) 
         residentForm = ResidentForm(request.POST) #this is in the resident side....
-        sForm = ScheduleForm(request.POST) #
-        eForm = EventForm(request.POST) #
-        templateForm = TemplateForm(request.POST) #
-        tEventForm = TemplateEventForm(request.POST) #
+        sForm = ScheduleForm(request.POST) 
+        eForm = EventForm(request.POST) 
+        templateForm = TemplateForm(request.POST) 
+        tEventForm = TemplateEventForm(request.POST) 
         
         if 'rotation' in request.POST:
             if rotationForm.is_valid():
                 rot = rotationForm.save()
-                formset = RotationLengthFormset(request.POST, instance=rot)
-                if formset.is_valid():
-                    formset.save()
+                rotationLengthFormset = RotationLengthFormset(request.POST, instance=rot)
+                educationReqFormset = EducationReqFormset(request.POST, instance=rot)
+                yearDemandFormset = YearDemandFormset(request.POST, instance=rot)
+                trackEducationReqFormset = TrackEducationReqFormset(request.POST, instance=rot)
+                if rotationLengthFormset.is_valid():
+                    rotationLengthFormset.save()
+                if educationReqFormset.is_valid():
+                    educationReqFormset.save()
+                if yearDemandFormset.is_valid():
+                    yearDemandFormset.save()
+                if trackEducationReqFormset.is_valid():
+                    trackEducationReqFormset.save()
                 return HttpResponseRedirect('/')
         elif 'year' in request.POST:
             if yForm.is_valid():
@@ -76,7 +101,10 @@ def index(request):
         else:
             return HttpResponse('<h1>Form not valid</h1>')
     else:
-        formset = RotationLengthFormset(instance=Rotation())
+        rotationLengthFormset = RotationLengthFormset(instance=Rotation())
+        educationReqFormset = EducationReqFormset(instance=Rotation())
+        trackEducationReqFormset = TrackEducationReqFormset(instance=Rotation())
+        yearDemandFormset = YearDemandFormset(instance=Rotation())
         pForm = ProgramForm()
         rotationForm = RotationForm()
         bForm = BlockForm()
@@ -87,7 +115,7 @@ def index(request):
         eForm = EventForm()
         templateForm = TemplateForm()
         tEventForm = TemplateEventForm()
-    context = {'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'residentForm':residentForm,'yForm':yForm,'sForm':sForm,'eForm':eForm,'templateForm':templateForm,'tEventForm':tEventForm,'tForm':tForm,'formset':formset}
+    context = {'template_list':template_list,'block_list':block_list,'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'residentForm':residentForm,'yForm':yForm,'sForm':sForm,'eForm':eForm,'templateForm':templateForm,'tEventForm':tEventForm,'tForm':tForm,'rotationLengthFormset':rotationLengthFormset,'educationReqFormset':educationReqFormset,'yearDemandFormset':yearDemandFormset,'trackEducationReqFormset':trackEducationReqFormset}
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 

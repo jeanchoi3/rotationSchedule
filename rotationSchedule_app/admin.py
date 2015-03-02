@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule, Template, TemplateEvent
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule, Template, TemplateEvent, TrackEducationReq
 from django.http import HttpResponse
 
 # Register your models here.
@@ -47,11 +47,15 @@ class EducationReqInline(admin.TabularInline):
     model=EducationReq
     extra=1
 
+class TrackEducationReqInline(admin.TabularInline):
+    model=TrackEducationReq
+    extra=1
+
 class BlockAdmin(admin.ModelAdmin):
     inlines = (RotationLengthInline,)
 
 class RotationAdmin(admin.ModelAdmin):
-    inlines = (RotationLengthInline,YearDemandInline,EducationReqInline)
+    inlines = (RotationLengthInline,YearDemandInline,EducationReqInline,TrackEducationReqInline)
 
 class YearAdmin(admin.ModelAdmin):
     inlines=(YearDemandInline,EducationReqInline)

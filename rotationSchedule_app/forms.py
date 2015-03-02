@@ -32,11 +32,12 @@ class ResidentForm(ModelForm):
 class YearForm(ModelForm):
     class Meta:
         model = Year
-        #exclude=['requiredRotations','rotationDemand']
+        exclude=['requiredRotations','rotationDemand']
 
 class TrackForm(ModelForm):
     class Meta:
         model = Track
+        exclude=['trackRequiredRotations']
 
 class ProgramForm(ModelForm):
     class Meta:
@@ -59,8 +60,8 @@ class RotationForm(ModelForm):
         model = Rotation
         #fields = ['name','minResidents','maxResidents']
         labels = {
-            'minResidents': _('Min # Residents'),
-            'maxResidents': _('Max # Residents')
+            'minResidents': _('Min Total # Residents'),
+            'maxResidents': _('Max Total # Residents')
         }
     def __init__(self, *args, **kwargs):
         super(RotationForm, self).__init__(*args, **kwargs)
@@ -72,7 +73,7 @@ class RotationForm(ModelForm):
 class BlockForm(ModelForm):
     class Meta:
         model = Block
-        #exclude=('includedRotation',)
+        exclude=('includedRotation',)
         #fields = ['name','length']
         labels = {
             'name': _('Block Name'),
