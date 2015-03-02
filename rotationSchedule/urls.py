@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^create_post/', views.create_post, name='create_post'),
     url(r'^resident/', views.resident, name='resident'),
     url(r'^changeEvent/', views.changeEvent, name='changeEvent'),
+    url(r'^templateEvent/', views.templateEvent, name='templateEvent'),
     url(r'^(?P<resident_id>[0-9]+)/$', views.detail, name='detail'),
                        #ex: /residentSchedule/1/
 

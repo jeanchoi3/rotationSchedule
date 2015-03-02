@@ -106,13 +106,11 @@
                 return false;
             });*/
             var numBlocks = {{block_list|safe}}.length
-            var optionString = ""
-            var eventString = ""
 
             var numTemplates = {{template_list|safe}}.length
 
             for (j = 0; j < numTemplates; j++) {
-                $('#all_templates').append('<legend>'+{{template_list|safe}}[j].name+'</legend><span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span><div id="wrap"><div class="external-events"></div><div id="'+{{template_list|safe}}[j].name+'-calendar" class="calendar"></div><div style="clear:both"></div><button onclick="myAlert()">alert with events</button></div>');
+                $('#all_templates').append('<legend>'+{{template_list|safe}}[j].name+'</legend><span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span><div id="wrap"><div class="external-events" id="'+{{template_list|safe}}[j].name+'"></div><div id="'+{{template_list|safe}}[j].name+'-calendar" class="calendar"></div><div style="clear:both"></div><button onclick="myAlert()">alert with events</button></div>');
                 $('#'+{{template_list|safe}}[j].name+'-calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -122,10 +120,27 @@
                     editable: true,
                     droppable: true, // this allows things to be dropped onto the calendar
                     drop: function() {
-                        $('#results').text(this.className)
-
+                        //$('#results').text(this.className)
+                        //$('#results').text(this.attr("id"))
                         //http://krook.org/jsdom/HTMLDivElement.html
-                        alert(String(this))
+                        alert(String($(this).attr("id")))
+                        $.ajax({
+                            url: "/templateEvent/",
+                            type: "POST",
+                            data: {
+                                pk: event.pk,
+                                start: event.start.format(),
+                                end: event.end.format()
+                            },
+                            success: function(json) {
+                                //alert("success!"+JSON.stringify(json))
+                                $('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
+                            },
+                            error: function(xhr, errmsg,err) {
+                                alert("fail "+errmsg+err+xhr.responseText)
+                            }
+                        });
+
                         // is the "remove after drop" checkbox checked?
                         if ($('#drop-remove').is(':checked')) {
                             // if so, remove the element from the "Draggable Events" list
@@ -133,15 +148,36 @@
                         }
                     }
                 });
-            }
 
+            var optionString = ""
+            var eventString = ""
             for (i = 0; i < numBlocks; i++) {
                 optionString += "<option value='" + {{block_list|safe}}[i].title + "'>" + {{block_list|safe}}[i].title + "</option>";
-                eventString += "<div class='fc-event' data-duration='" + ({{block_list|safe}}[i].length * 7 * 24) + ":00'>" + {{block_list|safe}}[i].title + "</div>";
+                eventString += "<div class='fc-event' data-duration='" + ({{block_list|safe}}[i].length * 7 * 24) + ":00' id='"+{{template_list|safe}}[j].name+"'>" + {{block_list|safe}}[i].title + "</div>";
             }
 
             //$('#calendar').fullCalendar('removeEvents');
-            $('.external-events').empty();
+            {{template_list|safe}}[j].name
+            $('#'+{{template_list|safe}}[j].name).empty();
+            $('#'+{{template_list|safe}}[j].name).append(eventString);
+            $('#'+{{template_list|safe}}[j].name+' .fc-event').each(function() {
+
+                // store data so the calendar knows to render an event upon drop
+                $(this).data('event', {
+                    title: $.trim($(this).text()), // use the element's text as the event title
+                    //allDay: true,
+                    //duration: 2419200000, //in milliseconds
+                    stick: true // maintain when user navigates (see docs on the renderEvent method)
+                });
+
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true,      // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+            });
+            /*$('.external-events').empty();
             $('.external-events').append(eventString);
             $('.external-events .fc-event').each(function() {
 
@@ -159,7 +195,8 @@
                     revert: true,      // will cause the event to go back to its
                     revertDuration: 0  //  original position after the drag
                 });
-            });
+            });*/
+            }
 
             $('#rotationForm').submit(function(){
                 var val = $('#rotationForm').serializeArray();
