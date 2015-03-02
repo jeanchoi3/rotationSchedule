@@ -119,15 +119,16 @@
                     },
                     editable: true,
                     droppable: true, // this allows things to be dropped onto the calendar
-                    drop: function() {
-                        //$('#results').text(this.className)
-                        //$('#results').text(this.attr("id"))
-                        //http://krook.org/jsdom/HTMLDivElement.html
-                        alert(String($(this).attr("id")))
-                        $.ajax({
+                    drop: function(date, jsEvent, ui) {
+                        var myDate = new Date(date.format())
+                        var toAdd = parseInt($(this).attr("data-duration").split(":")[0])* 60 * 60 * 1000
+                        var endDate = new Date( myDate.getTime() + toAdd);
+                        alert(date.format()+", "+moment(endDate).format().split("T")[0])
+                        /*$.ajax({
                             url: "/templateEvent/",
                             type: "POST",
                             data: {
+                                templateName: $(this).attr("id")
                                 pk: event.pk,
                                 start: event.start.format(),
                                 end: event.end.format()
@@ -139,7 +140,7 @@
                             error: function(xhr, errmsg,err) {
                                 alert("fail "+errmsg+err+xhr.responseText)
                             }
-                        });
+                        });*/
 
                         // is the "remove after drop" checkbox checked?
                         if ($('#drop-remove').is(':checked')) {
