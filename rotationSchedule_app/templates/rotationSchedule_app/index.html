@@ -122,25 +122,26 @@
                     drop: function(date, jsEvent, ui) {
                         var myDate = new Date(date.format())
                         var toAdd = parseInt($(this).attr("data-duration").split(":")[0])* 60 * 60 * 1000
-                        var endDate = new Date( myDate.getTime() + toAdd);
-                        alert(date.format()+", "+moment(endDate).format().split("T")[0])
-                        /*$.ajax({
+                        var endMoment = new Date( myDate.getTime() + toAdd)
+                        var endDate = moment(endMoment).format().split("T")[0]
+                        alert(date.format()+", "+endDate+", "+$(this).attr("id")+", "+$(this).text())
+                        $.ajax({
                             url: "/templateEvent/",
                             type: "POST",
                             data: {
-                                templateName: $(this).attr("id")
-                                pk: event.pk,
-                                start: event.start.format(),
-                                end: event.end.format()
+                                templateName: $(this).attr("id"),
+                                blockName: $(this).text(),
+                                start: date.format(),
+                                end: endDate
                             },
                             success: function(json) {
-                                //alert("success!"+JSON.stringify(json))
-                                $('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
+                                alert("success!"+JSON.stringify(json))
+                                //$('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
                             },
                             error: function(xhr, errmsg,err) {
                                 alert("fail "+errmsg+err+xhr.responseText)
                             }
-                        });*/
+                        });
 
                         // is the "remove after drop" checkbox checked?
                         if ($('#drop-remove').is(':checked')) {

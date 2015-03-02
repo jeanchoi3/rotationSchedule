@@ -256,11 +256,12 @@ def templateEvent(request):
     if request.method == 'POST':
         response_data = {}
 
-        event_match = Event.objects.filter(pk=int(request.POST['pk']))
+        template_match = Template.objects.filter(templateName=request.POST['templateName'])
+        block_match = Block.objects.filter(name=request.POST['blockName'])
 
-        out = StringIO()
-        call_command('check_hard_constraints', request.POST['pk'], request.POST['start'], request.POST['end'], stdout=out)
-        response_data['outcome']=out.getvalue()
+        templateEvent = TemplateEvent.objects.create(block=block_match[0], template=template_match[0], blockStartDate=request.POST['start'], blockEndDate=request.POST['end'])
+
+        response_data['eventId'] = str(templateEvent.pk)
 
         return HttpResponse(json.dumps(response_data),content_type="application/json")
     else:
