@@ -49,10 +49,13 @@ param YearlyDemandLower :=
 param YearlyDemandUpper :=
 'Rotation1' 'PGY1' 1 3
 'Rotation1' 'PGY1' 2 3
+'Rotation1' 'PGY1' 3 3
 'Rotation1' 'PGY2' 1 3
 'Rotation1' 'PGY2' 2 3
+'Rotation1' 'PGY2' 3 3
 'Rotation1' 'PGY3' 1 100
-'Rotation1' 'PGY3' 2 100;
+'Rotation1' 'PGY3' 2 100
+'Rotation1' 'PGY3' 3 100;
 
 param P :=
 2 'Rotation2' 1 2

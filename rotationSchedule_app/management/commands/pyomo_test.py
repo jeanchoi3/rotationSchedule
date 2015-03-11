@@ -288,10 +288,9 @@ class Command(BaseCommand):
 		f.write("param YearlyDemandUpper :=")
 		for rotation in yearlyDemandUpper:
 			for year in yearlyDemandUpper[rotation]:
-				for week in range(1,3): #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				for week in range(1,4): #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
 		f.write(';\n\n')
-
 
 #		f.write("param YearlyDemandLower :=\n'Rotation1' 'PGY1' 1 1\n'Rotation1' 'PGY1' 2 1\n'Rotation1' 'PGY1' 3 1\n'Rotation1' 'PGY2' 1 1\n'Rotation1' 'PGY2' 2 1\n'Rotation1' 'PGY2' 3 1\n'Rotation1' 'PGY3' 1 1\n
 #'Rotation1' 'PGY3' 2 1
@@ -317,7 +316,21 @@ class Command(BaseCommand):
 		###Since we set this to 10, numSolns =10
 		solnNames = cpx.solution.pool.get_names() ##names of the solutions
 		print(solnNames)
-
+		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
+		cpx.populate_solution_pool()
+		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
+		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
+		print(solnNames2)
+		#####Find the top three (or N) solutions from the solution pool based on their objective value 
+		for i in solnIndices2:
+			print(cpx.solution.pool.get_objective_value(i))
+		for doctor in range(1,5):
+			for week in range(1,9):
+				#print "Z("+str(doctor)+"_Rotation2_"+str(week)+")"
+				print str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")"))# == "0.0":
+				if str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")")) == "1.0":
+					print "Z("+str(doctor)+"_Rotation1_"+str(week)+")"
+					#"Z("+str(doctor)+"_Rotation2_"+str(week)+")"
 
 
 ##----MinYear--------#
