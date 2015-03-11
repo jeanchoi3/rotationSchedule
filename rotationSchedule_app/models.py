@@ -84,7 +84,7 @@ class RotationLength(models.Model):
     minLength = models.PositiveIntegerField(default=1)
     maxLength = models.PositiveIntegerField(default=100) 
 
-#Demand by year, through field for rotation field demandYear
+#Demand by year, through field for year field rotationDemand
 class YearDemand(models.Model):
     class Meta():
         auto_created=True

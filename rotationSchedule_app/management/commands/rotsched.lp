@@ -1,1974 +1,2574 @@
 \* Source Pyomo model name=unknown *\
 
 max 
-x1:
-+1 x298
-+1 x299
-+1 x300
-+1 x301
-+1 x302
-+1 x303
-+1 x304
-+1 x305
-+1 x306
-+2 x307
-+2 x308
-+1 x309
-+1 x310
-+1 x311
-+1 x312
-+1 x313
-+2 x314
-+1 x315
-+1 x316
-+1 x317
-+1 x318
-+1 x319
-+1 x320
-+1 x321
-+1 x322
-+1 x323
-+1 x324
-+1 x325
-+1 x326
-+1 x327
-+1 x328
-+1 x329
-+2 x330
-+1 x331
-+1 x332
-+1 x333
-+1 x334
-+1 x335
-+1 x336
-+1 x337
-+1 x338
-+1 x339
-+1 x340
-+1 x341
-+1 x342
-+1 x343
-+1 x344
-+1 x345
-+1 x346
-+1 x347
-+1 x348
-+1 x349
-+1 x350
-+1 x351
-+1 x352
-+1 x353
-+1 x354
-+1 x355
-+1 x356
-+1 x357
-+1 x358
-+1 x359
-+1 x360
-+1 x361
+Total_Utility:
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Z(1_Clinic_7)
++1 Z(1_Clinic_8)
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
++1 Z(1_Rotation1_7)
++1 Z(1_Rotation1_8)
++1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
++1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
++1 Z(1_Rotation2_7)
++1 Z(1_Rotation2_8)
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
++1 Z(1_Vacation_7)
++1 Z(1_Vacation_8)
++1 Z(2_Clinic_1)
++1 Z(2_Clinic_2)
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
++1 Z(2_Clinic_7)
++1 Z(2_Clinic_8)
++1 Z(2_Rotation1_1)
++1 Z(2_Rotation1_2)
++1 Z(2_Rotation1_3)
++1 Z(2_Rotation1_4)
++1 Z(2_Rotation1_5)
++1 Z(2_Rotation1_6)
++1 Z(2_Rotation1_7)
++1 Z(2_Rotation1_8)
++1 Z(2_Rotation2_1)
++1 Z(2_Rotation2_2)
++1 Z(2_Rotation2_3)
++1 Z(2_Rotation2_4)
++1 Z(2_Rotation2_5)
++1 Z(2_Rotation2_6)
++1 Z(2_Rotation2_7)
++1 Z(2_Rotation2_8)
++1 Z(2_Vacation_1)
++1 Z(2_Vacation_2)
++1 Z(2_Vacation_3)
++1 Z(2_Vacation_4)
++1 Z(2_Vacation_5)
++1 Z(2_Vacation_6)
++1 Z(2_Vacation_7)
++1 Z(2_Vacation_8)
++1 Z(3_Clinic_1)
++1 Z(3_Clinic_2)
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
++1 Z(3_Clinic_7)
++1 Z(3_Clinic_8)
++1 Z(3_Rotation1_1)
++1 Z(3_Rotation1_2)
++1 Z(3_Rotation1_3)
++1 Z(3_Rotation1_4)
++1 Z(3_Rotation1_5)
++1 Z(3_Rotation1_6)
++1 Z(3_Rotation1_7)
++1 Z(3_Rotation1_8)
++1 Z(3_Rotation2_1)
++1 Z(3_Rotation2_2)
++1 Z(3_Rotation2_3)
++1 Z(3_Rotation2_4)
++1 Z(3_Rotation2_5)
++1 Z(3_Rotation2_6)
++1 Z(3_Rotation2_7)
++1 Z(3_Rotation2_8)
++1 Z(3_Vacation_1)
++1 Z(3_Vacation_2)
++1 Z(3_Vacation_3)
++1 Z(3_Vacation_4)
++1 Z(3_Vacation_5)
++1 Z(3_Vacation_6)
++1 Z(3_Vacation_7)
++1 Z(3_Vacation_8)
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Z(4_Clinic_7)
++1 Z(4_Clinic_8)
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
++1 Z(4_Rotation1_7)
++1 Z(4_Rotation1_8)
++1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
++1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
++1 Z(4_Rotation2_7)
++1 Z(4_Rotation2_8)
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
++1 Z(4_Vacation_7)
++1 Z(4_Vacation_8)
++1 Zhat(1)
++1 Zhat(2)
++1 Zhat(3)
++1 Zhat(4)
 
 s.t.
 
-c_l_x26_:
-+1 x306
-+1 x354
+c_l_clinicConstraint(1_1)_:
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
+-1 Zhat(1)
+>= 0
+
+c_l_clinicConstraint(1_2)_:
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Z(1_Clinic_7)
+-1 Zhat(1)
+>= 0
+
+c_l_clinicConstraint(1_3)_:
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Z(1_Clinic_7)
++1 Z(1_Clinic_8)
+-1 Zhat(1)
+>= 0
+
+c_l_clinicConstraint(2_1)_:
++1 Z(2_Clinic_1)
++1 Z(2_Clinic_2)
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
+-1 Zhat(2)
+>= 0
+
+c_l_clinicConstraint(2_2)_:
++1 Z(2_Clinic_2)
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
++1 Z(2_Clinic_7)
+-1 Zhat(2)
+>= 0
+
+c_l_clinicConstraint(2_3)_:
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
++1 Z(2_Clinic_7)
++1 Z(2_Clinic_8)
+-1 Zhat(2)
+>= 0
+
+c_l_clinicConstraint(3_1)_:
++1 Z(3_Clinic_1)
++1 Z(3_Clinic_2)
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
+-1 Zhat(3)
+>= 0
+
+c_l_clinicConstraint(3_2)_:
++1 Z(3_Clinic_2)
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
++1 Z(3_Clinic_7)
+-1 Zhat(3)
+>= 0
+
+c_l_clinicConstraint(3_3)_:
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
++1 Z(3_Clinic_7)
++1 Z(3_Clinic_8)
+-1 Zhat(3)
+>= 0
+
+c_l_clinicConstraint(4_1)_:
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
+-1 Zhat(4)
+>= 0
+
+c_l_clinicConstraint(4_2)_:
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Z(4_Clinic_7)
+-1 Zhat(4)
+>= 0
+
+c_l_clinicConstraint(4_3)_:
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Z(4_Clinic_7)
++1 Z(4_Clinic_8)
+-1 Zhat(4)
+>= 0
+
+c_u_vacationConstraint(1)_:
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
++1 Z(1_Vacation_7)
++1 Z(1_Vacation_8)
+<= 4
+
+c_u_vacationConstraint(2)_:
++1 Z(2_Vacation_1)
++1 Z(2_Vacation_2)
++1 Z(2_Vacation_3)
++1 Z(2_Vacation_4)
++1 Z(2_Vacation_5)
++1 Z(2_Vacation_6)
++1 Z(2_Vacation_7)
++1 Z(2_Vacation_8)
+<= 4
+
+c_u_vacationConstraint(3)_:
++1 Z(3_Vacation_1)
++1 Z(3_Vacation_2)
++1 Z(3_Vacation_3)
++1 Z(3_Vacation_4)
++1 Z(3_Vacation_5)
++1 Z(3_Vacation_6)
++1 Z(3_Vacation_7)
++1 Z(3_Vacation_8)
+<= 4
+
+c_u_vacationConstraint(4)_:
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
++1 Z(4_Vacation_7)
++1 Z(4_Vacation_8)
+<= 4
+
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_1)_:
++1 Z(1_Rotation1_1)
++1 Z(4_Rotation1_1)
 >= 1
 
-c_l_x27_:
-+1 x307
-+1 x355
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_2)_:
++1 Z(1_Rotation1_2)
++1 Z(4_Rotation1_2)
 >= 1
 
-c_l_x28_:
-+1 x308
-+1 x356
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_3)_:
++1 Z(1_Rotation1_3)
++1 Z(4_Rotation1_3)
 >= 1
 
-c_l_x29_:
-+1 x309
-+1 x357
->= 0
-
-c_l_x30_:
-+1 x310
-+1 x358
->= 0
-
-c_l_x31_:
-+1 x311
-+1 x359
->= 0
-
-c_l_x32_:
-+1 x312
-+1 x360
->= 0
-
-c_l_x33_:
-+1 x313
-+1 x361
->= 0
-
-c_l_x34_:
-+1 x322
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_4)_:
++1 Z(1_Rotation1_4)
++1 Z(4_Rotation1_4)
 >= 1
 
-c_l_x35_:
-+1 x323
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_5)_:
++1 Z(1_Rotation1_5)
++1 Z(4_Rotation1_5)
 >= 1
 
-c_l_x36_:
-+1 x324
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_6)_:
++1 Z(1_Rotation1_6)
++1 Z(4_Rotation1_6)
 >= 1
 
-c_l_x37_:
-+1 x325
->= 0
-
-c_l_x38_:
-+1 x326
->= 0
-
-c_l_x39_:
-+1 x327
->= 0
-
-c_l_x40_:
-+1 x328
->= 0
-
-c_l_x41_:
-+1 x329
->= 0
-
-c_l_x42_:
-+1 x338
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_7)_:
++1 Z(1_Rotation1_7)
++1 Z(4_Rotation1_7)
 >= 1
 
-c_l_x43_:
-+1 x339
+c_l_rotationConstraintYearlyLower(Rotation1_PGY1_8)_:
++1 Z(1_Rotation1_8)
++1 Z(4_Rotation1_8)
 >= 1
 
-c_l_x44_:
-+1 x340
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_1)_:
++1 Z(2_Rotation1_1)
 >= 1
 
-c_l_x45_:
-+1 x341
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_2)_:
++1 Z(2_Rotation1_2)
+>= 1
 
-c_l_x46_:
-+1 x342
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_3)_:
++1 Z(2_Rotation1_3)
+>= 1
 
-c_l_x47_:
-+1 x343
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_4)_:
++1 Z(2_Rotation1_4)
+>= 1
 
-c_l_x48_:
-+1 x344
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_5)_:
++1 Z(2_Rotation1_5)
+>= 1
 
-c_l_x49_:
-+1 x345
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_6)_:
++1 Z(2_Rotation1_6)
+>= 1
 
-c_l_x2_:
-+1 x298
-+1 x346
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_7)_:
++1 Z(2_Rotation1_7)
+>= 1
 
-c_l_x3_:
-+1 x299
-+1 x347
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY2_8)_:
++1 Z(2_Rotation1_8)
+>= 1
 
-c_l_x4_:
-+1 x300
-+1 x348
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_1)_:
++1 Z(3_Rotation1_1)
+>= 1
 
-c_l_x5_:
-+1 x301
-+1 x349
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_2)_:
++1 Z(3_Rotation1_2)
+>= 1
 
-c_l_x6_:
-+1 x302
-+1 x350
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_3)_:
++1 Z(3_Rotation1_3)
+>= 1
 
-c_l_x7_:
-+1 x303
-+1 x351
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_4)_:
++1 Z(3_Rotation1_4)
+>= 1
 
-c_l_x8_:
-+1 x304
-+1 x352
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_5)_:
++1 Z(3_Rotation1_5)
+>= 1
 
-c_l_x9_:
-+1 x305
-+1 x353
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_6)_:
++1 Z(3_Rotation1_6)
+>= 1
 
-c_l_x10_:
-+1 x314
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_7)_:
++1 Z(3_Rotation1_7)
+>= 1
 
-c_l_x11_:
-+1 x315
->= 0
+c_l_rotationConstraintYearlyLower(Rotation1_PGY3_8)_:
++1 Z(3_Rotation1_8)
+>= 1
 
-c_l_x12_:
-+1 x316
->= 0
-
-c_l_x13_:
-+1 x317
->= 0
-
-c_l_x14_:
-+1 x318
->= 0
-
-c_l_x15_:
-+1 x319
->= 0
-
-c_l_x16_:
-+1 x320
->= 0
-
-c_l_x17_:
-+1 x321
->= 0
-
-c_l_x18_:
-+1 x330
->= 0
-
-c_l_x19_:
-+1 x331
->= 0
-
-c_l_x20_:
-+1 x332
->= 0
-
-c_l_x21_:
-+1 x333
->= 0
-
-c_l_x22_:
-+1 x334
->= 0
-
-c_l_x23_:
-+1 x335
->= 0
-
-c_l_x24_:
-+1 x336
->= 0
-
-c_l_x25_:
-+1 x337
->= 0
-
-c_u_x74_:
-+1 x306
-+1 x354
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_1)_:
++1 Z(1_Rotation1_1)
++1 Z(4_Rotation1_1)
 <= 3
 
-c_u_x75_:
-+1 x307
-+1 x355
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_2)_:
++1 Z(1_Rotation1_2)
++1 Z(4_Rotation1_2)
 <= 3
 
-c_u_x76_:
-+1 x308
-+1 x356
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_3)_:
++1 Z(1_Rotation1_3)
++1 Z(4_Rotation1_3)
 <= 3
 
-c_u_x77_:
-+1 x309
-+1 x357
-<= 9.2233720368547758e+18
-
-c_u_x78_:
-+1 x310
-+1 x358
-<= 9.2233720368547758e+18
-
-c_u_x79_:
-+1 x311
-+1 x359
-<= 9.2233720368547758e+18
-
-c_u_x80_:
-+1 x312
-+1 x360
-<= 9.2233720368547758e+18
-
-c_u_x81_:
-+1 x313
-+1 x361
-<= 9.2233720368547758e+18
-
-c_u_x82_:
-+1 x322
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_4)_:
++1 Z(1_Rotation1_4)
++1 Z(4_Rotation1_4)
 <= 3
 
-c_u_x83_:
-+1 x323
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_5)_:
++1 Z(1_Rotation1_5)
++1 Z(4_Rotation1_5)
 <= 3
 
-c_u_x84_:
-+1 x324
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_6)_:
++1 Z(1_Rotation1_6)
++1 Z(4_Rotation1_6)
 <= 3
 
-c_u_x85_:
-+1 x325
-<= 9.2233720368547758e+18
-
-c_u_x86_:
-+1 x326
-<= 9.2233720368547758e+18
-
-c_u_x87_:
-+1 x327
-<= 9.2233720368547758e+18
-
-c_u_x88_:
-+1 x328
-<= 9.2233720368547758e+18
-
-c_u_x89_:
-+1 x329
-<= 9.2233720368547758e+18
-
-c_u_x90_:
-+1 x338
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_7)_:
++1 Z(1_Rotation1_7)
++1 Z(4_Rotation1_7)
 <= 3
 
-c_u_x91_:
-+1 x339
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_8)_:
++1 Z(1_Rotation1_8)
++1 Z(4_Rotation1_8)
 <= 3
 
-c_u_x92_:
-+1 x340
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_1)_:
++1 Z(2_Rotation1_1)
 <= 3
 
-c_u_x93_:
-+1 x341
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_2)_:
++1 Z(2_Rotation1_2)
+<= 3
 
-c_u_x94_:
-+1 x342
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_3)_:
++1 Z(2_Rotation1_3)
+<= 3
 
-c_u_x95_:
-+1 x343
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_4)_:
++1 Z(2_Rotation1_4)
+<= 3
 
-c_u_x96_:
-+1 x344
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_5)_:
++1 Z(2_Rotation1_5)
+<= 3
 
-c_u_x97_:
-+1 x345
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_6)_:
++1 Z(2_Rotation1_6)
+<= 3
 
-c_u_x50_:
-+1 x298
-+1 x346
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_7)_:
++1 Z(2_Rotation1_7)
+<= 3
 
-c_u_x51_:
-+1 x299
-+1 x347
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_8)_:
++1 Z(2_Rotation1_8)
+<= 3
 
-c_u_x52_:
-+1 x300
-+1 x348
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_1)_:
++1 Z(3_Rotation1_1)
+<= 100
 
-c_u_x53_:
-+1 x301
-+1 x349
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_2)_:
++1 Z(3_Rotation1_2)
+<= 100
 
-c_u_x54_:
-+1 x302
-+1 x350
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_3)_:
++1 Z(3_Rotation1_3)
+<= 100
 
-c_u_x55_:
-+1 x303
-+1 x351
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_4)_:
++1 Z(3_Rotation1_4)
+<= 100
 
-c_u_x56_:
-+1 x304
-+1 x352
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_5)_:
++1 Z(3_Rotation1_5)
+<= 100
 
-c_u_x57_:
-+1 x305
-+1 x353
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_6)_:
++1 Z(3_Rotation1_6)
+<= 100
 
-c_u_x58_:
-+1 x314
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_7)_:
++1 Z(3_Rotation1_7)
+<= 100
 
-c_u_x59_:
-+1 x315
-<= 9.2233720368547758e+18
+c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_8)_:
++1 Z(3_Rotation1_8)
+<= 100
 
-c_u_x60_:
-+1 x316
-<= 9.2233720368547758e+18
-
-c_u_x61_:
-+1 x317
-<= 9.2233720368547758e+18
-
-c_u_x62_:
-+1 x318
-<= 9.2233720368547758e+18
-
-c_u_x63_:
-+1 x319
-<= 9.2233720368547758e+18
-
-c_u_x64_:
-+1 x320
-<= 9.2233720368547758e+18
-
-c_u_x65_:
-+1 x321
-<= 9.2233720368547758e+18
-
-c_u_x66_:
-+1 x330
-<= 9.2233720368547758e+18
-
-c_u_x67_:
-+1 x331
-<= 9.2233720368547758e+18
-
-c_u_x68_:
-+1 x332
-<= 9.2233720368547758e+18
-
-c_u_x69_:
-+1 x333
-<= 9.2233720368547758e+18
-
-c_u_x70_:
-+1 x334
-<= 9.2233720368547758e+18
-
-c_u_x71_:
-+1 x335
-<= 9.2233720368547758e+18
-
-c_u_x72_:
-+1 x336
-<= 9.2233720368547758e+18
-
-c_u_x73_:
-+1 x337
-<= 9.2233720368547758e+18
-
-c_u_x98_:
-+1 x298
-+1 x306
-<= 1
-
-c_u_x99_:
-+1 x299
-+1 x307
-<= 1
-
-c_u_x100_:
-+1 x300
-+1 x308
-<= 1
-
-c_u_x101_:
-+1 x301
-+1 x309
-<= 1
-
-c_u_x102_:
-+1 x302
-+1 x310
-<= 1
-
-c_u_x103_:
-+1 x303
-+1 x311
-<= 1
-
-c_u_x104_:
-+1 x304
-+1 x312
-<= 1
-
-c_u_x105_:
-+1 x305
-+1 x313
-<= 1
-
-c_u_x106_:
-+1 x314
-+1 x322
-<= 1
-
-c_u_x107_:
-+1 x315
-+1 x323
-<= 1
-
-c_u_x108_:
-+1 x316
-+1 x324
-<= 1
-
-c_u_x109_:
-+1 x317
-+1 x325
-<= 1
-
-c_u_x110_:
-+1 x318
-+1 x326
-<= 1
-
-c_u_x111_:
-+1 x319
-+1 x327
-<= 1
-
-c_u_x112_:
-+1 x320
-+1 x328
-<= 1
-
-c_u_x113_:
-+1 x321
-+1 x329
-<= 1
-
-c_u_x114_:
-+1 x330
-+1 x338
-<= 1
-
-c_u_x115_:
-+1 x331
-+1 x339
-<= 1
-
-c_u_x116_:
-+1 x332
-+1 x340
-<= 1
-
-c_u_x117_:
-+1 x333
-+1 x341
-<= 1
-
-c_u_x118_:
-+1 x334
-+1 x342
-<= 1
-
-c_u_x119_:
-+1 x335
-+1 x343
-<= 1
-
-c_u_x120_:
-+1 x336
-+1 x344
-<= 1
-
-c_u_x121_:
-+1 x337
-+1 x345
-<= 1
-
-c_u_x122_:
-+1 x346
-+1 x354
-<= 1
-
-c_u_x123_:
-+1 x347
-+1 x355
-<= 1
-
-c_u_x124_:
-+1 x348
-+1 x356
-<= 1
-
-c_u_x125_:
-+1 x349
-+1 x357
-<= 1
-
-c_u_x126_:
-+1 x350
-+1 x358
-<= 1
-
-c_u_x127_:
-+1 x351
-+1 x359
-<= 1
-
-c_u_x128_:
-+1 x352
-+1 x360
-<= 1
-
-c_u_x129_:
-+1 x353
-+1 x361
-<= 1
-
-c_l_x131_:
-+1 x306
-+1 x307
-+1 x308
-+1 x309
-+1 x310
-+1 x311
-+1 x312
-+1 x313
+c_l_rotationConstraintLower(Clinic_1)_:
++1 Z(1_Clinic_1)
++1 Z(2_Clinic_1)
++1 Z(3_Clinic_1)
++1 Z(4_Clinic_1)
 >= 0
 
-c_l_x130_:
-+1 x298
-+1 x299
-+1 x300
-+1 x301
-+1 x302
-+1 x303
-+1 x304
-+1 x305
+c_l_rotationConstraintLower(Clinic_2)_:
++1 Z(1_Clinic_2)
++1 Z(2_Clinic_2)
++1 Z(3_Clinic_2)
++1 Z(4_Clinic_2)
 >= 0
 
-c_l_x133_:
-+1 x322
-+1 x323
-+1 x324
-+1 x325
-+1 x326
-+1 x327
-+1 x328
-+1 x329
+c_l_rotationConstraintLower(Clinic_3)_:
++1 Z(1_Clinic_3)
++1 Z(2_Clinic_3)
++1 Z(3_Clinic_3)
++1 Z(4_Clinic_3)
 >= 0
 
-c_l_x132_:
-+1 x314
-+1 x315
-+1 x316
-+1 x317
-+1 x318
-+1 x319
-+1 x320
-+1 x321
+c_l_rotationConstraintLower(Clinic_4)_:
++1 Z(1_Clinic_4)
++1 Z(2_Clinic_4)
++1 Z(3_Clinic_4)
++1 Z(4_Clinic_4)
 >= 0
 
-c_l_x135_:
-+1 x338
-+1 x339
-+1 x340
-+1 x341
-+1 x342
-+1 x343
-+1 x344
-+1 x345
+c_l_rotationConstraintLower(Clinic_5)_:
++1 Z(1_Clinic_5)
++1 Z(2_Clinic_5)
++1 Z(3_Clinic_5)
++1 Z(4_Clinic_5)
 >= 0
 
-c_l_x134_:
-+1 x330
-+1 x331
-+1 x332
-+1 x333
-+1 x334
-+1 x335
-+1 x336
-+1 x337
+c_l_rotationConstraintLower(Clinic_6)_:
++1 Z(1_Clinic_6)
++1 Z(2_Clinic_6)
++1 Z(3_Clinic_6)
++1 Z(4_Clinic_6)
 >= 0
 
-c_l_x137_:
-+1 x354
-+1 x355
-+1 x356
-+1 x357
-+1 x358
-+1 x359
-+1 x360
-+1 x361
+c_l_rotationConstraintLower(Clinic_7)_:
++1 Z(1_Clinic_7)
++1 Z(2_Clinic_7)
++1 Z(3_Clinic_7)
++1 Z(4_Clinic_7)
 >= 0
 
-c_l_x136_:
-+1 x346
-+1 x347
-+1 x348
-+1 x349
-+1 x350
-+1 x351
-+1 x352
-+1 x353
+c_l_rotationConstraintLower(Clinic_8)_:
++1 Z(1_Clinic_8)
++1 Z(2_Clinic_8)
++1 Z(3_Clinic_8)
++1 Z(4_Clinic_8)
 >= 0
 
-c_u_x139_:
-+1 x306
-+1 x307
-+1 x308
-+1 x309
-+1 x310
-+1 x311
-+1 x312
-+1 x313
+c_l_rotationConstraintLower(Rotation1_1)_:
++1 Z(1_Rotation1_1)
++1 Z(2_Rotation1_1)
++1 Z(3_Rotation1_1)
++1 Z(4_Rotation1_1)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_2)_:
++1 Z(1_Rotation1_2)
++1 Z(2_Rotation1_2)
++1 Z(3_Rotation1_2)
++1 Z(4_Rotation1_2)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_3)_:
++1 Z(1_Rotation1_3)
++1 Z(2_Rotation1_3)
++1 Z(3_Rotation1_3)
++1 Z(4_Rotation1_3)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_4)_:
++1 Z(1_Rotation1_4)
++1 Z(2_Rotation1_4)
++1 Z(3_Rotation1_4)
++1 Z(4_Rotation1_4)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_5)_:
++1 Z(1_Rotation1_5)
++1 Z(2_Rotation1_5)
++1 Z(3_Rotation1_5)
++1 Z(4_Rotation1_5)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_6)_:
++1 Z(1_Rotation1_6)
++1 Z(2_Rotation1_6)
++1 Z(3_Rotation1_6)
++1 Z(4_Rotation1_6)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_7)_:
++1 Z(1_Rotation1_7)
++1 Z(2_Rotation1_7)
++1 Z(3_Rotation1_7)
++1 Z(4_Rotation1_7)
+>= 0
+
+c_l_rotationConstraintLower(Rotation1_8)_:
++1 Z(1_Rotation1_8)
++1 Z(2_Rotation1_8)
++1 Z(3_Rotation1_8)
++1 Z(4_Rotation1_8)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_1)_:
++1 Z(1_Rotation2_1)
++1 Z(2_Rotation2_1)
++1 Z(3_Rotation2_1)
++1 Z(4_Rotation2_1)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_2)_:
++1 Z(1_Rotation2_2)
++1 Z(2_Rotation2_2)
++1 Z(3_Rotation2_2)
++1 Z(4_Rotation2_2)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_3)_:
++1 Z(1_Rotation2_3)
++1 Z(2_Rotation2_3)
++1 Z(3_Rotation2_3)
++1 Z(4_Rotation2_3)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_4)_:
++1 Z(1_Rotation2_4)
++1 Z(2_Rotation2_4)
++1 Z(3_Rotation2_4)
++1 Z(4_Rotation2_4)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_5)_:
++1 Z(1_Rotation2_5)
++1 Z(2_Rotation2_5)
++1 Z(3_Rotation2_5)
++1 Z(4_Rotation2_5)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_6)_:
++1 Z(1_Rotation2_6)
++1 Z(2_Rotation2_6)
++1 Z(3_Rotation2_6)
++1 Z(4_Rotation2_6)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_7)_:
++1 Z(1_Rotation2_7)
++1 Z(2_Rotation2_7)
++1 Z(3_Rotation2_7)
++1 Z(4_Rotation2_7)
+>= 0
+
+c_l_rotationConstraintLower(Rotation2_8)_:
++1 Z(1_Rotation2_8)
++1 Z(2_Rotation2_8)
++1 Z(3_Rotation2_8)
++1 Z(4_Rotation2_8)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_1)_:
++1 Z(1_Vacation_1)
++1 Z(2_Vacation_1)
++1 Z(3_Vacation_1)
++1 Z(4_Vacation_1)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_2)_:
++1 Z(1_Vacation_2)
++1 Z(2_Vacation_2)
++1 Z(3_Vacation_2)
++1 Z(4_Vacation_2)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_3)_:
++1 Z(1_Vacation_3)
++1 Z(2_Vacation_3)
++1 Z(3_Vacation_3)
++1 Z(4_Vacation_3)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_4)_:
++1 Z(1_Vacation_4)
++1 Z(2_Vacation_4)
++1 Z(3_Vacation_4)
++1 Z(4_Vacation_4)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_5)_:
++1 Z(1_Vacation_5)
++1 Z(2_Vacation_5)
++1 Z(3_Vacation_5)
++1 Z(4_Vacation_5)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_6)_:
++1 Z(1_Vacation_6)
++1 Z(2_Vacation_6)
++1 Z(3_Vacation_6)
++1 Z(4_Vacation_6)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_7)_:
++1 Z(1_Vacation_7)
++1 Z(2_Vacation_7)
++1 Z(3_Vacation_7)
++1 Z(4_Vacation_7)
+>= 0
+
+c_l_rotationConstraintLower(Vacation_8)_:
++1 Z(1_Vacation_8)
++1 Z(2_Vacation_8)
++1 Z(3_Vacation_8)
++1 Z(4_Vacation_8)
+>= 0
+
+c_u_rotationConstraintUpper(Clinic_1)_:
++1 Z(1_Clinic_1)
++1 Z(2_Clinic_1)
++1 Z(3_Clinic_1)
++1 Z(4_Clinic_1)
 <= 9.2233720368547758e+18
 
-c_u_x138_:
-+1 x298
-+1 x299
-+1 x300
-+1 x301
-+1 x302
-+1 x303
-+1 x304
-+1 x305
+c_u_rotationConstraintUpper(Clinic_2)_:
++1 Z(1_Clinic_2)
++1 Z(2_Clinic_2)
++1 Z(3_Clinic_2)
++1 Z(4_Clinic_2)
 <= 9.2233720368547758e+18
 
-c_u_x141_:
-+1 x322
-+1 x323
-+1 x324
-+1 x325
-+1 x326
-+1 x327
-+1 x328
-+1 x329
+c_u_rotationConstraintUpper(Clinic_3)_:
++1 Z(1_Clinic_3)
++1 Z(2_Clinic_3)
++1 Z(3_Clinic_3)
++1 Z(4_Clinic_3)
 <= 9.2233720368547758e+18
 
-c_u_x140_:
-+1 x314
-+1 x315
-+1 x316
-+1 x317
-+1 x318
-+1 x319
-+1 x320
-+1 x321
+c_u_rotationConstraintUpper(Clinic_4)_:
++1 Z(1_Clinic_4)
++1 Z(2_Clinic_4)
++1 Z(3_Clinic_4)
++1 Z(4_Clinic_4)
 <= 9.2233720368547758e+18
 
-c_u_x143_:
-+1 x338
-+1 x339
-+1 x340
-+1 x341
-+1 x342
-+1 x343
-+1 x344
-+1 x345
+c_u_rotationConstraintUpper(Clinic_5)_:
++1 Z(1_Clinic_5)
++1 Z(2_Clinic_5)
++1 Z(3_Clinic_5)
++1 Z(4_Clinic_5)
 <= 9.2233720368547758e+18
 
-c_u_x142_:
-+1 x330
-+1 x331
-+1 x332
-+1 x333
-+1 x334
-+1 x335
-+1 x336
-+1 x337
+c_u_rotationConstraintUpper(Clinic_6)_:
++1 Z(1_Clinic_6)
++1 Z(2_Clinic_6)
++1 Z(3_Clinic_6)
++1 Z(4_Clinic_6)
 <= 9.2233720368547758e+18
 
-c_u_x145_:
-+1 x354
-+1 x355
-+1 x356
-+1 x357
-+1 x358
-+1 x359
-+1 x360
-+1 x361
+c_u_rotationConstraintUpper(Clinic_7)_:
++1 Z(1_Clinic_7)
++1 Z(2_Clinic_7)
++1 Z(3_Clinic_7)
++1 Z(4_Clinic_7)
 <= 9.2233720368547758e+18
 
-c_u_x144_:
-+1 x346
-+1 x347
-+1 x348
-+1 x349
-+1 x350
-+1 x351
-+1 x352
-+1 x353
+c_u_rotationConstraintUpper(Clinic_8)_:
++1 Z(1_Clinic_8)
++1 Z(2_Clinic_8)
++1 Z(3_Clinic_8)
++1 Z(4_Clinic_8)
 <= 9.2233720368547758e+18
 
-c_l_x159_:
-+1 x306
-+1 x307
-+1 x308
+c_u_rotationConstraintUpper(Rotation1_1)_:
++1 Z(1_Rotation1_1)
++1 Z(2_Rotation1_1)
++1 Z(3_Rotation1_1)
++1 Z(4_Rotation1_1)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_2)_:
++1 Z(1_Rotation1_2)
++1 Z(2_Rotation1_2)
++1 Z(3_Rotation1_2)
++1 Z(4_Rotation1_2)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_3)_:
++1 Z(1_Rotation1_3)
++1 Z(2_Rotation1_3)
++1 Z(3_Rotation1_3)
++1 Z(4_Rotation1_3)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_4)_:
++1 Z(1_Rotation1_4)
++1 Z(2_Rotation1_4)
++1 Z(3_Rotation1_4)
++1 Z(4_Rotation1_4)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_5)_:
++1 Z(1_Rotation1_5)
++1 Z(2_Rotation1_5)
++1 Z(3_Rotation1_5)
++1 Z(4_Rotation1_5)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_6)_:
++1 Z(1_Rotation1_6)
++1 Z(2_Rotation1_6)
++1 Z(3_Rotation1_6)
++1 Z(4_Rotation1_6)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_7)_:
++1 Z(1_Rotation1_7)
++1 Z(2_Rotation1_7)
++1 Z(3_Rotation1_7)
++1 Z(4_Rotation1_7)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation1_8)_:
++1 Z(1_Rotation1_8)
++1 Z(2_Rotation1_8)
++1 Z(3_Rotation1_8)
++1 Z(4_Rotation1_8)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_1)_:
++1 Z(1_Rotation2_1)
++1 Z(2_Rotation2_1)
++1 Z(3_Rotation2_1)
++1 Z(4_Rotation2_1)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_2)_:
++1 Z(1_Rotation2_2)
++1 Z(2_Rotation2_2)
++1 Z(3_Rotation2_2)
++1 Z(4_Rotation2_2)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_3)_:
++1 Z(1_Rotation2_3)
++1 Z(2_Rotation2_3)
++1 Z(3_Rotation2_3)
++1 Z(4_Rotation2_3)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_4)_:
++1 Z(1_Rotation2_4)
++1 Z(2_Rotation2_4)
++1 Z(3_Rotation2_4)
++1 Z(4_Rotation2_4)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_5)_:
++1 Z(1_Rotation2_5)
++1 Z(2_Rotation2_5)
++1 Z(3_Rotation2_5)
++1 Z(4_Rotation2_5)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_6)_:
++1 Z(1_Rotation2_6)
++1 Z(2_Rotation2_6)
++1 Z(3_Rotation2_6)
++1 Z(4_Rotation2_6)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_7)_:
++1 Z(1_Rotation2_7)
++1 Z(2_Rotation2_7)
++1 Z(3_Rotation2_7)
++1 Z(4_Rotation2_7)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Rotation2_8)_:
++1 Z(1_Rotation2_8)
++1 Z(2_Rotation2_8)
++1 Z(3_Rotation2_8)
++1 Z(4_Rotation2_8)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_1)_:
++1 Z(1_Vacation_1)
++1 Z(2_Vacation_1)
++1 Z(3_Vacation_1)
++1 Z(4_Vacation_1)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_2)_:
++1 Z(1_Vacation_2)
++1 Z(2_Vacation_2)
++1 Z(3_Vacation_2)
++1 Z(4_Vacation_2)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_3)_:
++1 Z(1_Vacation_3)
++1 Z(2_Vacation_3)
++1 Z(3_Vacation_3)
++1 Z(4_Vacation_3)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_4)_:
++1 Z(1_Vacation_4)
++1 Z(2_Vacation_4)
++1 Z(3_Vacation_4)
++1 Z(4_Vacation_4)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_5)_:
++1 Z(1_Vacation_5)
++1 Z(2_Vacation_5)
++1 Z(3_Vacation_5)
++1 Z(4_Vacation_5)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_6)_:
++1 Z(1_Vacation_6)
++1 Z(2_Vacation_6)
++1 Z(3_Vacation_6)
++1 Z(4_Vacation_6)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_7)_:
++1 Z(1_Vacation_7)
++1 Z(2_Vacation_7)
++1 Z(3_Vacation_7)
++1 Z(4_Vacation_7)
+<= 9.2233720368547758e+18
+
+c_u_rotationConstraintUpper(Vacation_8)_:
++1 Z(1_Vacation_8)
++1 Z(2_Vacation_8)
++1 Z(3_Vacation_8)
++1 Z(4_Vacation_8)
+<= 9.2233720368547758e+18
+
+c_u_weekConstraint(1_1)_:
++1 Z(1_Clinic_1)
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation2_1)
++1 Z(1_Vacation_1)
+<= 1
+
+c_u_weekConstraint(1_2)_:
++1 Z(1_Clinic_2)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation2_2)
++1 Z(1_Vacation_2)
+<= 1
+
+c_u_weekConstraint(1_3)_:
++1 Z(1_Clinic_3)
++1 Z(1_Rotation1_3)
++1 Z(1_Rotation2_3)
++1 Z(1_Vacation_3)
+<= 1
+
+c_u_weekConstraint(1_4)_:
++1 Z(1_Clinic_4)
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation2_4)
++1 Z(1_Vacation_4)
+<= 1
+
+c_u_weekConstraint(1_5)_:
++1 Z(1_Clinic_5)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation2_5)
++1 Z(1_Vacation_5)
+<= 1
+
+c_u_weekConstraint(1_6)_:
++1 Z(1_Clinic_6)
++1 Z(1_Rotation1_6)
++1 Z(1_Rotation2_6)
++1 Z(1_Vacation_6)
+<= 1
+
+c_u_weekConstraint(1_7)_:
++1 Z(1_Clinic_7)
++1 Z(1_Rotation1_7)
++1 Z(1_Rotation2_7)
++1 Z(1_Vacation_7)
+<= 1
+
+c_u_weekConstraint(1_8)_:
++1 Z(1_Clinic_8)
++1 Z(1_Rotation1_8)
++1 Z(1_Rotation2_8)
++1 Z(1_Vacation_8)
+<= 1
+
+c_u_weekConstraint(2_1)_:
++1 Z(2_Clinic_1)
++1 Z(2_Rotation1_1)
++1 Z(2_Rotation2_1)
++1 Z(2_Vacation_1)
+<= 1
+
+c_u_weekConstraint(2_2)_:
++1 Z(2_Clinic_2)
++1 Z(2_Rotation1_2)
++1 Z(2_Rotation2_2)
++1 Z(2_Vacation_2)
+<= 1
+
+c_u_weekConstraint(2_3)_:
++1 Z(2_Clinic_3)
++1 Z(2_Rotation1_3)
++1 Z(2_Rotation2_3)
++1 Z(2_Vacation_3)
+<= 1
+
+c_u_weekConstraint(2_4)_:
++1 Z(2_Clinic_4)
++1 Z(2_Rotation1_4)
++1 Z(2_Rotation2_4)
++1 Z(2_Vacation_4)
+<= 1
+
+c_u_weekConstraint(2_5)_:
++1 Z(2_Clinic_5)
++1 Z(2_Rotation1_5)
++1 Z(2_Rotation2_5)
++1 Z(2_Vacation_5)
+<= 1
+
+c_u_weekConstraint(2_6)_:
++1 Z(2_Clinic_6)
++1 Z(2_Rotation1_6)
++1 Z(2_Rotation2_6)
++1 Z(2_Vacation_6)
+<= 1
+
+c_u_weekConstraint(2_7)_:
++1 Z(2_Clinic_7)
++1 Z(2_Rotation1_7)
++1 Z(2_Rotation2_7)
++1 Z(2_Vacation_7)
+<= 1
+
+c_u_weekConstraint(2_8)_:
++1 Z(2_Clinic_8)
++1 Z(2_Rotation1_8)
++1 Z(2_Rotation2_8)
++1 Z(2_Vacation_8)
+<= 1
+
+c_u_weekConstraint(3_1)_:
++1 Z(3_Clinic_1)
++1 Z(3_Rotation1_1)
++1 Z(3_Rotation2_1)
++1 Z(3_Vacation_1)
+<= 1
+
+c_u_weekConstraint(3_2)_:
++1 Z(3_Clinic_2)
++1 Z(3_Rotation1_2)
++1 Z(3_Rotation2_2)
++1 Z(3_Vacation_2)
+<= 1
+
+c_u_weekConstraint(3_3)_:
++1 Z(3_Clinic_3)
++1 Z(3_Rotation1_3)
++1 Z(3_Rotation2_3)
++1 Z(3_Vacation_3)
+<= 1
+
+c_u_weekConstraint(3_4)_:
++1 Z(3_Clinic_4)
++1 Z(3_Rotation1_4)
++1 Z(3_Rotation2_4)
++1 Z(3_Vacation_4)
+<= 1
+
+c_u_weekConstraint(3_5)_:
++1 Z(3_Clinic_5)
++1 Z(3_Rotation1_5)
++1 Z(3_Rotation2_5)
++1 Z(3_Vacation_5)
+<= 1
+
+c_u_weekConstraint(3_6)_:
++1 Z(3_Clinic_6)
++1 Z(3_Rotation1_6)
++1 Z(3_Rotation2_6)
++1 Z(3_Vacation_6)
+<= 1
+
+c_u_weekConstraint(3_7)_:
++1 Z(3_Clinic_7)
++1 Z(3_Rotation1_7)
++1 Z(3_Rotation2_7)
++1 Z(3_Vacation_7)
+<= 1
+
+c_u_weekConstraint(3_8)_:
++1 Z(3_Clinic_8)
++1 Z(3_Rotation1_8)
++1 Z(3_Rotation2_8)
++1 Z(3_Vacation_8)
+<= 1
+
+c_u_weekConstraint(4_1)_:
++1 Z(4_Clinic_1)
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation2_1)
++1 Z(4_Vacation_1)
+<= 1
+
+c_u_weekConstraint(4_2)_:
++1 Z(4_Clinic_2)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation2_2)
++1 Z(4_Vacation_2)
+<= 1
+
+c_u_weekConstraint(4_3)_:
++1 Z(4_Clinic_3)
++1 Z(4_Rotation1_3)
++1 Z(4_Rotation2_3)
++1 Z(4_Vacation_3)
+<= 1
+
+c_u_weekConstraint(4_4)_:
++1 Z(4_Clinic_4)
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation2_4)
++1 Z(4_Vacation_4)
+<= 1
+
+c_u_weekConstraint(4_5)_:
++1 Z(4_Clinic_5)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation2_5)
++1 Z(4_Vacation_5)
+<= 1
+
+c_u_weekConstraint(4_6)_:
++1 Z(4_Clinic_6)
++1 Z(4_Rotation1_6)
++1 Z(4_Rotation2_6)
++1 Z(4_Vacation_6)
+<= 1
+
+c_u_weekConstraint(4_7)_:
++1 Z(4_Clinic_7)
++1 Z(4_Rotation1_7)
++1 Z(4_Rotation2_7)
++1 Z(4_Vacation_7)
+<= 1
+
+c_u_weekConstraint(4_8)_:
++1 Z(4_Clinic_8)
++1 Z(4_Rotation1_8)
++1 Z(4_Rotation2_8)
++1 Z(4_Vacation_8)
+<= 1
+
+c_l_minYearConstraint(1_Clinic)_:
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Z(1_Clinic_7)
++1 Z(1_Clinic_8)
 >= 0
 
-c_l_x161_:
-+1 x309
-+1 x310
-+1 x311
+c_l_minYearConstraint(1_Rotation1)_:
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
++1 Z(1_Rotation1_7)
++1 Z(1_Rotation1_8)
 >= 0
 
-c_l_x163_:
-+1 x312
-+1 x313
+c_l_minYearConstraint(1_Rotation2)_:
++1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
++1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
++1 Z(1_Rotation2_7)
++1 Z(1_Rotation2_8)
 >= 0
 
-c_l_x166_:
-+1 x298
-+1 x299
-+1 x300
+c_l_minYearConstraint(1_Vacation)_:
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
++1 Z(1_Vacation_7)
++1 Z(1_Vacation_8)
 >= 0
 
-c_l_x169_:
-+1 x301
-+1 x302
-+1 x303
+c_l_minYearConstraint(2_Clinic)_:
++1 Z(2_Clinic_1)
++1 Z(2_Clinic_2)
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
++1 Z(2_Clinic_7)
++1 Z(2_Clinic_8)
 >= 0
 
-c_l_x168_:
-+1 x304
-+1 x305
+c_l_minYearConstraint(2_Rotation1)_:
++1 Z(2_Rotation1_1)
++1 Z(2_Rotation1_2)
++1 Z(2_Rotation1_3)
++1 Z(2_Rotation1_4)
++1 Z(2_Rotation1_5)
++1 Z(2_Rotation1_6)
++1 Z(2_Rotation1_7)
++1 Z(2_Rotation1_8)
 >= 0
 
-c_l_x158_:
-+1 x322
-+1 x323
+c_l_minYearConstraint(2_Rotation2)_:
++1 Z(2_Rotation2_1)
++1 Z(2_Rotation2_2)
++1 Z(2_Rotation2_3)
++1 Z(2_Rotation2_4)
++1 Z(2_Rotation2_5)
++1 Z(2_Rotation2_6)
++1 Z(2_Rotation2_7)
++1 Z(2_Rotation2_8)
 >= 0
 
-c_l_x147_:
-+1 x324
-+1 x325
-+1 x326
+c_l_minYearConstraint(2_Vacation)_:
++1 Z(2_Vacation_1)
++1 Z(2_Vacation_2)
++1 Z(2_Vacation_3)
++1 Z(2_Vacation_4)
++1 Z(2_Vacation_5)
++1 Z(2_Vacation_6)
++1 Z(2_Vacation_7)
++1 Z(2_Vacation_8)
 >= 0
 
-c_l_x167_:
-+1 x327
-+1 x328
-+1 x329
+c_l_minYearConstraint(3_Clinic)_:
++1 Z(3_Clinic_1)
++1 Z(3_Clinic_2)
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
++1 Z(3_Clinic_7)
++1 Z(3_Clinic_8)
 >= 0
 
-c_l_x160_:
-+1 x314
-+1 x315
+c_l_minYearConstraint(3_Rotation1)_:
++1 Z(3_Rotation1_1)
++1 Z(3_Rotation1_2)
++1 Z(3_Rotation1_3)
++1 Z(3_Rotation1_4)
++1 Z(3_Rotation1_5)
++1 Z(3_Rotation1_6)
++1 Z(3_Rotation1_7)
++1 Z(3_Rotation1_8)
 >= 0
 
-c_l_x152_:
-+1 x316
-+1 x317
-+1 x318
+c_l_minYearConstraint(3_Rotation2)_:
++1 Z(3_Rotation2_1)
++1 Z(3_Rotation2_2)
++1 Z(3_Rotation2_3)
++1 Z(3_Rotation2_4)
++1 Z(3_Rotation2_5)
++1 Z(3_Rotation2_6)
++1 Z(3_Rotation2_7)
++1 Z(3_Rotation2_8)
 >= 0
 
-c_l_x156_:
-+1 x319
-+1 x320
-+1 x321
+c_l_minYearConstraint(3_Vacation)_:
++1 Z(3_Vacation_1)
++1 Z(3_Vacation_2)
++1 Z(3_Vacation_3)
++1 Z(3_Vacation_4)
++1 Z(3_Vacation_5)
++1 Z(3_Vacation_6)
++1 Z(3_Vacation_7)
++1 Z(3_Vacation_8)
 >= 0
 
-c_l_x149_:
-+1 x338
-+1 x339
+c_l_minYearConstraint(4_Clinic)_:
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Z(4_Clinic_7)
++1 Z(4_Clinic_8)
 >= 0
 
-c_l_x155_:
-+1 x340
-+1 x341
-+1 x342
+c_l_minYearConstraint(4_Rotation1)_:
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
++1 Z(4_Rotation1_7)
++1 Z(4_Rotation1_8)
 >= 0
 
-c_l_x146_:
-+1 x343
-+1 x344
-+1 x345
+c_l_minYearConstraint(4_Rotation2)_:
++1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
++1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
++1 Z(4_Rotation2_7)
++1 Z(4_Rotation2_8)
 >= 0
 
-c_l_x165_:
-+1 x330
-+1 x331
+c_l_minYearConstraint(4_Vacation)_:
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
++1 Z(4_Vacation_7)
++1 Z(4_Vacation_8)
 >= 0
 
-c_l_x164_:
-+1 x332
-+1 x333
-+1 x334
+c_u_maxYearConstraint(1_Clinic)_:
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Z(1_Clinic_7)
++1 Z(1_Clinic_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(1_Rotation1)_:
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
++1 Z(1_Rotation1_7)
++1 Z(1_Rotation1_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(1_Rotation2)_:
++1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
++1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
++1 Z(1_Rotation2_7)
++1 Z(1_Rotation2_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(1_Vacation)_:
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
++1 Z(1_Vacation_7)
++1 Z(1_Vacation_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(2_Clinic)_:
++1 Z(2_Clinic_1)
++1 Z(2_Clinic_2)
++1 Z(2_Clinic_3)
++1 Z(2_Clinic_4)
++1 Z(2_Clinic_5)
++1 Z(2_Clinic_6)
++1 Z(2_Clinic_7)
++1 Z(2_Clinic_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(2_Rotation1)_:
++1 Z(2_Rotation1_1)
++1 Z(2_Rotation1_2)
++1 Z(2_Rotation1_3)
++1 Z(2_Rotation1_4)
++1 Z(2_Rotation1_5)
++1 Z(2_Rotation1_6)
++1 Z(2_Rotation1_7)
++1 Z(2_Rotation1_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(2_Rotation2)_:
++1 Z(2_Rotation2_1)
++1 Z(2_Rotation2_2)
++1 Z(2_Rotation2_3)
++1 Z(2_Rotation2_4)
++1 Z(2_Rotation2_5)
++1 Z(2_Rotation2_6)
++1 Z(2_Rotation2_7)
++1 Z(2_Rotation2_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(2_Vacation)_:
++1 Z(2_Vacation_1)
++1 Z(2_Vacation_2)
++1 Z(2_Vacation_3)
++1 Z(2_Vacation_4)
++1 Z(2_Vacation_5)
++1 Z(2_Vacation_6)
++1 Z(2_Vacation_7)
++1 Z(2_Vacation_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(3_Clinic)_:
++1 Z(3_Clinic_1)
++1 Z(3_Clinic_2)
++1 Z(3_Clinic_3)
++1 Z(3_Clinic_4)
++1 Z(3_Clinic_5)
++1 Z(3_Clinic_6)
++1 Z(3_Clinic_7)
++1 Z(3_Clinic_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(3_Rotation1)_:
++1 Z(3_Rotation1_1)
++1 Z(3_Rotation1_2)
++1 Z(3_Rotation1_3)
++1 Z(3_Rotation1_4)
++1 Z(3_Rotation1_5)
++1 Z(3_Rotation1_6)
++1 Z(3_Rotation1_7)
++1 Z(3_Rotation1_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(3_Rotation2)_:
++1 Z(3_Rotation2_1)
++1 Z(3_Rotation2_2)
++1 Z(3_Rotation2_3)
++1 Z(3_Rotation2_4)
++1 Z(3_Rotation2_5)
++1 Z(3_Rotation2_6)
++1 Z(3_Rotation2_7)
++1 Z(3_Rotation2_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(3_Vacation)_:
++1 Z(3_Vacation_1)
++1 Z(3_Vacation_2)
++1 Z(3_Vacation_3)
++1 Z(3_Vacation_4)
++1 Z(3_Vacation_5)
++1 Z(3_Vacation_6)
++1 Z(3_Vacation_7)
++1 Z(3_Vacation_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(4_Clinic)_:
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Z(4_Clinic_7)
++1 Z(4_Clinic_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(4_Rotation1)_:
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
++1 Z(4_Rotation1_7)
++1 Z(4_Rotation1_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(4_Rotation2)_:
++1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
++1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
++1 Z(4_Rotation2_7)
++1 Z(4_Rotation2_8)
+<= 9.2233720368547758e+18
+
+c_u_maxYearConstraint(4_Vacation)_:
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
++1 Z(4_Vacation_7)
++1 Z(4_Vacation_8)
+<= 9.2233720368547758e+18
+
+c_l_minLengthConstraint(1_Clinic_1)_:
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
 >= 0
 
-c_l_x162_:
-+1 x335
-+1 x336
-+1 x337
+c_l_minLengthConstraint(1_Clinic_2)_:
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
 >= 0
 
-c_l_x151_:
-+1 x354
-+1 x355
-+1 x356
+c_l_minLengthConstraint(1_Rotation1_1)_:
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
 >= 0
 
-c_l_x157_:
-+1 x357
-+1 x358
-+1 x359
+c_l_minLengthConstraint(1_Rotation1_2)_:
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
 >= 0
 
-c_l_x153_:
-+1 x360
-+1 x361
+c_l_minLengthConstraint(1_Rotation2_1)_:
++1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
 >= 0
 
-c_l_x148_:
-+1 x346
-+1 x347
-+1 x348
+c_l_minLengthConstraint(1_Rotation2_2)_:
++1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
 >= 0
 
-c_l_x154_:
-+1 x349
-+1 x350
-+1 x351
+c_l_minLengthConstraint(1_Vacation_1)_:
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
 >= 0
 
-c_l_x150_:
-+1 x352
-+1 x353
+c_l_minLengthConstraint(1_Vacation_2)_:
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
 >= 0
 
-c_u_x183_:
-+1 x306
-+1 x307
-+1 x308
--9.2233720368547758e+18 x368
+c_l_minLengthConstraint(4_Clinic_1)_:
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
+>= 0
+
+c_l_minLengthConstraint(4_Clinic_2)_:
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
+>= 0
+
+c_l_minLengthConstraint(4_Rotation1_1)_:
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
+>= 0
+
+c_l_minLengthConstraint(4_Rotation1_2)_:
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
+>= 0
+
+c_l_minLengthConstraint(4_Rotation2_1)_:
++1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
+>= 0
+
+c_l_minLengthConstraint(4_Rotation2_2)_:
++1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
+>= 0
+
+c_l_minLengthConstraint(4_Vacation_1)_:
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
+>= 0
+
+c_l_minLengthConstraint(4_Vacation_2)_:
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
+>= 0
+
+c_u_maxLengthConstraint(1_Clinic_1)_:
+-9.2233720368547758e+18 X(1_Clinic_1)
++1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
 <= 0
 
-c_u_x185_:
-+1 x309
-+1 x310
-+1 x311
--9.2233720368547758e+18 x369
+c_u_maxLengthConstraint(1_Clinic_2)_:
+-9.2233720368547758e+18 X(1_Clinic_2)
++1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
 <= 0
 
-c_u_x187_:
-+1 x312
-+1 x313
--9.2233720368547758e+18 x370
+c_u_maxLengthConstraint(1_Rotation1_1)_:
+-9.2233720368547758e+18 X(1_Rotation1_1)
++1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
 <= 0
 
-c_u_x190_:
-+1 x298
-+1 x299
-+1 x300
--9.2233720368547758e+18 x362
+c_u_maxLengthConstraint(1_Rotation1_2)_:
+-9.2233720368547758e+18 X(1_Rotation1_2)
++1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
 <= 0
 
-c_u_x193_:
-+1 x301
-+1 x302
-+1 x303
--9.2233720368547758e+18 x363
+c_u_maxLengthConstraint(1_Rotation2_1)_:
+-9.2233720368547758e+18 X(1_Rotation2_1)
++1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
 <= 0
 
-c_u_x192_:
-+1 x304
-+1 x305
--9.2233720368547758e+18 x364
+c_u_maxLengthConstraint(1_Rotation2_2)_:
+-9.2233720368547758e+18 X(1_Rotation2_2)
++1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
 <= 0
 
-c_u_x182_:
-+1 x322
-+1 x323
--9.2233720368547758e+18 x383
+c_u_maxLengthConstraint(1_Vacation_1)_:
+-9.2233720368547758e+18 X(1_Vacation_1)
++1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
 <= 0
 
-c_u_x171_:
-+1 x324
-+1 x325
-+1 x326
--9.2233720368547758e+18 x384
+c_u_maxLengthConstraint(1_Vacation_2)_:
+-9.2233720368547758e+18 X(1_Vacation_2)
++1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
 <= 0
 
-c_u_x191_:
-+1 x327
-+1 x328
-+1 x329
--9.2233720368547758e+18 x385
+c_u_maxLengthConstraint(4_Clinic_1)_:
+-9.2233720368547758e+18 X(4_Clinic_1)
++1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
 <= 0
 
-c_u_x184_:
-+1 x314
-+1 x315
--9.2233720368547758e+18 x377
+c_u_maxLengthConstraint(4_Clinic_2)_:
+-9.2233720368547758e+18 X(4_Clinic_2)
++1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
 <= 0
 
-c_u_x176_:
-+1 x316
-+1 x317
-+1 x318
--9.2233720368547758e+18 x378
+c_u_maxLengthConstraint(4_Rotation1_1)_:
+-9.2233720368547758e+18 X(4_Rotation1_1)
++1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
 <= 0
 
-c_u_x180_:
-+1 x319
-+1 x320
-+1 x321
--9.2233720368547758e+18 x379
+c_u_maxLengthConstraint(4_Rotation1_2)_:
+-9.2233720368547758e+18 X(4_Rotation1_2)
++1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
 <= 0
 
-c_u_x173_:
-+1 x338
-+1 x339
--9.2233720368547758e+18 x395
+c_u_maxLengthConstraint(4_Rotation2_1)_:
+-9.2233720368547758e+18 X(4_Rotation2_1)
++1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
 <= 0
 
-c_u_x179_:
-+1 x340
-+1 x341
-+1 x342
--9.2233720368547758e+18 x396
+c_u_maxLengthConstraint(4_Rotation2_2)_:
+-9.2233720368547758e+18 X(4_Rotation2_2)
++1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
 <= 0
 
-c_u_x170_:
-+1 x343
-+1 x344
-+1 x345
--9.2233720368547758e+18 x397
+c_u_maxLengthConstraint(4_Vacation_1)_:
+-9.2233720368547758e+18 X(4_Vacation_1)
++1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
 <= 0
 
-c_u_x189_:
-+1 x330
-+1 x331
--9.2233720368547758e+18 x389
+c_u_maxLengthConstraint(4_Vacation_2)_:
+-9.2233720368547758e+18 X(4_Vacation_2)
++1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
 <= 0
 
-c_u_x188_:
-+1 x332
-+1 x333
-+1 x334
--9.2233720368547758e+18 x390
-<= 0
-
-c_u_x186_:
-+1 x335
-+1 x336
-+1 x337
--9.2233720368547758e+18 x391
-<= 0
-
-c_u_x175_:
-+1 x354
-+1 x355
-+1 x356
--9.2233720368547758e+18 x404
-<= 0
-
-c_u_x181_:
-+1 x357
-+1 x358
-+1 x359
--9.2233720368547758e+18 x405
-<= 0
-
-c_u_x177_:
-+1 x360
-+1 x361
--9.2233720368547758e+18 x406
-<= 0
-
-c_u_x172_:
-+1 x346
-+1 x347
-+1 x348
--9.2233720368547758e+18 x398
-<= 0
-
-c_u_x178_:
-+1 x349
-+1 x350
-+1 x351
--9.2233720368547758e+18 x399
-<= 0
-
-c_u_x174_:
-+1 x352
-+1 x353
--9.2233720368547758e+18 x400
-<= 0
-
-c_l_x199_:
-+1 x306
--1 x307
-+1 x418
->= 0
-
-c_l_x208_:
-+1 x307
--1 x308
-+1 x419
->= 0
-
-c_l_x196_:
-+1 x309
--1 x310
-+1 x421
->= 0
-
-c_l_x207_:
-+1 x310
--1 x311
-+1 x422
->= 0
-
-c_l_x194_:
-+1 x312
--1 x313
-+1 x424
->= 0
-
-c_l_x209_:
-+1 x298
--1 x299
-+1 x410
->= 0
-
-c_l_x225_:
-+1 x299
--1 x300
-+1 x411
->= 0
-
-c_l_x213_:
-+1 x301
--1 x302
-+1 x413
->= 0
-
-c_l_x200_:
-+1 x302
--1 x303
-+1 x414
->= 0
-
-c_l_x233_:
-+1 x304
--1 x305
-+1 x416
->= 0
-
-c_l_x206_:
-+1 x322
--1 x323
-+1 x434
->= 0
-
-c_l_x229_:
-+1 x324
--1 x325
-+1 x436
->= 0
-
-c_l_x232_:
-+1 x325
--1 x326
-+1 x437
->= 0
-
-c_l_x195_:
-+1 x327
--1 x328
-+1 x439
->= 0
-
-c_l_x231_:
-+1 x328
--1 x329
-+1 x440
->= 0
-
-c_l_x212_:
-+1 x314
--1 x315
-+1 x426
->= 0
-
-c_l_x224_:
-+1 x316
--1 x317
-+1 x428
+c_l_ZabsConstraint1(1_Clinic_1_1)_:
++1 Z(1_Clinic_1)
+-1 Z(1_Clinic_2)
++1 Zabs(1_Clinic_1)
 >= 0
 
-c_l_x223_:
-+1 x317
--1 x318
-+1 x429
+c_l_ZabsConstraint1(1_Clinic_1_2)_:
++1 Z(1_Clinic_2)
+-1 Z(1_Clinic_3)
++1 Zabs(1_Clinic_2)
 >= 0
 
-c_l_x214_:
-+1 x319
--1 x320
-+1 x431
+c_l_ZabsConstraint1(1_Clinic_2_4)_:
++1 Z(1_Clinic_4)
+-1 Z(1_Clinic_5)
++1 Zabs(1_Clinic_4)
 >= 0
 
-c_l_x228_:
-+1 x320
--1 x321
-+1 x432
+c_l_ZabsConstraint1(1_Clinic_2_5)_:
++1 Z(1_Clinic_5)
+-1 Z(1_Clinic_6)
++1 Zabs(1_Clinic_5)
 >= 0
 
-c_l_x226_:
-+1 x338
--1 x339
-+1 x450
+c_l_ZabsConstraint1(1_Rotation1_1_1)_:
++1 Z(1_Rotation1_1)
+-1 Z(1_Rotation1_2)
++1 Zabs(1_Rotation1_1)
 >= 0
 
-c_l_x210_:
-+1 x340
--1 x341
-+1 x452
+c_l_ZabsConstraint1(1_Rotation1_1_2)_:
++1 Z(1_Rotation1_2)
+-1 Z(1_Rotation1_3)
++1 Zabs(1_Rotation1_2)
 >= 0
 
-c_l_x216_:
-+1 x341
--1 x342
-+1 x453
+c_l_ZabsConstraint1(1_Rotation1_2_4)_:
++1 Z(1_Rotation1_4)
+-1 Z(1_Rotation1_5)
++1 Zabs(1_Rotation1_4)
 >= 0
 
-c_l_x227_:
-+1 x343
--1 x344
-+1 x455
+c_l_ZabsConstraint1(1_Rotation1_2_5)_:
++1 Z(1_Rotation1_5)
+-1 Z(1_Rotation1_6)
++1 Zabs(1_Rotation1_5)
 >= 0
 
-c_l_x197_:
-+1 x344
--1 x345
-+1 x456
+c_l_ZabsConstraint1(1_Rotation2_1_1)_:
++1 Z(1_Rotation2_1)
+-1 Z(1_Rotation2_2)
++1 Zabs(1_Rotation2_1)
 >= 0
 
-c_l_x220_:
-+1 x330
--1 x331
-+1 x442
+c_l_ZabsConstraint1(1_Rotation2_1_2)_:
++1 Z(1_Rotation2_2)
+-1 Z(1_Rotation2_3)
++1 Zabs(1_Rotation2_2)
 >= 0
 
-c_l_x218_:
-+1 x332
--1 x333
-+1 x444
+c_l_ZabsConstraint1(1_Rotation2_2_4)_:
++1 Z(1_Rotation2_4)
+-1 Z(1_Rotation2_5)
++1 Zabs(1_Rotation2_4)
 >= 0
 
-c_l_x215_:
-+1 x333
--1 x334
-+1 x445
+c_l_ZabsConstraint1(1_Rotation2_2_5)_:
++1 Z(1_Rotation2_5)
+-1 Z(1_Rotation2_6)
++1 Zabs(1_Rotation2_5)
 >= 0
 
-c_l_x201_:
-+1 x335
--1 x336
-+1 x447
+c_l_ZabsConstraint1(1_Vacation_1_1)_:
++1 Z(1_Vacation_1)
+-1 Z(1_Vacation_2)
++1 Zabs(1_Vacation_1)
 >= 0
 
-c_l_x202_:
-+1 x336
--1 x337
-+1 x448
+c_l_ZabsConstraint1(1_Vacation_1_2)_:
++1 Z(1_Vacation_2)
+-1 Z(1_Vacation_3)
++1 Zabs(1_Vacation_2)
 >= 0
 
-c_l_x198_:
-+1 x354
--1 x355
-+1 x466
+c_l_ZabsConstraint1(1_Vacation_2_4)_:
++1 Z(1_Vacation_4)
+-1 Z(1_Vacation_5)
++1 Zabs(1_Vacation_4)
 >= 0
 
-c_l_x211_:
-+1 x355
--1 x356
-+1 x467
+c_l_ZabsConstraint1(1_Vacation_2_5)_:
++1 Z(1_Vacation_5)
+-1 Z(1_Vacation_6)
++1 Zabs(1_Vacation_5)
 >= 0
 
-c_l_x222_:
-+1 x357
--1 x358
-+1 x469
+c_l_ZabsConstraint1(4_Clinic_1_1)_:
++1 Z(4_Clinic_1)
+-1 Z(4_Clinic_2)
++1 Zabs(4_Clinic_1)
 >= 0
 
-c_l_x204_:
-+1 x358
--1 x359
-+1 x470
+c_l_ZabsConstraint1(4_Clinic_1_2)_:
++1 Z(4_Clinic_2)
+-1 Z(4_Clinic_3)
++1 Zabs(4_Clinic_2)
 >= 0
 
-c_l_x219_:
-+1 x360
--1 x361
-+1 x472
+c_l_ZabsConstraint1(4_Clinic_2_4)_:
++1 Z(4_Clinic_4)
+-1 Z(4_Clinic_5)
++1 Zabs(4_Clinic_4)
 >= 0
 
-c_l_x230_:
-+1 x346
--1 x347
-+1 x458
+c_l_ZabsConstraint1(4_Clinic_2_5)_:
++1 Z(4_Clinic_5)
+-1 Z(4_Clinic_6)
++1 Zabs(4_Clinic_5)
 >= 0
 
-c_l_x217_:
-+1 x347
--1 x348
-+1 x459
+c_l_ZabsConstraint1(4_Rotation1_1_1)_:
++1 Z(4_Rotation1_1)
+-1 Z(4_Rotation1_2)
++1 Zabs(4_Rotation1_1)
 >= 0
 
-c_l_x205_:
-+1 x349
--1 x350
-+1 x461
+c_l_ZabsConstraint1(4_Rotation1_1_2)_:
++1 Z(4_Rotation1_2)
+-1 Z(4_Rotation1_3)
++1 Zabs(4_Rotation1_2)
 >= 0
 
-c_l_x221_:
-+1 x350
--1 x351
-+1 x462
+c_l_ZabsConstraint1(4_Rotation1_2_4)_:
++1 Z(4_Rotation1_4)
+-1 Z(4_Rotation1_5)
++1 Zabs(4_Rotation1_4)
 >= 0
 
-c_l_x203_:
-+1 x352
--1 x353
-+1 x464
+c_l_ZabsConstraint1(4_Rotation1_2_5)_:
++1 Z(4_Rotation1_5)
+-1 Z(4_Rotation1_6)
++1 Zabs(4_Rotation1_5)
 >= 0
 
-c_l_x239_:
--1 x306
-+1 x307
-+1 x418
+c_l_ZabsConstraint1(4_Rotation2_1_1)_:
++1 Z(4_Rotation2_1)
+-1 Z(4_Rotation2_2)
++1 Zabs(4_Rotation2_1)
 >= 0
 
-c_l_x248_:
--1 x307
-+1 x308
-+1 x419
+c_l_ZabsConstraint1(4_Rotation2_1_2)_:
++1 Z(4_Rotation2_2)
+-1 Z(4_Rotation2_3)
++1 Zabs(4_Rotation2_2)
 >= 0
 
-c_l_x236_:
--1 x309
-+1 x310
-+1 x421
+c_l_ZabsConstraint1(4_Rotation2_2_4)_:
++1 Z(4_Rotation2_4)
+-1 Z(4_Rotation2_5)
++1 Zabs(4_Rotation2_4)
 >= 0
 
-c_l_x247_:
--1 x310
-+1 x311
-+1 x422
+c_l_ZabsConstraint1(4_Rotation2_2_5)_:
++1 Z(4_Rotation2_5)
+-1 Z(4_Rotation2_6)
++1 Zabs(4_Rotation2_5)
 >= 0
 
-c_l_x234_:
--1 x312
-+1 x313
-+1 x424
+c_l_ZabsConstraint1(4_Vacation_1_1)_:
++1 Z(4_Vacation_1)
+-1 Z(4_Vacation_2)
++1 Zabs(4_Vacation_1)
 >= 0
 
-c_l_x249_:
--1 x298
-+1 x299
-+1 x410
+c_l_ZabsConstraint1(4_Vacation_1_2)_:
++1 Z(4_Vacation_2)
+-1 Z(4_Vacation_3)
++1 Zabs(4_Vacation_2)
 >= 0
 
-c_l_x265_:
--1 x299
-+1 x300
-+1 x411
+c_l_ZabsConstraint1(4_Vacation_2_4)_:
++1 Z(4_Vacation_4)
+-1 Z(4_Vacation_5)
++1 Zabs(4_Vacation_4)
 >= 0
 
-c_l_x253_:
--1 x301
-+1 x302
-+1 x413
+c_l_ZabsConstraint1(4_Vacation_2_5)_:
++1 Z(4_Vacation_5)
+-1 Z(4_Vacation_6)
++1 Zabs(4_Vacation_5)
 >= 0
 
-c_l_x240_:
--1 x302
-+1 x303
-+1 x414
+c_l_ZabsConstraint2(1_Clinic_1_1)_:
+-1 Z(1_Clinic_1)
++1 Z(1_Clinic_2)
++1 Zabs(1_Clinic_1)
 >= 0
 
-c_l_x273_:
--1 x304
-+1 x305
-+1 x416
+c_l_ZabsConstraint2(1_Clinic_1_2)_:
+-1 Z(1_Clinic_2)
++1 Z(1_Clinic_3)
++1 Zabs(1_Clinic_2)
 >= 0
 
-c_l_x246_:
--1 x322
-+1 x323
-+1 x434
+c_l_ZabsConstraint2(1_Clinic_2_4)_:
+-1 Z(1_Clinic_4)
++1 Z(1_Clinic_5)
++1 Zabs(1_Clinic_4)
 >= 0
 
-c_l_x269_:
--1 x324
-+1 x325
-+1 x436
+c_l_ZabsConstraint2(1_Clinic_2_5)_:
+-1 Z(1_Clinic_5)
++1 Z(1_Clinic_6)
++1 Zabs(1_Clinic_5)
 >= 0
 
-c_l_x272_:
--1 x325
-+1 x326
-+1 x437
+c_l_ZabsConstraint2(1_Rotation1_1_1)_:
+-1 Z(1_Rotation1_1)
++1 Z(1_Rotation1_2)
++1 Zabs(1_Rotation1_1)
 >= 0
 
-c_l_x235_:
--1 x327
-+1 x328
-+1 x439
+c_l_ZabsConstraint2(1_Rotation1_1_2)_:
+-1 Z(1_Rotation1_2)
++1 Z(1_Rotation1_3)
++1 Zabs(1_Rotation1_2)
 >= 0
 
-c_l_x271_:
--1 x328
-+1 x329
-+1 x440
+c_l_ZabsConstraint2(1_Rotation1_2_4)_:
+-1 Z(1_Rotation1_4)
++1 Z(1_Rotation1_5)
++1 Zabs(1_Rotation1_4)
 >= 0
 
-c_l_x252_:
--1 x314
-+1 x315
-+1 x426
+c_l_ZabsConstraint2(1_Rotation1_2_5)_:
+-1 Z(1_Rotation1_5)
++1 Z(1_Rotation1_6)
++1 Zabs(1_Rotation1_5)
 >= 0
 
-c_l_x264_:
--1 x316
-+1 x317
-+1 x428
+c_l_ZabsConstraint2(1_Rotation2_1_1)_:
+-1 Z(1_Rotation2_1)
++1 Z(1_Rotation2_2)
++1 Zabs(1_Rotation2_1)
 >= 0
 
-c_l_x263_:
--1 x317
-+1 x318
-+1 x429
+c_l_ZabsConstraint2(1_Rotation2_1_2)_:
+-1 Z(1_Rotation2_2)
++1 Z(1_Rotation2_3)
++1 Zabs(1_Rotation2_2)
 >= 0
 
-c_l_x254_:
--1 x319
-+1 x320
-+1 x431
+c_l_ZabsConstraint2(1_Rotation2_2_4)_:
+-1 Z(1_Rotation2_4)
++1 Z(1_Rotation2_5)
++1 Zabs(1_Rotation2_4)
 >= 0
 
-c_l_x268_:
--1 x320
-+1 x321
-+1 x432
+c_l_ZabsConstraint2(1_Rotation2_2_5)_:
+-1 Z(1_Rotation2_5)
++1 Z(1_Rotation2_6)
++1 Zabs(1_Rotation2_5)
 >= 0
 
-c_l_x266_:
--1 x338
-+1 x339
-+1 x450
+c_l_ZabsConstraint2(1_Vacation_1_1)_:
+-1 Z(1_Vacation_1)
++1 Z(1_Vacation_2)
++1 Zabs(1_Vacation_1)
 >= 0
 
-c_l_x250_:
--1 x340
-+1 x341
-+1 x452
+c_l_ZabsConstraint2(1_Vacation_1_2)_:
+-1 Z(1_Vacation_2)
++1 Z(1_Vacation_3)
++1 Zabs(1_Vacation_2)
 >= 0
 
-c_l_x256_:
--1 x341
-+1 x342
-+1 x453
+c_l_ZabsConstraint2(1_Vacation_2_4)_:
+-1 Z(1_Vacation_4)
++1 Z(1_Vacation_5)
++1 Zabs(1_Vacation_4)
 >= 0
 
-c_l_x267_:
--1 x343
-+1 x344
-+1 x455
+c_l_ZabsConstraint2(1_Vacation_2_5)_:
+-1 Z(1_Vacation_5)
++1 Z(1_Vacation_6)
++1 Zabs(1_Vacation_5)
 >= 0
 
-c_l_x237_:
--1 x344
-+1 x345
-+1 x456
+c_l_ZabsConstraint2(4_Clinic_1_1)_:
+-1 Z(4_Clinic_1)
++1 Z(4_Clinic_2)
++1 Zabs(4_Clinic_1)
 >= 0
 
-c_l_x260_:
--1 x330
-+1 x331
-+1 x442
+c_l_ZabsConstraint2(4_Clinic_1_2)_:
+-1 Z(4_Clinic_2)
++1 Z(4_Clinic_3)
++1 Zabs(4_Clinic_2)
 >= 0
 
-c_l_x258_:
--1 x332
-+1 x333
-+1 x444
+c_l_ZabsConstraint2(4_Clinic_2_4)_:
+-1 Z(4_Clinic_4)
++1 Z(4_Clinic_5)
++1 Zabs(4_Clinic_4)
 >= 0
 
-c_l_x255_:
--1 x333
-+1 x334
-+1 x445
+c_l_ZabsConstraint2(4_Clinic_2_5)_:
+-1 Z(4_Clinic_5)
++1 Z(4_Clinic_6)
++1 Zabs(4_Clinic_5)
 >= 0
 
-c_l_x241_:
--1 x335
-+1 x336
-+1 x447
+c_l_ZabsConstraint2(4_Rotation1_1_1)_:
+-1 Z(4_Rotation1_1)
++1 Z(4_Rotation1_2)
++1 Zabs(4_Rotation1_1)
 >= 0
 
-c_l_x242_:
--1 x336
-+1 x337
-+1 x448
+c_l_ZabsConstraint2(4_Rotation1_1_2)_:
+-1 Z(4_Rotation1_2)
++1 Z(4_Rotation1_3)
++1 Zabs(4_Rotation1_2)
 >= 0
 
-c_l_x238_:
--1 x354
-+1 x355
-+1 x466
+c_l_ZabsConstraint2(4_Rotation1_2_4)_:
+-1 Z(4_Rotation1_4)
++1 Z(4_Rotation1_5)
++1 Zabs(4_Rotation1_4)
 >= 0
 
-c_l_x251_:
--1 x355
-+1 x356
-+1 x467
+c_l_ZabsConstraint2(4_Rotation1_2_5)_:
+-1 Z(4_Rotation1_5)
++1 Z(4_Rotation1_6)
++1 Zabs(4_Rotation1_5)
 >= 0
 
-c_l_x262_:
--1 x357
-+1 x358
-+1 x469
+c_l_ZabsConstraint2(4_Rotation2_1_1)_:
+-1 Z(4_Rotation2_1)
++1 Z(4_Rotation2_2)
++1 Zabs(4_Rotation2_1)
 >= 0
 
-c_l_x244_:
--1 x358
-+1 x359
-+1 x470
+c_l_ZabsConstraint2(4_Rotation2_1_2)_:
+-1 Z(4_Rotation2_2)
++1 Z(4_Rotation2_3)
++1 Zabs(4_Rotation2_2)
 >= 0
 
-c_l_x259_:
--1 x360
-+1 x361
-+1 x472
+c_l_ZabsConstraint2(4_Rotation2_2_4)_:
+-1 Z(4_Rotation2_4)
++1 Z(4_Rotation2_5)
++1 Zabs(4_Rotation2_4)
 >= 0
 
-c_l_x270_:
--1 x346
-+1 x347
-+1 x458
+c_l_ZabsConstraint2(4_Rotation2_2_5)_:
+-1 Z(4_Rotation2_5)
++1 Z(4_Rotation2_6)
++1 Zabs(4_Rotation2_5)
 >= 0
 
-c_l_x257_:
--1 x347
-+1 x348
-+1 x459
+c_l_ZabsConstraint2(4_Vacation_1_1)_:
+-1 Z(4_Vacation_1)
++1 Z(4_Vacation_2)
++1 Zabs(4_Vacation_1)
 >= 0
 
-c_l_x245_:
--1 x349
-+1 x350
-+1 x461
+c_l_ZabsConstraint2(4_Vacation_1_2)_:
+-1 Z(4_Vacation_2)
++1 Z(4_Vacation_3)
++1 Zabs(4_Vacation_2)
 >= 0
 
-c_l_x261_:
--1 x350
-+1 x351
-+1 x462
+c_l_ZabsConstraint2(4_Vacation_2_4)_:
+-1 Z(4_Vacation_4)
++1 Z(4_Vacation_5)
++1 Zabs(4_Vacation_4)
 >= 0
 
-c_l_x243_:
--1 x352
-+1 x353
-+1 x464
+c_l_ZabsConstraint2(4_Vacation_2_5)_:
+-1 Z(4_Vacation_5)
++1 Z(4_Vacation_6)
++1 Zabs(4_Vacation_5)
 >= 0
 
-c_u_x287_:
-+1 x418
-+1 x419
+c_u_continuityConstraint(1_Clinic_1)_:
++1 Zabs(1_Clinic_1)
++1 Zabs(1_Clinic_2)
 <= 1
 
-c_u_x289_:
-+1 x421
-+1 x422
+c_u_continuityConstraint(1_Clinic_2)_:
++1 Zabs(1_Clinic_4)
++1 Zabs(1_Clinic_5)
 <= 1
 
-c_u_x291_:
-+1 x424
+c_u_continuityConstraint(1_Rotation1_1)_:
++1 Zabs(1_Rotation1_1)
++1 Zabs(1_Rotation1_2)
 <= 1
 
-c_u_x294_:
-+1 x410
-+1 x411
+c_u_continuityConstraint(1_Rotation1_2)_:
++1 Zabs(1_Rotation1_4)
++1 Zabs(1_Rotation1_5)
 <= 1
 
-c_u_x297_:
-+1 x413
-+1 x414
+c_u_continuityConstraint(1_Rotation2_1)_:
++1 Zabs(1_Rotation2_1)
++1 Zabs(1_Rotation2_2)
 <= 1
 
-c_u_x296_:
-+1 x416
+c_u_continuityConstraint(1_Rotation2_2)_:
++1 Zabs(1_Rotation2_4)
++1 Zabs(1_Rotation2_5)
 <= 1
 
-c_u_x286_:
-+1 x434
+c_u_continuityConstraint(1_Vacation_1)_:
++1 Zabs(1_Vacation_1)
++1 Zabs(1_Vacation_2)
 <= 1
 
-c_u_x275_:
-+1 x436
-+1 x437
+c_u_continuityConstraint(1_Vacation_2)_:
++1 Zabs(1_Vacation_4)
++1 Zabs(1_Vacation_5)
 <= 1
 
-c_u_x295_:
-+1 x439
-+1 x440
+c_u_continuityConstraint(4_Clinic_1)_:
++1 Zabs(4_Clinic_1)
++1 Zabs(4_Clinic_2)
 <= 1
 
-c_u_x288_:
-+1 x426
+c_u_continuityConstraint(4_Clinic_2)_:
++1 Zabs(4_Clinic_4)
++1 Zabs(4_Clinic_5)
 <= 1
 
-c_u_x280_:
-+1 x428
-+1 x429
+c_u_continuityConstraint(4_Rotation1_1)_:
++1 Zabs(4_Rotation1_1)
++1 Zabs(4_Rotation1_2)
 <= 1
 
-c_u_x284_:
-+1 x431
-+1 x432
+c_u_continuityConstraint(4_Rotation1_2)_:
++1 Zabs(4_Rotation1_4)
++1 Zabs(4_Rotation1_5)
 <= 1
 
-c_u_x277_:
-+1 x450
+c_u_continuityConstraint(4_Rotation2_1)_:
++1 Zabs(4_Rotation2_1)
++1 Zabs(4_Rotation2_2)
 <= 1
 
-c_u_x283_:
-+1 x452
-+1 x453
+c_u_continuityConstraint(4_Rotation2_2)_:
++1 Zabs(4_Rotation2_4)
++1 Zabs(4_Rotation2_5)
 <= 1
 
-c_u_x274_:
-+1 x455
-+1 x456
+c_u_continuityConstraint(4_Vacation_1)_:
++1 Zabs(4_Vacation_1)
++1 Zabs(4_Vacation_2)
 <= 1
 
-c_u_x293_:
-+1 x442
-<= 1
-
-c_u_x292_:
-+1 x444
-+1 x445
-<= 1
-
-c_u_x290_:
-+1 x447
-+1 x448
-<= 1
-
-c_u_x279_:
-+1 x466
-+1 x467
-<= 1
-
-c_u_x285_:
-+1 x469
-+1 x470
-<= 1
-
-c_u_x281_:
-+1 x472
-<= 1
-
-c_u_x276_:
-+1 x458
-+1 x459
-<= 1
-
-c_u_x282_:
-+1 x461
-+1 x462
-<= 1
-
-c_u_x278_:
-+1 x464
+c_u_continuityConstraint(4_Vacation_2)_:
++1 Zabs(4_Vacation_4)
++1 Zabs(4_Vacation_5)
 <= 1
 
 c_e_ONE_VAR_CONSTANT: 
 ONE_VAR_CONSTANT = 1.0
 
 bounds 
-   0 <= x306 <= 1
-   0 <= x307 <= 1
-   0 <= x308 <= 1
-   0 <= x309 <= 1
-   0 <= x310 <= 1
-   0 <= x311 <= 1
-   0 <= x312 <= 1
-   0 <= x313 <= 1
-   0 <= x298 <= 1
-   0 <= x299 <= 1
-   0 <= x300 <= 1
-   0 <= x301 <= 1
-   0 <= x302 <= 1
-   0 <= x303 <= 1
-   0 <= x304 <= 1
-   0 <= x305 <= 1
-   0 <= x322 <= 1
-   0 <= x323 <= 1
-   0 <= x324 <= 1
-   0 <= x325 <= 1
-   0 <= x326 <= 1
-   0 <= x327 <= 1
-   0 <= x328 <= 1
-   0 <= x329 <= 1
-   0 <= x314 <= 1
-   0 <= x315 <= 1
-   0 <= x316 <= 1
-   0 <= x317 <= 1
-   0 <= x318 <= 1
-   0 <= x319 <= 1
-   0 <= x320 <= 1
-   0 <= x321 <= 1
-   0 <= x338 <= 1
-   0 <= x339 <= 1
-   0 <= x340 <= 1
-   0 <= x341 <= 1
-   0 <= x342 <= 1
-   0 <= x343 <= 1
-   0 <= x344 <= 1
-   0 <= x345 <= 1
-   0 <= x330 <= 1
-   0 <= x331 <= 1
-   0 <= x332 <= 1
-   0 <= x333 <= 1
-   0 <= x334 <= 1
-   0 <= x335 <= 1
-   0 <= x336 <= 1
-   0 <= x337 <= 1
-   0 <= x354 <= 1
-   0 <= x355 <= 1
-   0 <= x356 <= 1
-   0 <= x357 <= 1
-   0 <= x358 <= 1
-   0 <= x359 <= 1
-   0 <= x360 <= 1
-   0 <= x361 <= 1
-   0 <= x346 <= 1
-   0 <= x347 <= 1
-   0 <= x348 <= 1
-   0 <= x349 <= 1
-   0 <= x350 <= 1
-   0 <= x351 <= 1
-   0 <= x352 <= 1
-   0 <= x353 <= 1
-   0 <= x368 <= 1
-   0 <= x369 <= 1
-   0 <= x370 <= 1
-   0 <= x362 <= 1
-   0 <= x363 <= 1
-   0 <= x364 <= 1
-   0 <= x383 <= 1
-   0 <= x384 <= 1
-   0 <= x385 <= 1
-   0 <= x377 <= 1
-   0 <= x378 <= 1
-   0 <= x379 <= 1
-   0 <= x395 <= 1
-   0 <= x396 <= 1
-   0 <= x397 <= 1
-   0 <= x389 <= 1
-   0 <= x390 <= 1
-   0 <= x391 <= 1
-   0 <= x404 <= 1
-   0 <= x405 <= 1
-   0 <= x406 <= 1
-   0 <= x398 <= 1
-   0 <= x399 <= 1
-   0 <= x400 <= 1
-    -inf <= x418 <= +inf
-    -inf <= x419 <= +inf
-    -inf <= x421 <= +inf
-    -inf <= x422 <= +inf
-    -inf <= x424 <= +inf
-    -inf <= x410 <= +inf
-    -inf <= x411 <= +inf
-    -inf <= x413 <= +inf
-    -inf <= x414 <= +inf
-    -inf <= x416 <= +inf
-    -inf <= x434 <= +inf
-    -inf <= x436 <= +inf
-    -inf <= x437 <= +inf
-    -inf <= x439 <= +inf
-    -inf <= x440 <= +inf
-    -inf <= x426 <= +inf
-    -inf <= x428 <= +inf
-    -inf <= x429 <= +inf
-    -inf <= x431 <= +inf
-    -inf <= x432 <= +inf
-    -inf <= x450 <= +inf
-    -inf <= x452 <= +inf
-    -inf <= x453 <= +inf
-    -inf <= x455 <= +inf
-    -inf <= x456 <= +inf
-    -inf <= x442 <= +inf
-    -inf <= x444 <= +inf
-    -inf <= x445 <= +inf
-    -inf <= x447 <= +inf
-    -inf <= x448 <= +inf
-    -inf <= x466 <= +inf
-    -inf <= x467 <= +inf
-    -inf <= x469 <= +inf
-    -inf <= x470 <= +inf
-    -inf <= x472 <= +inf
-    -inf <= x458 <= +inf
-    -inf <= x459 <= +inf
-    -inf <= x461 <= +inf
-    -inf <= x462 <= +inf
-    -inf <= x464 <= +inf
+   0 <= Z(1_Clinic_1) <= 1
+   0 <= Z(1_Clinic_2) <= 1
+   0 <= Z(1_Clinic_3) <= 1
+   0 <= Z(1_Clinic_4) <= 1
+   0 <= Z(1_Clinic_5) <= 1
+   0 <= Z(1_Clinic_6) <= 1
+   0 <= Z(1_Clinic_7) <= 1
+   0 <= Z(1_Clinic_8) <= 1
+   0 <= Z(1_Rotation1_1) <= 1
+   0 <= Z(1_Rotation1_2) <= 1
+   0 <= Z(1_Rotation1_3) <= 1
+   0 <= Z(1_Rotation1_4) <= 1
+   0 <= Z(1_Rotation1_5) <= 1
+   0 <= Z(1_Rotation1_6) <= 1
+   0 <= Z(1_Rotation1_7) <= 1
+   0 <= Z(1_Rotation1_8) <= 1
+   0 <= Z(1_Rotation2_1) <= 1
+   0 <= Z(1_Rotation2_2) <= 1
+   0 <= Z(1_Rotation2_3) <= 1
+   0 <= Z(1_Rotation2_4) <= 1
+   0 <= Z(1_Rotation2_5) <= 1
+   0 <= Z(1_Rotation2_6) <= 1
+   0 <= Z(1_Rotation2_7) <= 1
+   0 <= Z(1_Rotation2_8) <= 1
+   0 <= Z(1_Vacation_1) <= 1
+   0 <= Z(1_Vacation_2) <= 1
+   0 <= Z(1_Vacation_3) <= 1
+   0 <= Z(1_Vacation_4) <= 1
+   0 <= Z(1_Vacation_5) <= 1
+   0 <= Z(1_Vacation_6) <= 1
+   0 <= Z(1_Vacation_7) <= 1
+   0 <= Z(1_Vacation_8) <= 1
+   0 <= Z(2_Clinic_1) <= 1
+   0 <= Z(2_Clinic_2) <= 1
+   0 <= Z(2_Clinic_3) <= 1
+   0 <= Z(2_Clinic_4) <= 1
+   0 <= Z(2_Clinic_5) <= 1
+   0 <= Z(2_Clinic_6) <= 1
+   0 <= Z(2_Clinic_7) <= 1
+   0 <= Z(2_Clinic_8) <= 1
+   0 <= Z(2_Rotation1_1) <= 1
+   0 <= Z(2_Rotation1_2) <= 1
+   0 <= Z(2_Rotation1_3) <= 1
+   0 <= Z(2_Rotation1_4) <= 1
+   0 <= Z(2_Rotation1_5) <= 1
+   0 <= Z(2_Rotation1_6) <= 1
+   0 <= Z(2_Rotation1_7) <= 1
+   0 <= Z(2_Rotation1_8) <= 1
+   0 <= Z(2_Rotation2_1) <= 1
+   0 <= Z(2_Rotation2_2) <= 1
+   0 <= Z(2_Rotation2_3) <= 1
+   0 <= Z(2_Rotation2_4) <= 1
+   0 <= Z(2_Rotation2_5) <= 1
+   0 <= Z(2_Rotation2_6) <= 1
+   0 <= Z(2_Rotation2_7) <= 1
+   0 <= Z(2_Rotation2_8) <= 1
+   0 <= Z(2_Vacation_1) <= 1
+   0 <= Z(2_Vacation_2) <= 1
+   0 <= Z(2_Vacation_3) <= 1
+   0 <= Z(2_Vacation_4) <= 1
+   0 <= Z(2_Vacation_5) <= 1
+   0 <= Z(2_Vacation_6) <= 1
+   0 <= Z(2_Vacation_7) <= 1
+   0 <= Z(2_Vacation_8) <= 1
+   0 <= Z(3_Clinic_1) <= 1
+   0 <= Z(3_Clinic_2) <= 1
+   0 <= Z(3_Clinic_3) <= 1
+   0 <= Z(3_Clinic_4) <= 1
+   0 <= Z(3_Clinic_5) <= 1
+   0 <= Z(3_Clinic_6) <= 1
+   0 <= Z(3_Clinic_7) <= 1
+   0 <= Z(3_Clinic_8) <= 1
+   0 <= Z(3_Rotation1_1) <= 1
+   0 <= Z(3_Rotation1_2) <= 1
+   0 <= Z(3_Rotation1_3) <= 1
+   0 <= Z(3_Rotation1_4) <= 1
+   0 <= Z(3_Rotation1_5) <= 1
+   0 <= Z(3_Rotation1_6) <= 1
+   0 <= Z(3_Rotation1_7) <= 1
+   0 <= Z(3_Rotation1_8) <= 1
+   0 <= Z(3_Rotation2_1) <= 1
+   0 <= Z(3_Rotation2_2) <= 1
+   0 <= Z(3_Rotation2_3) <= 1
+   0 <= Z(3_Rotation2_4) <= 1
+   0 <= Z(3_Rotation2_5) <= 1
+   0 <= Z(3_Rotation2_6) <= 1
+   0 <= Z(3_Rotation2_7) <= 1
+   0 <= Z(3_Rotation2_8) <= 1
+   0 <= Z(3_Vacation_1) <= 1
+   0 <= Z(3_Vacation_2) <= 1
+   0 <= Z(3_Vacation_3) <= 1
+   0 <= Z(3_Vacation_4) <= 1
+   0 <= Z(3_Vacation_5) <= 1
+   0 <= Z(3_Vacation_6) <= 1
+   0 <= Z(3_Vacation_7) <= 1
+   0 <= Z(3_Vacation_8) <= 1
+   0 <= Z(4_Clinic_1) <= 1
+   0 <= Z(4_Clinic_2) <= 1
+   0 <= Z(4_Clinic_3) <= 1
+   0 <= Z(4_Clinic_4) <= 1
+   0 <= Z(4_Clinic_5) <= 1
+   0 <= Z(4_Clinic_6) <= 1
+   0 <= Z(4_Clinic_7) <= 1
+   0 <= Z(4_Clinic_8) <= 1
+   0 <= Z(4_Rotation1_1) <= 1
+   0 <= Z(4_Rotation1_2) <= 1
+   0 <= Z(4_Rotation1_3) <= 1
+   0 <= Z(4_Rotation1_4) <= 1
+   0 <= Z(4_Rotation1_5) <= 1
+   0 <= Z(4_Rotation1_6) <= 1
+   0 <= Z(4_Rotation1_7) <= 1
+   0 <= Z(4_Rotation1_8) <= 1
+   0 <= Z(4_Rotation2_1) <= 1
+   0 <= Z(4_Rotation2_2) <= 1
+   0 <= Z(4_Rotation2_3) <= 1
+   0 <= Z(4_Rotation2_4) <= 1
+   0 <= Z(4_Rotation2_5) <= 1
+   0 <= Z(4_Rotation2_6) <= 1
+   0 <= Z(4_Rotation2_7) <= 1
+   0 <= Z(4_Rotation2_8) <= 1
+   0 <= Z(4_Vacation_1) <= 1
+   0 <= Z(4_Vacation_2) <= 1
+   0 <= Z(4_Vacation_3) <= 1
+   0 <= Z(4_Vacation_4) <= 1
+   0 <= Z(4_Vacation_5) <= 1
+   0 <= Z(4_Vacation_6) <= 1
+   0 <= Z(4_Vacation_7) <= 1
+   0 <= Z(4_Vacation_8) <= 1
+   0 <= X(1_Clinic_1) <= 1
+   0 <= X(1_Clinic_2) <= 1
+   0 <= X(1_Rotation1_1) <= 1
+   0 <= X(1_Rotation1_2) <= 1
+   0 <= X(1_Rotation2_1) <= 1
+   0 <= X(1_Rotation2_2) <= 1
+   0 <= X(1_Vacation_1) <= 1
+   0 <= X(1_Vacation_2) <= 1
+   0 <= X(4_Clinic_1) <= 1
+   0 <= X(4_Clinic_2) <= 1
+   0 <= X(4_Rotation1_1) <= 1
+   0 <= X(4_Rotation1_2) <= 1
+   0 <= X(4_Rotation2_1) <= 1
+   0 <= X(4_Rotation2_2) <= 1
+   0 <= X(4_Vacation_1) <= 1
+   0 <= X(4_Vacation_2) <= 1
+   0 <= Zabs(1_Clinic_1) <= 1
+   0 <= Zabs(1_Clinic_2) <= 1
+   0 <= Zabs(1_Clinic_4) <= 1
+   0 <= Zabs(1_Clinic_5) <= 1
+   0 <= Zabs(1_Rotation1_1) <= 1
+   0 <= Zabs(1_Rotation1_2) <= 1
+   0 <= Zabs(1_Rotation1_4) <= 1
+   0 <= Zabs(1_Rotation1_5) <= 1
+   0 <= Zabs(1_Rotation2_1) <= 1
+   0 <= Zabs(1_Rotation2_2) <= 1
+   0 <= Zabs(1_Rotation2_4) <= 1
+   0 <= Zabs(1_Rotation2_5) <= 1
+   0 <= Zabs(1_Vacation_1) <= 1
+   0 <= Zabs(1_Vacation_2) <= 1
+   0 <= Zabs(1_Vacation_4) <= 1
+   0 <= Zabs(1_Vacation_5) <= 1
+   0 <= Zabs(4_Clinic_1) <= 1
+   0 <= Zabs(4_Clinic_2) <= 1
+   0 <= Zabs(4_Clinic_4) <= 1
+   0 <= Zabs(4_Clinic_5) <= 1
+   0 <= Zabs(4_Rotation1_1) <= 1
+   0 <= Zabs(4_Rotation1_2) <= 1
+   0 <= Zabs(4_Rotation1_4) <= 1
+   0 <= Zabs(4_Rotation1_5) <= 1
+   0 <= Zabs(4_Rotation2_1) <= 1
+   0 <= Zabs(4_Rotation2_2) <= 1
+   0 <= Zabs(4_Rotation2_4) <= 1
+   0 <= Zabs(4_Rotation2_5) <= 1
+   0 <= Zabs(4_Vacation_1) <= 1
+   0 <= Zabs(4_Vacation_2) <= 1
+   0 <= Zabs(4_Vacation_4) <= 1
+   0 <= Zabs(4_Vacation_5) <= 1
+   2 <= Zhat(1) <= +inf
+   2 <= Zhat(2) <= +inf
+   2 <= Zhat(3) <= +inf
+   2 <= Zhat(4) <= +inf
 general
-  x418
-  x419
-  x421
-  x422
-  x424
-  x410
-  x411
-  x413
-  x414
-  x416
-  x434
-  x436
-  x437
-  x439
-  x440
-  x426
-  x428
-  x429
-  x431
-  x432
-  x450
-  x452
-  x453
-  x455
-  x456
-  x442
-  x444
-  x445
-  x447
-  x448
-  x466
-  x467
-  x469
-  x470
-  x472
-  x458
-  x459
-  x461
-  x462
-  x464
+  Zhat(1)
+  Zhat(2)
+  Zhat(3)
+  Zhat(4)
 binary
-  x306
-  x307
-  x308
-  x309
-  x310
-  x311
-  x312
-  x313
-  x298
-  x299
-  x300
-  x301
-  x302
-  x303
-  x304
-  x305
-  x322
-  x323
-  x324
-  x325
-  x326
-  x327
-  x328
-  x329
-  x314
-  x315
-  x316
-  x317
-  x318
-  x319
-  x320
-  x321
-  x338
-  x339
-  x340
-  x341
-  x342
-  x343
-  x344
-  x345
-  x330
-  x331
-  x332
-  x333
-  x334
-  x335
-  x336
-  x337
-  x354
-  x355
-  x356
-  x357
-  x358
-  x359
-  x360
-  x361
-  x346
-  x347
-  x348
-  x349
-  x350
-  x351
-  x352
-  x353
-  x368
-  x369
-  x370
-  x362
-  x363
-  x364
-  x383
-  x384
-  x385
-  x377
-  x378
-  x379
-  x395
-  x396
-  x397
-  x389
-  x390
-  x391
-  x404
-  x405
-  x406
-  x398
-  x399
-  x400
+  Z(1_Clinic_1)
+  Z(1_Clinic_2)
+  Z(1_Clinic_3)
+  Z(1_Clinic_4)
+  Z(1_Clinic_5)
+  Z(1_Clinic_6)
+  Z(1_Clinic_7)
+  Z(1_Clinic_8)
+  Z(1_Rotation1_1)
+  Z(1_Rotation1_2)
+  Z(1_Rotation1_3)
+  Z(1_Rotation1_4)
+  Z(1_Rotation1_5)
+  Z(1_Rotation1_6)
+  Z(1_Rotation1_7)
+  Z(1_Rotation1_8)
+  Z(1_Rotation2_1)
+  Z(1_Rotation2_2)
+  Z(1_Rotation2_3)
+  Z(1_Rotation2_4)
+  Z(1_Rotation2_5)
+  Z(1_Rotation2_6)
+  Z(1_Rotation2_7)
+  Z(1_Rotation2_8)
+  Z(1_Vacation_1)
+  Z(1_Vacation_2)
+  Z(1_Vacation_3)
+  Z(1_Vacation_4)
+  Z(1_Vacation_5)
+  Z(1_Vacation_6)
+  Z(1_Vacation_7)
+  Z(1_Vacation_8)
+  Z(2_Clinic_1)
+  Z(2_Clinic_2)
+  Z(2_Clinic_3)
+  Z(2_Clinic_4)
+  Z(2_Clinic_5)
+  Z(2_Clinic_6)
+  Z(2_Clinic_7)
+  Z(2_Clinic_8)
+  Z(2_Rotation1_1)
+  Z(2_Rotation1_2)
+  Z(2_Rotation1_3)
+  Z(2_Rotation1_4)
+  Z(2_Rotation1_5)
+  Z(2_Rotation1_6)
+  Z(2_Rotation1_7)
+  Z(2_Rotation1_8)
+  Z(2_Rotation2_1)
+  Z(2_Rotation2_2)
+  Z(2_Rotation2_3)
+  Z(2_Rotation2_4)
+  Z(2_Rotation2_5)
+  Z(2_Rotation2_6)
+  Z(2_Rotation2_7)
+  Z(2_Rotation2_8)
+  Z(2_Vacation_1)
+  Z(2_Vacation_2)
+  Z(2_Vacation_3)
+  Z(2_Vacation_4)
+  Z(2_Vacation_5)
+  Z(2_Vacation_6)
+  Z(2_Vacation_7)
+  Z(2_Vacation_8)
+  Z(3_Clinic_1)
+  Z(3_Clinic_2)
+  Z(3_Clinic_3)
+  Z(3_Clinic_4)
+  Z(3_Clinic_5)
+  Z(3_Clinic_6)
+  Z(3_Clinic_7)
+  Z(3_Clinic_8)
+  Z(3_Rotation1_1)
+  Z(3_Rotation1_2)
+  Z(3_Rotation1_3)
+  Z(3_Rotation1_4)
+  Z(3_Rotation1_5)
+  Z(3_Rotation1_6)
+  Z(3_Rotation1_7)
+  Z(3_Rotation1_8)
+  Z(3_Rotation2_1)
+  Z(3_Rotation2_2)
+  Z(3_Rotation2_3)
+  Z(3_Rotation2_4)
+  Z(3_Rotation2_5)
+  Z(3_Rotation2_6)
+  Z(3_Rotation2_7)
+  Z(3_Rotation2_8)
+  Z(3_Vacation_1)
+  Z(3_Vacation_2)
+  Z(3_Vacation_3)
+  Z(3_Vacation_4)
+  Z(3_Vacation_5)
+  Z(3_Vacation_6)
+  Z(3_Vacation_7)
+  Z(3_Vacation_8)
+  Z(4_Clinic_1)
+  Z(4_Clinic_2)
+  Z(4_Clinic_3)
+  Z(4_Clinic_4)
+  Z(4_Clinic_5)
+  Z(4_Clinic_6)
+  Z(4_Clinic_7)
+  Z(4_Clinic_8)
+  Z(4_Rotation1_1)
+  Z(4_Rotation1_2)
+  Z(4_Rotation1_3)
+  Z(4_Rotation1_4)
+  Z(4_Rotation1_5)
+  Z(4_Rotation1_6)
+  Z(4_Rotation1_7)
+  Z(4_Rotation1_8)
+  Z(4_Rotation2_1)
+  Z(4_Rotation2_2)
+  Z(4_Rotation2_3)
+  Z(4_Rotation2_4)
+  Z(4_Rotation2_5)
+  Z(4_Rotation2_6)
+  Z(4_Rotation2_7)
+  Z(4_Rotation2_8)
+  Z(4_Vacation_1)
+  Z(4_Vacation_2)
+  Z(4_Vacation_3)
+  Z(4_Vacation_4)
+  Z(4_Vacation_5)
+  Z(4_Vacation_6)
+  Z(4_Vacation_7)
+  Z(4_Vacation_8)
+  X(1_Clinic_1)
+  X(1_Clinic_2)
+  X(1_Rotation1_1)
+  X(1_Rotation1_2)
+  X(1_Rotation2_1)
+  X(1_Rotation2_2)
+  X(1_Vacation_1)
+  X(1_Vacation_2)
+  X(4_Clinic_1)
+  X(4_Clinic_2)
+  X(4_Rotation1_1)
+  X(4_Rotation1_2)
+  X(4_Rotation2_1)
+  X(4_Rotation2_2)
+  X(4_Vacation_1)
+  X(4_Vacation_2)
+  Zabs(1_Clinic_1)
+  Zabs(1_Clinic_2)
+  Zabs(1_Clinic_4)
+  Zabs(1_Clinic_5)
+  Zabs(1_Rotation1_1)
+  Zabs(1_Rotation1_2)
+  Zabs(1_Rotation1_4)
+  Zabs(1_Rotation1_5)
+  Zabs(1_Rotation2_1)
+  Zabs(1_Rotation2_2)
+  Zabs(1_Rotation2_4)
+  Zabs(1_Rotation2_5)
+  Zabs(1_Vacation_1)
+  Zabs(1_Vacation_2)
+  Zabs(1_Vacation_4)
+  Zabs(1_Vacation_5)
+  Zabs(4_Clinic_1)
+  Zabs(4_Clinic_2)
+  Zabs(4_Clinic_4)
+  Zabs(4_Clinic_5)
+  Zabs(4_Rotation1_1)
+  Zabs(4_Rotation1_2)
+  Zabs(4_Rotation1_4)
+  Zabs(4_Rotation1_5)
+  Zabs(4_Rotation2_1)
+  Zabs(4_Rotation2_2)
+  Zabs(4_Rotation2_4)
+  Zabs(4_Rotation2_5)
+  Zabs(4_Vacation_1)
+  Zabs(4_Vacation_2)
+  Zabs(4_Vacation_4)
+  Zabs(4_Vacation_5)
 end 
