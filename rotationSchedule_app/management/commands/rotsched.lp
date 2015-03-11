@@ -11,8 +11,8 @@ Total_Utility:
 +1 Z(1_Clinic_7)
 +1 Z(1_Clinic_8)
 +1 Z(1_Rotation1_1)
-+1 Z(1_Rotation1_2)
-+1 Z(1_Rotation1_3)
++2 Z(1_Rotation1_2)
++2 Z(1_Rotation1_3)
 +1 Z(1_Rotation1_4)
 +1 Z(1_Rotation1_5)
 +1 Z(1_Rotation1_6)
@@ -50,7 +50,7 @@ Total_Utility:
 +1 Z(2_Rotation1_6)
 +1 Z(2_Rotation1_7)
 +1 Z(2_Rotation1_8)
-+1 Z(2_Rotation2_1)
++2 Z(2_Rotation2_1)
 +1 Z(2_Rotation2_2)
 +1 Z(2_Rotation2_3)
 +1 Z(2_Rotation2_4)
@@ -82,7 +82,7 @@ Total_Utility:
 +1 Z(3_Rotation1_6)
 +1 Z(3_Rotation1_7)
 +1 Z(3_Rotation1_8)
-+1 Z(3_Rotation2_1)
++2 Z(3_Rotation2_1)
 +1 Z(3_Rotation2_2)
 +1 Z(3_Rotation2_3)
 +1 Z(3_Rotation2_4)
@@ -311,36 +311,6 @@ c_l_rotationConstraintYearlyLower(Rotation1_PGY1_2)_:
 +1 Z(4_Rotation1_2)
 >= 1
 
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_3)_:
-+1 Z(1_Rotation1_3)
-+1 Z(4_Rotation1_3)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_4)_:
-+1 Z(1_Rotation1_4)
-+1 Z(4_Rotation1_4)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_5)_:
-+1 Z(1_Rotation1_5)
-+1 Z(4_Rotation1_5)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_6)_:
-+1 Z(1_Rotation1_6)
-+1 Z(4_Rotation1_6)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_7)_:
-+1 Z(1_Rotation1_7)
-+1 Z(4_Rotation1_7)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY1_8)_:
-+1 Z(1_Rotation1_8)
-+1 Z(4_Rotation1_8)
->= 1
-
 c_l_rotationConstraintYearlyLower(Rotation1_PGY2_1)_:
 +1 Z(2_Rotation1_1)
 >= 1
@@ -349,60 +319,12 @@ c_l_rotationConstraintYearlyLower(Rotation1_PGY2_2)_:
 +1 Z(2_Rotation1_2)
 >= 1
 
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_3)_:
-+1 Z(2_Rotation1_3)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_4)_:
-+1 Z(2_Rotation1_4)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_5)_:
-+1 Z(2_Rotation1_5)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_6)_:
-+1 Z(2_Rotation1_6)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_7)_:
-+1 Z(2_Rotation1_7)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY2_8)_:
-+1 Z(2_Rotation1_8)
->= 1
-
 c_l_rotationConstraintYearlyLower(Rotation1_PGY3_1)_:
 +1 Z(3_Rotation1_1)
 >= 1
 
 c_l_rotationConstraintYearlyLower(Rotation1_PGY3_2)_:
 +1 Z(3_Rotation1_2)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_3)_:
-+1 Z(3_Rotation1_3)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_4)_:
-+1 Z(3_Rotation1_4)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_5)_:
-+1 Z(3_Rotation1_5)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_6)_:
-+1 Z(3_Rotation1_6)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_7)_:
-+1 Z(3_Rotation1_7)
->= 1
-
-c_l_rotationConstraintYearlyLower(Rotation1_PGY3_8)_:
-+1 Z(3_Rotation1_8)
 >= 1
 
 c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_1)_:
@@ -415,36 +337,6 @@ c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_2)_:
 +1 Z(4_Rotation1_2)
 <= 3
 
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_3)_:
-+1 Z(1_Rotation1_3)
-+1 Z(4_Rotation1_3)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_4)_:
-+1 Z(1_Rotation1_4)
-+1 Z(4_Rotation1_4)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_5)_:
-+1 Z(1_Rotation1_5)
-+1 Z(4_Rotation1_5)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_6)_:
-+1 Z(1_Rotation1_6)
-+1 Z(4_Rotation1_6)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_7)_:
-+1 Z(1_Rotation1_7)
-+1 Z(4_Rotation1_7)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY1_8)_:
-+1 Z(1_Rotation1_8)
-+1 Z(4_Rotation1_8)
-<= 3
-
 c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_1)_:
 +1 Z(2_Rotation1_1)
 <= 3
@@ -453,60 +345,12 @@ c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_2)_:
 +1 Z(2_Rotation1_2)
 <= 3
 
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_3)_:
-+1 Z(2_Rotation1_3)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_4)_:
-+1 Z(2_Rotation1_4)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_5)_:
-+1 Z(2_Rotation1_5)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_6)_:
-+1 Z(2_Rotation1_6)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_7)_:
-+1 Z(2_Rotation1_7)
-<= 3
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY2_8)_:
-+1 Z(2_Rotation1_8)
-<= 3
-
 c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_1)_:
 +1 Z(3_Rotation1_1)
 <= 100
 
 c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_2)_:
 +1 Z(3_Rotation1_2)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_3)_:
-+1 Z(3_Rotation1_3)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_4)_:
-+1 Z(3_Rotation1_4)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_5)_:
-+1 Z(3_Rotation1_5)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_6)_:
-+1 Z(3_Rotation1_6)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_7)_:
-+1 Z(3_Rotation1_7)
-<= 100
-
-c_u_rotationConstraintYearlyUpper(Rotation1_PGY3_8)_:
-+1 Z(3_Rotation1_8)
 <= 100
 
 c_l_rotationConstraintLower(Clinic_1)_:

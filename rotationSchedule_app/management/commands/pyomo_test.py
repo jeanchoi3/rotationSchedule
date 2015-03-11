@@ -175,7 +175,6 @@ class Command(BaseCommand):
 
 			f.write(str(block) + ' ')
 			block += 1
-
 		f.write(";\n")
 
 		#print "BWeeks: "
@@ -214,7 +213,7 @@ class Command(BaseCommand):
 ############ Parameters #######################################################
 
 ##----LastWindowStart--------#
-		f.write("param lastWindowStart := 3;\n\n")
+		f.write("param lastWindowStart := \n3;\n\n")
 ##----BWeeks--------#
 		f.write("param BWeeks :=")
 		for BWeek in BWeeks:
@@ -282,19 +281,45 @@ class Command(BaseCommand):
 		f.write("param YearlyDemandLower :=")
 		for rotation in yearlyDemandLower:
 			for year in yearlyDemandLower[rotation]:
-				for week in weeks:
+				for week in range(1,3):  #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandLower[rotation][year]))
 		f.write(';\n\n')
 ##----YearlyDemandUpper--------#
 		f.write("param YearlyDemandUpper :=")
 		for rotation in yearlyDemandUpper:
 			for year in yearlyDemandUpper[rotation]:
-				for week in weeks:
+				for week in range(1,3): #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
 		f.write(';\n\n')
 
+
+#		f.write("param YearlyDemandLower :=\n'Rotation1' 'PGY1' 1 1\n'Rotation1' 'PGY1' 2 1\n'Rotation1' 'PGY1' 3 1\n'Rotation1' 'PGY2' 1 1\n'Rotation1' 'PGY2' 2 1\n'Rotation1' 'PGY2' 3 1\n'Rotation1' 'PGY3' 1 1\n
+#'Rotation1' 'PGY3' 2 1
+#'Rotation1' 'PGY3' 3 1 ;
+
+
+#HARDCODING THE PREFERENCES FOR NOW!!!!!!!!!!!!!!!!!!!!
+		f.write("param P :=\n2 'Rotation2' 1 2\n3 'Rotation2' 1 2\n1 'Rotation1' 2 2\n1 'Rotation1' 3 2 ;\n\n")
+		
+		f.write("param V :=\n1 1 0;")
+
 		f.close()
 		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler3.py test.dat --symbolic-solver-labels')
+		#rotation_dat_year_working_new
+
+
+		import cplex
+		cpx=cplex.Cplex("rotsched.lp")
+		cpx.parameters.mip.pool.intensity.set(4)
+		cpx.parameters.mip.limits.populate.set(3)
+		cpx.populate_solution_pool()
+		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
+		###Since we set this to 10, numSolns =10
+		solnNames = cpx.solution.pool.get_names() ##names of the solutions
+		print(solnNames)
+
+
+
 ##----MinYear--------#
 '''		f.write("param MinYear :=")
 		for year in minYear:
