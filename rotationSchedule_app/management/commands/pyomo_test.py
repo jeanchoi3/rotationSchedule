@@ -31,6 +31,7 @@ class Command(BaseCommand):
 		all_rotations = Rotation.objects.all()
 
 		rotation_names = []
+		rotation_names.append('Vacation')
 		total_demand_lower = dict()
 		total_demand_upper = dict()
 		yearlyDemandLower = dict() #for YearlyDemandLower param
@@ -44,6 +45,7 @@ class Command(BaseCommand):
 			total_demand_upper[str(rotation.name)] = rotation.maxResidents
 			yearlyDemandLower[str(rotation.name)] = dict()
 			yearlyDemandUpper[str(rotation.name)] = dict()
+			rotation_names.append(str(rotation.name))
             #rotation_names.append(str(rotation.name))
 
 		f.write(";\n")
@@ -113,6 +115,8 @@ class Command(BaseCommand):
 		weeks = []
 
 		date_to_week = dict()
+		week_to_date = dict()
+		week_to_end_date = dict()
 
 		f.write("set W:= ")
 
@@ -121,6 +125,8 @@ class Command(BaseCommand):
 			weeks.append(week)
 			#print dt.strftime("%Y-%m-%d")
 			date_to_week[dt.strftime("%Y-%m-%d")] = week
+			week_to_date[week] = dt.strftime("%Y-%m-%d")
+			week_to_end_date[week] = (dt+datetime.timedelta(days=7)).strftime("%Y-%m-%d")
 			f.write(str(week) + ' ')
 			#date_to_week[dt.strftime("%Y-%m-%d")] = week
 			week += 1
@@ -307,6 +313,10 @@ class Command(BaseCommand):
 		#rotation_dat_year_working_new
 
 
+
+###############################################################################
+############ Cplex solution #######################################################
+
 		import cplex
 		cpx=cplex.Cplex("rotsched.lp")
 		cpx.parameters.mip.pool.intensity.set(4)
@@ -324,12 +334,33 @@ class Command(BaseCommand):
 		#####Find the top three (or N) solutions from the solution pool based on their objective value 
 		for i in solnIndices2:
 			print(cpx.solution.pool.get_objective_value(i))
-		for doctor in range(1,5):
-			for week in range(1,9):
+		
+		for j in solnIndices:
+			#create a new schedule for each cplex solution
+			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
+			createdSchedule.save()
+
+			#create all events for this solution schedule
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks:
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+							#assume only one object fits the filter!!
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()
+						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+
+		#for doctor in range(1,5):
+		#	for week in range(1,9):
 				#print "Z("+str(doctor)+"_Rotation2_"+str(week)+")"
-				print str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")"))# == "0.0":
-				if str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")")) == "1.0":
-					print "Z("+str(doctor)+"_Rotation1_"+str(week)+")"
+		#		print str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")"))# == "0.0":
+		#		if str(cpx.solution.pool.get_values(solnIndices2[0],"Z("+str(doctor)+"_Rotation1_"+str(week)+")")) == "1.0":
+		#			print "Z("+str(doctor)+"_Rotation1_"+str(week)+")"
 					#"Z("+str(doctor)+"_Rotation2_"+str(week)+")"
 
 
