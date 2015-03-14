@@ -1,61 +1,34 @@
-set R := 'Vacation' 'Clinic' 'Rotation1' 'Rotation2' ;
-set Y := 'PGY1' 'PGY3' 'PGY2' ;
-set D := 1 2 3 4 ;
-set W:= 1 2 3 4 5 6 7 8 ;
-set B:= 1 2 ;
-set T := 'Track1' ;
+set R := 'Vacation' ;
+set Y := ;
+set D := ;
+set W:= 1 2 3 4 5 6 7 8 9 10 11 12 ;
+set B:= ;
+set T := 1 ;
+
+param windowSize := 
+8
+
+param minClinicWeeks := 
+2
 
 param lastWindowStart := 
-3;
+5
 
-param BWeeks :=
-1 [1, 2, 3]
-2 [4, 5, 6];
+param BWeeks :=;
 
-param BWeeksMinus1 :=
-1 [1, 2]
-2 [4, 5];
+param BWeeksMinus1 :=;
 
-param DBlocks :=
-1 [1, 2, 3]
-4 [1, 2, 3]
-2 [4, 5, 6]
-3 [4, 5, 6];
+param DBlocks :=;
 
-param YBlocks :=
-'PGY1' [1, 2, 3]
-'PGY2' [4, 5, 6]
-'PGY3' [4, 5, 6];
+param YBlocks :=;
 
-param YDoctors :=
-'PGY1' [1, 4]
-'PGY2' [2]
-'PGY3' [3];
+param YDoctors :=;
 
-param Year :=
-1 'PGY1'
-4 'PGY1'
-2 'PGY2'
-3 'PGY3';
+param Year :=;
 
-param YearlyDemandLower :=
-'Rotation1' 'PGY1' 1 1
-'Rotation1' 'PGY1' 2 1
-'Rotation1' 'PGY2' 1 1
-'Rotation1' 'PGY2' 2 1
-'Rotation1' 'PGY3' 1 1
-'Rotation1' 'PGY3' 2 1;
+param YearlyDemandLower :=;
 
-param YearlyDemandUpper :=
-'Rotation1' 'PGY1' 1 3
-'Rotation1' 'PGY1' 2 3
-'Rotation1' 'PGY1' 3 3
-'Rotation1' 'PGY2' 1 3
-'Rotation1' 'PGY2' 2 3
-'Rotation1' 'PGY2' 3 3
-'Rotation1' 'PGY3' 1 100
-'Rotation1' 'PGY3' 2 100
-'Rotation1' 'PGY3' 3 100;
+param YearlyDemandUpper :=;
 
 param P :=
 2 'Rotation2' 1 2

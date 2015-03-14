@@ -18,17 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('length', models.PositiveIntegerField(default=1)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='EducationReq',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('minLength', models.PositiveIntegerField(default=1)),
-                ('maxLength', models.PositiveIntegerField(default=1)),
+                ('maxNumRotations', models.PositiveIntegerField(default=5)),
             ],
             options={
             },
@@ -52,6 +42,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('startDate', models.DateField(default=datetime.date.today)),
                 ('endDate', models.DateField(default=datetime.date.today)),
+                ('rigidXY', models.BooleanField(default=False, help_text=b'Check box if your program has a rigid X+Y or X+Y+Z structure that cannot be violated.  If this is a preference that can be violated, do not check the box.')),
             ],
             options={
             },
@@ -62,6 +53,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('email', models.EmailField(max_length=100, null=True, blank=True)),
                 ('inProgram', models.BooleanField(default=True)),
                 ('vacationStart1', models.DateField(null=True, blank=True)),
                 ('vacationEnd1', models.DateField(null=True, blank=True)),
@@ -83,19 +75,7 @@ class Migration(migrations.Migration):
                 ('minResidents', models.PositiveIntegerField(default=1)),
                 ('maxResidents', models.PositiveIntegerField(default=1)),
                 ('isElective', models.BooleanField(default=False)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='RotationLength',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('minLength', models.PositiveIntegerField(default=1)),
-                ('maxLength', models.PositiveIntegerField(default=1)),
-                ('block', models.ForeignKey(to='rotationSchedule_app.Block')),
-                ('rotation', models.ForeignKey(to='rotationSchedule_app.Rotation')),
+                ('recurrenceWindow', models.IntegerField(default=0, help_text=b'The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')),
             ],
             options={
             },
@@ -113,10 +93,34 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Template',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('templateName', models.CharField(max_length=200)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='TemplateEvent',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('blockStartDate', models.DateField(default=datetime.date.today)),
+                ('blockEndDate', models.DateField(default=datetime.date.today)),
+                ('block', models.ForeignKey(to='rotationSchedule_app.Block')),
+                ('template', models.ForeignKey(to='rotationSchedule_app.Template')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Track',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('trackRequiredRotations', models.ManyToManyField(related_name=b'trackRequiredRotations', to='rotationSchedule_app.Rotation')),
             ],
             options={
             },
@@ -127,35 +131,29 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(default=b'PGY1', max_length=200)),
-                ('requiredRotations', models.ManyToManyField(related_name=b'requiredRotations', through='rotationSchedule_app.EducationReq', to='rotationSchedule_app.Rotation')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='YearDemand',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('minResidents', models.PositiveIntegerField(default=1)),
-                ('maxResidents', models.PositiveIntegerField(default=1)),
-                ('rotation', models.ForeignKey(to='rotationSchedule_app.Rotation')),
-                ('year', models.ForeignKey(to='rotationSchedule_app.Year')),
+                ('requiredRotations', models.ManyToManyField(related_name=b'requiredRotations', to='rotationSchedule_app.Rotation')),
+                ('rotationDemand', models.ManyToManyField(related_name=b'rotationDemand', to='rotationSchedule_app.Rotation')),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='year',
-            name='rotationDemand',
-            field=models.ManyToManyField(related_name=b'rotationDemand', through='rotationSchedule_app.YearDemand', to='rotationSchedule_app.Rotation'),
+            model_name='template',
+            name='templateYears',
+            field=models.ManyToManyField(default=None, related_name=b'templateYears', to='rotationSchedule_app.Year', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='resident',
             name='elective1',
             field=models.ForeignKey(related_name=b'elective1', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective10',
+            field=models.ForeignKey(related_name=b'elective10', blank=True, to='rotationSchedule_app.Rotation', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -174,6 +172,36 @@ class Migration(migrations.Migration):
             model_name='resident',
             name='elective4',
             field=models.ForeignKey(related_name=b'elective4', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective5',
+            field=models.ForeignKey(related_name=b'elective5', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective6',
+            field=models.ForeignKey(related_name=b'elective6', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective7',
+            field=models.ForeignKey(related_name=b'elective7', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective8',
+            field=models.ForeignKey(related_name=b'elective8', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='elective9',
+            field=models.ForeignKey(related_name=b'elective9', blank=True, to='rotationSchedule_app.Rotation', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -207,21 +235,9 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='educationreq',
-            name='rotation',
-            field=models.ForeignKey(to='rotationSchedule_app.Rotation'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='educationreq',
-            name='year',
-            field=models.ForeignKey(to='rotationSchedule_app.Year'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='block',
             name='includedRotation',
-            field=models.ManyToManyField(related_name=b'includedRotation', through='rotationSchedule_app.RotationLength', to='rotationSchedule_app.Rotation'),
+            field=models.ManyToManyField(related_name=b'includedRotation', to='rotationSchedule_app.Rotation'),
             preserve_default=True,
         ),
     ]

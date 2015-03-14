@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
+
 #Rotation
 class Rotation(models.Model):
     def __str__(self):
@@ -35,6 +37,8 @@ class Program(models.Model):
     name = models.CharField(max_length=200)
     startDate = models.DateField(default=datetime.date.today)
     endDate = models.DateField(default=datetime.date.today)
+    minClinicWeeks = models.IntegerField(default=0)
+    windowSize = models.IntegerField(default=0)
     rigidXY = models.BooleanField(default=False,help_text='Check box if your program has a rigid X+Y or X+Y+Z structure that cannot be violated.  If this is a preference that can be violated, do not check the box.')
 
 #Resident

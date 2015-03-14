@@ -14,7 +14,6 @@ from dateutil.rrule import rrule, WEEKLY
 
 logging.basicConfig(stream=sys.stdout, format='%(message)s',level=logging.INFO)
 
-
 class Command(BaseCommand):
 	args = '<event_pk event_start event_end>'
 	option_list = BaseCommand.option_list + (
@@ -112,6 +111,8 @@ class Command(BaseCommand):
 		all_programs = Program.objects.all()
 		start_date = all_programs[0].startDate
 		end_date = all_programs[0].endDate
+		minClinicWeeks = all_programs[0].minClinicWeeks
+		windowSize = all_programs[0].windowSize
 		weeks = []
 
 		date_to_week = dict()
@@ -201,25 +202,37 @@ class Command(BaseCommand):
 
 ############  Tracks #######################################################
 		all_tracks = Track.objects.all()
+		track_name_to_index = dict()
 		minTrack = dict()
 		maxTrack = dict()
 
-		f.write('set T := ')
+		f.write('set T := 1 ')
+		#index 1 is 'noTrack'
+		track_name_to_index['noTrack'] = 1
 
+		track_index = 2
 		for track in all_tracks:
+			f.write(str(track_index) + ' ')
+			track_name_to_index[str(track.name)] = track_index
 			minTrack[str(track.name)] = dict()
 			maxTrack[str(track.name)] = dict()
-			f.write("'"+str(track.name)+"' ")
 			for trackEducationReq in track.trackeducationreq_set.all():
-				minTrack[str(track.name)][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
-				maxTrack[str(track.name)][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
+				minTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
+				maxTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
+			track_index += 1
 		f.write(";\n\n")
+
+		print track_name_to_index
 
 ###############################################################################
 ############ Parameters #######################################################
 
-##----LastWindowStart--------#
-		f.write("param lastWindowStart := \n3;\n\n")
+##----windowSize--------#
+		f.write("param windowSize := \n"+str(windowSize)+"\n\n")
+##----minClinicWeeks--------#
+		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+"\n\n")
+##----lastWindowStart--------#
+		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+"\n\n")
 ##----BWeeks--------#
 		f.write("param BWeeks :=")
 		for BWeek in BWeeks:
@@ -262,12 +275,14 @@ class Command(BaseCommand):
 		f.write("param YBlocks :=")
 		for year in template_year_to_pk:
 			for pk in template_year_to_pk[year]:
-				f.write("\n'"+str(year)+"' "+str(template_pk_to_blocks[pk]))
+				if len(template_pk_to_blocks[pk]) != 0:
+					f.write("\n'"+str(year)+"' "+str(template_pk_to_blocks[pk]))
 		f.write(';\n\n')
 ##----YDoctors--------#
 		f.write("param YDoctors :=")
 		for year in YDoctors:
-			f.write("\n'"+str(year)+"' " + str(YDoctors[year]))
+			if len(YDoctors[year]) != 0: 
+				f.write("\n'"+str(year)+"' " + str(YDoctors[year]))
 		f.write(';\n\n')
 ##----Year--------#
 		f.write("param Year :=")
@@ -279,10 +294,16 @@ class Command(BaseCommand):
 #HOW DO I CHECK IF THIS IS EMPTY???????????????????????????????????????????????????????????
 #		f.write("param DTracks :=")
 #		for res_pk in resident_pk_to_track:
-#			f.write("\n"+str(res_pk)+" "+str(resident_pk_to_track[res_pk]))
+#			if len(resident_pk_to_track[res_pk]) != 0:
+#				f.write("\n"+str(res_pk)+" "+str(resident_pk_to_track[res_pk]))
 #		f.write(';\n\n')
 ##----model.V--------#
 ##----model.P--------#
+# 7*(vacationObjectiveWeight)^2 = vacation base, then ^3 for first choice, ^2 for second, ^1 for third
+# electives: 2 10 50 250 1250 6250 31250 156250 781250 3906250 (*5)
+# 4,000,000 20,000,000 1,000,000,000
+# 1,000,000 5,000,000 25,000,000
+# 250,000 1,250,000 6,250,000 
 ##----YearlyDemandLower--------#
 		f.write("param YearlyDemandLower :=")
 		for rotation in yearlyDemandLower:
@@ -302,6 +323,31 @@ class Command(BaseCommand):
 #'Rotation1' 'PGY3' 2 1
 #'Rotation1' 'PGY3' 3 1 ;
 
+##----MinTrack--------#
+		minTrack_initialized = False
+		for track in minTrack:
+			if minTrack[track]:
+				if len(minTrack[track]) != 0:
+					if minTrack_initialized is False:
+						f.write("param MinTrack :=")
+						minTrack_initialized = True
+					for rotation in minTrack[track]:
+						f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
+		
+		if minTrack_initialized:
+			f.write(';\n\n')
+##----MaxTrack--------#
+		maxTrack_initialized = False
+		for track in maxTrack:
+			if maxTrack[track]:
+				if len(maxTrack[track]) != 0:
+					if maxTrack_initialized is False:
+						f.write("param MaxTrack :=")
+						maxTrack_initialized = True
+				for rotation in maxTrack[track]:
+					f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
+		if maxTrack_initialized:
+			f.write(';\n\n')
 
 #HARDCODING THE PREFERENCES FOR NOW!!!!!!!!!!!!!!!!!!!!
 		f.write("param P :=\n2 'Rotation2' 1 2\n3 'Rotation2' 1 2\n1 'Rotation1' 2 2\n1 'Rotation1' 3 2 ;\n\n")
@@ -322,19 +368,12 @@ class Command(BaseCommand):
 		cpx.parameters.mip.pool.intensity.set(4)
 		cpx.parameters.mip.limits.populate.set(3)
 		cpx.populate_solution_pool()
-		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
-		###Since we set this to 10, numSolns =10
 		solnNames = cpx.solution.pool.get_names() ##names of the solutions
-		print(solnNames)
 		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
-		cpx.populate_solution_pool()
-		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
-		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
-		print(solnNames2)
-		#####Find the top three (or N) solutions from the solution pool based on their objective value 
-		for i in solnIndices2:
-			print(cpx.solution.pool.get_objective_value(i))
 		
+		Schedule.objects.all().delete()
+		Event.objects.all().delete()
+
 		for j in solnIndices:
 			#create a new schedule for each cplex solution
 			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
@@ -376,19 +415,7 @@ class Command(BaseCommand):
 			for rotation in maxYear[year]:
 				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(maxYear[year][rotation]))
 		f.write(';\n\n')
-##----MinTrack--------#
-#		f.write("param MinTrack :=")
-#		for track in minTrack:
-#			for rotation in minTrack[track]:
-#				f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
-#		f.write(';\n\n')
-##----MaxTrack--------#
-		#only print parameter if track max values exist
-#		f.write("param MaxTrack :=")
-#		for track in maxTrack:
-#			for rotation in maxTrack[track]:
-#				f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
-#		f.write(';\n\n')
+
 ##----MinLength--------#
 		f.write("param MinLength :=")
 		for block in minLength:
