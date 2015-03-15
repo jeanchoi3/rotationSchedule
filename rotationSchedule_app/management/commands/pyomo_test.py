@@ -77,33 +77,6 @@ class Command(BaseCommand):
 		#print "YEARLY DEMAND UPPER"
 		#print yearlyDemandUpper
 
-############ Residents ##################################################
-		all_residents = Resident.objects.all()
-		resident_names = []
-		resident_pk_to_index = dict()
-		resident_pk_to_track = dict()
-
-		index = 1
-		for resident in all_residents:
-			#print resident.pk
-			resident_names.append(str(resident.name))
-			resident_pk_to_index[resident.pk] = index
-			YDoctors[str(resident.year)].append(index)
-			resident_pk_to_track[resident.pk] = []
-			for track in resident.tracks.all():
-				resident_pk_to_track[resident.pk].append(str(track.name))
-			index += 1
-
-		#print "years to res indices: "
-		#print YDoctors
-
-		f.write('set D := ')
-
-		for res in resident_pk_to_index:
-			f.write(str(resident_pk_to_index[res]) + ' ')
-		f.write(";\n")
-		#print "Resident indices: "
-		#print resident_pk_to_index
 
 ############ Weeks #######################################################
 
@@ -136,6 +109,97 @@ class Command(BaseCommand):
 		#print date_to_week
 
 		f.write(";\n")
+
+############ Residents ##################################################
+		all_residents = Resident.objects.all()
+		resident_names = []
+		resident_pk_to_index = dict()
+		resident_pk_to_track = dict()
+
+		vacationPreference = dict() # key = res index, value = vacationPref/10
+		vacation1 = dict() # key = res index, value = list of weeks
+		vacation2 = dict()
+		vacation3 = dict()
+		elective1 = dict() # key = res index, value = rotation name
+		elective2 = dict()
+		elective3 = dict()
+		elective4 = dict()
+		elective5 = dict()
+		elective6 = dict()
+		elective7 = dict()
+		elective8 = dict()
+		elective9 = dict()
+		elective10 = dict()
+
+
+		index = 1
+		for resident in all_residents:
+			#print resident.pk
+			resident_names.append(str(resident.name))
+			resident_pk_to_index[resident.pk] = index
+			YDoctors[str(resident.year)].append(index)
+
+			vacationPreference[index] = resident.vacationPreference
+			##assume that vacationStart is on a sunday, and vacationEnd is on a Saturday
+			if resident.vacationStart1 is not None and resident.vacationEnd1 is not None:
+				vacationStartDate1 = resident.vacationStart1
+				vacationStartWeek1 = date_to_week[vacationStartDate1.strftime("%Y-%m-%d")]
+				vacationEndDate1 = resident.vacationEnd1
+				vacationEndWeek1 = date_to_week[(vacationEndDate1+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				vacation1[index] = []
+				for i in range(vacationStartWeek1,vacationEndWeek1):
+					vacation1[index].append(i)
+			if resident.vacationStart2 is not None and resident.vacationEnd2 is not None:
+				vacationStartDate2 = resident.vacationStart2
+				vacationStartWeek2 = date_to_week[vacationStartDate2.strftime("%Y-%m-%d")]
+				vacationEndDate2 = resident.vacationEnd2
+				vacationEndWeek2 = date_to_week[(vacationEndDate2+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				vacation2[index] = []
+				for i in range(vacationStartWeek2,vacationEndWeek2):
+					vacation2[index].append(i)
+			if resident.vacationStart3 is not None and resident.vacationEnd3 is not None:
+				vacationStartDate3 = resident.vacationStart3
+				vacationStartWeek3 = date_to_week[vacationStartDate3.strftime("%Y-%m-%d")]
+				vacationEndDate3 = resident.vacationEnd3
+				vacationEndWeek3 = date_to_week[(vacationEndDate3+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				vacation3[index] = []
+				for i in range(vacationStartWeek3,vacationEndWeek3):
+					vacation3[index].append(i)
+			if resident.elective1 is not None:
+				elective1[index] = resident.elective1
+			if resident.elective2 is not None:
+				elective2[index] = resident.elective2
+			if resident.elective3 is not None:
+				elective3[index] = resident.elective3
+			if resident.elective4 is not None:
+				elective4[index] = resident.elective4
+			if resident.elective5 is not None:
+				elective5[index] = resident.elective5
+			if resident.elective6 is not None:
+				elective6[index] = resident.elective6
+			if resident.elective7 is not None:
+				elective7[index] = resident.elective7
+			if resident.elective8 is not None:
+				elective8[index] = resident.elective8
+			if resident.elective9 is not None:
+				elective9[index] = resident.elective9
+			if resident.elective10 is not None:
+				elective10[index] = resident.elective10
+			resident_pk_to_track[resident.pk] = []
+			for track in resident.tracks.all():
+				resident_pk_to_track[resident.pk].append(str(track.name))
+			index += 1
+
+		#print "years to res indices: "
+		#print YDoctors
+
+		f.write('set D := ')
+
+		for res in resident_pk_to_index:
+			f.write(str(resident_pk_to_index[res]) + ' ')
+		f.write(";\n")
+		#print "Resident indices: "
+		#print resident_pk_to_index
 
 
 ############ Templates #######################################################
@@ -177,8 +241,9 @@ class Command(BaseCommand):
 				BWeeks[block].append(date_to_week[dt.strftime("%Y-%m-%d")])
 				BWeeksMinus1[block].append(date_to_week[dt.strftime("%Y-%m-%d")])
 			del BWeeksMinus1[block][-1]
-			for week in BWeeks[block]:
-				template_pk_to_blocks[event.template.pk].append(week)
+			template_pk_to_blocks[event.template.pk].append(block)
+			#for week in BWeeks[block]:
+			#	template_pk_to_blocks[event.template.pk].append(week) #THIS IS WRONG!gives weeks, not blocks
 
 			f.write(str(block) + ' ')
 			block += 1
@@ -216,9 +281,11 @@ class Command(BaseCommand):
 			track_name_to_index[str(track.name)] = track_index
 			minTrack[str(track.name)] = dict()
 			maxTrack[str(track.name)] = dict()
-			for trackEducationReq in track.trackeducationreq_set.all():
-				minTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
-				maxTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
+
+#DEBUGGING! ADD IN LATER AGAIN!!!!!!!!!!!!!!!!!
+#			for trackEducationReq in track.trackeducationreq_set.all():
+#				minTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
+#				maxTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
 			track_index += 1
 		f.write(";\n\n")
 
@@ -228,11 +295,11 @@ class Command(BaseCommand):
 ############ Parameters #######################################################
 
 ##----windowSize--------#
-		f.write("param windowSize := \n"+str(windowSize)+"\n\n")
+#		f.write("param windowSize := \n"+str(windowSize)+"\n\n")
 ##----minClinicWeeks--------#
-		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+"\n\n")
+#		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+"\n\n")
 ##----lastWindowStart--------#
-		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+"\n\n")
+#		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+"\n\n")
 ##----BWeeks--------#
 		f.write("param BWeeks :=")
 		for BWeek in BWeeks:
@@ -245,11 +312,13 @@ class Command(BaseCommand):
 		f.write(';\n\n')
 
 ##----TempBlocks--------#
+#ignore for now!
 		#f.write("param TempBlocks :=")
 		#for template in template_pk_to_name:
 		#	f.write("\n'"+str(template_pk_to_name[template])+"' "+str(template_pk_to_blocks[template]))
 		#f.write(';\n\n')
 ##----TempYears--------#
+#ignore for now!
 		#f.write("param TempYears :=")
 		#for template in template_pk_to_name:
 		#	f.write("\n'"+str(template_pk_to_name[template])+"' "+str(template_pk_to_year[template]))
@@ -265,9 +334,9 @@ class Command(BaseCommand):
 				for pk in template_year_to_pk[year]: #accounting for multiple templates; this shouldn't happen
 					#print pk
 					#print template_pk_to_blocks[pk]
-					for week in template_pk_to_blocks[pk]:
+					for block in template_pk_to_blocks[pk]:
 						#print week
-						current_block_list.append(week)
+						current_block_list.append(block)
 					#print template_pk_to_blocks[pk]
 				f.write("\n"+str(doctor)+" "+str(current_block_list))
 		f.write(';\n\n')
@@ -298,12 +367,14 @@ class Command(BaseCommand):
 #				f.write("\n"+str(res_pk)+" "+str(resident_pk_to_track[res_pk]))
 #		f.write(';\n\n')
 ##----model.V--------#
+
 ##----model.P--------#
-# 7*(vacationObjectiveWeight)^2 = vacation base, then ^3 for first choice, ^2 for second, ^1 for third
 # electives: 2 10 50 250 1250 6250 31250 156250 781250 3906250 (*5)
 # 4,000,000 20,000,000 1,000,000,000
 # 1,000,000 5,000,000 25,000,000
-# 250,000 1,250,000 6,250,000 
+# 250,000 1,250,000 6,250,000 		
+
+			
 ##----YearlyDemandLower--------#
 		f.write("param YearlyDemandLower :=")
 		for rotation in yearlyDemandLower:
@@ -350,19 +421,146 @@ class Command(BaseCommand):
 			f.write(';\n\n')
 
 #HARDCODING THE PREFERENCES FOR NOW!!!!!!!!!!!!!!!!!!!!
-		f.write("param P :=\n2 'Rotation2' 1 2\n3 'Rotation2' 1 2\n1 'Rotation1' 2 2\n1 'Rotation1' 3 2 ;\n\n")
-		
-		f.write("param V :=\n1 1 0;")
+		#f.write("param P :=\n1 'Clinic' 1 2\n2 'Pulmonary' 1 2;\n\n")
+		f.write("param P :=\n2 'Rotation2' 1 2\n3 'Rotation2' 1 2\n1 'Rotation1' 2 2\n1 'Rotation1' 3 2 ;")		
+		#f.write("param V :=\n1 1 0;")
 
 		f.close()
-		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler3.py test.dat --symbolic-solver-labels')
+		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler4.py test.dat --symbolic-solver-labels')
 		#rotation_dat_year_working_new
 
 
 
 ###############################################################################
 ############ Cplex solution #######################################################
+		import cplex
+		cpx=cplex.Cplex("rotsched.lp")
+		cpx.parameters.mip.pool.intensity.set(4)
+		cpx.parameters.mip.limits.populate.set(3)
+		cpx.populate_solution_pool()
+		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
+		###Since we set this to 10, numSolns =10
+		solnNames = cpx.solution.pool.get_names() ##names of the solutions
+		print(solnNames)
+		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
+		cpx.populate_solution_pool()
+		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
+		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
 
+		Schedule.objects.all().delete()
+		Event.objects.all().delete()
+		
+		for j in solnIndices:
+			#create a new schedule for each cplex solution
+			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
+			createdSchedule.save()
+
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks: 
+						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							#print "assigned!*******************************************************************"
+							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+							#assume only one object fits the filter!!
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()
+'''
+		temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
+		for d in range(1,5):
+			for rotation in temp_rotation_list:
+				for w in range(1,9):
+					print "Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")"
+					if str(cpx.solution.pool.get_values(solnIndices[0],"Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")")) == "1.0":
+						print "assigned!"
+						res = Resident.objects.filter(pk=res_pk)[0]
+						rot = Rotation.objects.filter(name=rotation)[0]
+						start = week_to_date[week]
+						end = week_to_end_date[week]
+						createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+						createdEvent.save()'''
+'''
+			#create all events for this solution schedule
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks:
+						print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+							#assume only one object fits the filter!!
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()'''
+
+'''		f.write("param P:=")
+
+		f.write("\n1 Vacation 1 1\n1 Vacation 4 1\n1 Vacation 7 1\n1 Vacation 8 1\n1 Vacation 9 1\n1 Vacation 10 1\n1 Vacation 11 1\n1 Vacation 12 1")
+
+		for res_index in vacation1:
+			for week in vacation1[res_index]:
+				if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1000000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 25000000")
+				else:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 6250000")
+		for res_index in vacation2:
+			for week in vacation2[res_index]:
+				if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 20000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 5000000")
+				else:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1250000")
+		for res_index in vacation3:
+			for week in vacation3[res_index]:
+				if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 4000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1000000")
+				else:
+					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 250000")
+		for res_index in elective1:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" 3906250")
+		for res_index in elective2:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective2[res_index])+" "+str(week)+" 781250")
+		for res_index in elective3:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective3[res_index])+" "+str(week)+" 156250")
+		for res_index in elective4:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective4[res_index])+" "+str(week)+" 31250")
+		for res_index in elective5:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective5[res_index])+" "+str(week)+" 6250")
+		for res_index in elective6:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective6[res_index])+" "+str(week)+" 1250")
+		for res_index in elective7:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective7[res_index])+" "+str(week)+" 250")
+		for res_index in elective8:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective8[res_index])+" "+str(week)+" 50")
+		for res_index in elective9:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective9[res_index])+" "+str(week)+" 10")
+		for res_index in elective10:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" "+str(elective10[res_index])+" "+str(week)+" 2")
+		f.write(';\n\n')'''
+
+
+'''
 		import cplex
 		cpx=cplex.Cplex("rotsched.lp")
 		cpx.parameters.mip.pool.intensity.set(4)
@@ -392,7 +590,7 @@ class Command(BaseCommand):
 							end = week_to_end_date[week]
 							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
 							createdEvent.save()
-						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+'''						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
 
 		#for doctor in range(1,5):
 		#	for week in range(1,9):

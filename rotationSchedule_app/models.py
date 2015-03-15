@@ -11,7 +11,7 @@ class Rotation(models.Model):
         return self.name
     name = models.CharField(max_length=200)
     minResidents = models.PositiveIntegerField(default=1)
-    maxResidents = models.PositiveIntegerField(default=1)
+    maxResidents = models.PositiveIntegerField(default=100)
     isElective = models.BooleanField(default=False)
     recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')
 
@@ -85,7 +85,7 @@ class RotationLength(models.Model):
         auto_created=True
     rotation = models.ForeignKey(Rotation)
     block = models.ForeignKey(Block)
-    minLength = models.PositiveIntegerField(default=1)
+    minLength = models.PositiveIntegerField(default=0)
     maxLength = models.PositiveIntegerField(default=100) 
 
 #Demand by year, through field for year field rotationDemand
@@ -94,7 +94,7 @@ class YearDemand(models.Model):
         auto_created=True
     rotation = models.ForeignKey('Rotation')
     year = models.ForeignKey('Year')
-    minResidents = models.PositiveIntegerField(default=1)
+    minResidents = models.PositiveIntegerField(default=0)
     maxResidents = models.PositiveIntegerField(default=100)
     #demand = models.PositiveIntegerField(default=0)
 
@@ -104,7 +104,7 @@ class EducationReq(models.Model):
         auto_created=True
     year = models.ForeignKey(Year)
     rotation = models.ForeignKey(Rotation)
-    minLength = models.PositiveIntegerField(default=1)
+    minLength = models.PositiveIntegerField(default=0)
     maxLength = models.PositiveIntegerField(default=100)
 
 #Education requirements for weeks of rotation for a track
@@ -113,7 +113,7 @@ class TrackEducationReq(models.Model):
         auto_created=True
     trackEducationReq_track = models.ForeignKey(Track)
     trackEducationReq_rotation = models.ForeignKey(Rotation)
-    trackEducationReq_minLength = models.PositiveIntegerField(default=1)
+    trackEducationReq_minLength = models.PositiveIntegerField(default=0)
     trackEducationReq_maxLength = models.PositiveIntegerField(default=100)
 
 class Schedule(models.Model):
