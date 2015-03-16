@@ -30,13 +30,13 @@ class Command(BaseCommand):
 		all_rotations = Rotation.objects.all()
 
 		rotation_names = []
-		rotation_names.append('Vacation')
+		#rotation_names.append('Vacation')
 		total_demand_lower = dict()
 		total_demand_upper = dict()
 		yearlyDemandLower = dict() #for YearlyDemandLower param
 		yearlyDemandUpper = dict() #for YearlyDemandUpper param
 		
-		f.write("set R := 'Vacation' ") # vacation manually added as a rotation
+		f.write("set R := ") # vacation NOT manually added as a rotation
 
 		for rotation in all_rotations:
 			f.write("'"+str(rotation.name)+"' ")
@@ -145,7 +145,10 @@ class Command(BaseCommand):
 				vacationStartDate1 = resident.vacationStart1
 				vacationStartWeek1 = date_to_week[vacationStartDate1.strftime("%Y-%m-%d")]
 				vacationEndDate1 = resident.vacationEnd1
-				vacationEndWeek1 = date_to_week[(vacationEndDate1+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				if (vacationEndDate1+datetime.timedelta(days=1)).strftime("%Y-%m-%d") in date_to_week:
+					vacationEndWeek1 = date_to_week[(vacationEndDate1+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				else: #assume this is last week in schedule
+					vacationEndWeek1 = len(weeks)+1
 				vacation1[index] = []
 				for i in range(vacationStartWeek1,vacationEndWeek1):
 					vacation1[index].append(i)
@@ -153,7 +156,10 @@ class Command(BaseCommand):
 				vacationStartDate2 = resident.vacationStart2
 				vacationStartWeek2 = date_to_week[vacationStartDate2.strftime("%Y-%m-%d")]
 				vacationEndDate2 = resident.vacationEnd2
-				vacationEndWeek2 = date_to_week[(vacationEndDate2+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				if (vacationEndDate2+datetime.timedelta(days=1)).strftime("%Y-%m-%d") in date_to_week:
+					vacationEndWeek2 = date_to_week[(vacationEndDate2+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				else:
+					vacationEndWeek2 = len(weeks)+1
 				vacation2[index] = []
 				for i in range(vacationStartWeek2,vacationEndWeek2):
 					vacation2[index].append(i)
@@ -161,7 +167,10 @@ class Command(BaseCommand):
 				vacationStartDate3 = resident.vacationStart3
 				vacationStartWeek3 = date_to_week[vacationStartDate3.strftime("%Y-%m-%d")]
 				vacationEndDate3 = resident.vacationEnd3
-				vacationEndWeek3 = date_to_week[(vacationEndDate3+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				if (vacationEndDate3+datetime.timedelta(days=1)).strftime("%Y-%m-%d") in date_to_week:
+					vacationEndWeek3 = date_to_week[(vacationEndDate3+datetime.timedelta(days=1)).strftime("%Y-%m-%d")]
+				else:
+					vacationEndWeek3 = len(weeks)+1
 				vacation3[index] = []
 				for i in range(vacationStartWeek3,vacationEndWeek3):
 					vacation3[index].append(i)
@@ -221,6 +230,23 @@ class Command(BaseCommand):
 		#print "TEMPLATE_TO_YEAR"
 		#print template_pk_to_year
 
+
+############ Blocks #######################################################
+
+		all_blocks = Block.objects.all()
+		minLength = dict()
+		maxLength = dict()
+		block_name_to_dblock = dict()
+
+		for block in all_blocks:
+			minLength[str(block.name)] = dict()
+			maxLength[str(block.name)] = dict()
+			block_name_to_dblock[str(block.name)] = []
+			for rotationLength in block.rotationlength_set.all():
+				minLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.minLength
+				maxLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.maxLength
+
+
 ############ TemplateEvents #######################################################
 	
 		all_templateEvents = TemplateEvent.objects.all()
@@ -234,6 +260,7 @@ class Command(BaseCommand):
 		for event in all_templateEvents:
 			blockStartDate = event.blockStartDate
 			blockEndDate = event.blockEndDate
+			block_name_to_dblock[str(event.block.name)].append(block)
 			templateEvent_pk_to_block[event.pk] = block
 			BWeeks[block] = []
 			BWeeksMinus1[block] = []
@@ -242,8 +269,7 @@ class Command(BaseCommand):
 				BWeeksMinus1[block].append(date_to_week[dt.strftime("%Y-%m-%d")])
 			del BWeeksMinus1[block][-1]
 			template_pk_to_blocks[event.template.pk].append(block)
-			#for week in BWeeks[block]:
-			#	template_pk_to_blocks[event.template.pk].append(week) #THIS IS WRONG!gives weeks, not blocks
+
 
 			f.write(str(block) + ' ')
 			block += 1
@@ -251,19 +277,6 @@ class Command(BaseCommand):
 
 		#print "BWeeks: "
 		#print BWeeks
-
-############ Blocks #######################################################
-
-		all_blocks = Block.objects.all()
-		minLength = dict()
-		maxLength = dict()
-
-		for block in all_blocks:
-			minLength[str(block.name)] = dict()
-			maxLength[str(block.name)] = dict()
-			for rotationLength in block.rotationlength_set.all():
-				minLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.minLength
-				maxLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.maxLength
 
 ############  Tracks #######################################################
 		all_tracks = Track.objects.all()
@@ -373,135 +386,7 @@ class Command(BaseCommand):
 # 4,000,000 20,000,000 1,000,000,000
 # 1,000,000 5,000,000 25,000,000
 # 250,000 1,250,000 6,250,000 		
-
-			
-##----YearlyDemandLower--------#
-		f.write("param YearlyDemandLower :=")
-		for rotation in yearlyDemandLower:
-			for year in yearlyDemandLower[rotation]:
-				for week in range(1,3):  #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandLower[rotation][year]))
-		f.write(';\n\n')
-##----YearlyDemandUpper--------#
-		f.write("param YearlyDemandUpper :=")
-		for rotation in yearlyDemandUpper:
-			for year in yearlyDemandUpper[rotation]:
-				for week in range(1,4): #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
-		f.write(';\n\n')
-
-#		f.write("param YearlyDemandLower :=\n'Rotation1' 'PGY1' 1 1\n'Rotation1' 'PGY1' 2 1\n'Rotation1' 'PGY1' 3 1\n'Rotation1' 'PGY2' 1 1\n'Rotation1' 'PGY2' 2 1\n'Rotation1' 'PGY2' 3 1\n'Rotation1' 'PGY3' 1 1\n
-#'Rotation1' 'PGY3' 2 1
-#'Rotation1' 'PGY3' 3 1 ;
-
-##----MinTrack--------#
-		minTrack_initialized = False
-		for track in minTrack:
-			if minTrack[track]:
-				if len(minTrack[track]) != 0:
-					if minTrack_initialized is False:
-						f.write("param MinTrack :=")
-						minTrack_initialized = True
-					for rotation in minTrack[track]:
-						f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
-		
-		if minTrack_initialized:
-			f.write(';\n\n')
-##----MaxTrack--------#
-		maxTrack_initialized = False
-		for track in maxTrack:
-			if maxTrack[track]:
-				if len(maxTrack[track]) != 0:
-					if maxTrack_initialized is False:
-						f.write("param MaxTrack :=")
-						maxTrack_initialized = True
-				for rotation in maxTrack[track]:
-					f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
-		if maxTrack_initialized:
-			f.write(';\n\n')
-
-#HARDCODING THE PREFERENCES FOR NOW!!!!!!!!!!!!!!!!!!!!
-		#f.write("param P :=\n1 'Clinic' 1 2\n2 'Pulmonary' 1 2;\n\n")
-		f.write("param P :=\n2 'Rotation2' 1 2\n3 'Rotation2' 1 2\n1 'Rotation1' 2 2\n1 'Rotation1' 3 2 ;")		
-		#f.write("param V :=\n1 1 0;")
-
-		f.close()
-		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler4.py test.dat --symbolic-solver-labels')
-		#rotation_dat_year_working_new
-
-
-
-###############################################################################
-############ Cplex solution #######################################################
-		import cplex
-		cpx=cplex.Cplex("rotsched.lp")
-		cpx.parameters.mip.pool.intensity.set(4)
-		cpx.parameters.mip.limits.populate.set(3)
-		cpx.populate_solution_pool()
-		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
-		###Since we set this to 10, numSolns =10
-		solnNames = cpx.solution.pool.get_names() ##names of the solutions
-		print(solnNames)
-		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
-		cpx.populate_solution_pool()
-		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
-		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
-
-		Schedule.objects.all().delete()
-		Event.objects.all().delete()
-		
-		for j in solnIndices:
-			#create a new schedule for each cplex solution
-			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
-			createdSchedule.save()
-
-			for res_pk in resident_pk_to_index:
-				for rotation in rotation_names:
-					for week in weeks: 
-						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
-							#print "assigned!*******************************************************************"
-							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-							#assume only one object fits the filter!!
-							res = Resident.objects.filter(pk=res_pk)[0]
-							rot = Rotation.objects.filter(name=rotation)[0]
-							start = week_to_date[week]
-							end = week_to_end_date[week]
-							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-							createdEvent.save()
-'''
-		temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
-		for d in range(1,5):
-			for rotation in temp_rotation_list:
-				for w in range(1,9):
-					print "Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")"
-					if str(cpx.solution.pool.get_values(solnIndices[0],"Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")")) == "1.0":
-						print "assigned!"
-						res = Resident.objects.filter(pk=res_pk)[0]
-						rot = Rotation.objects.filter(name=rotation)[0]
-						start = week_to_date[week]
-						end = week_to_end_date[week]
-						createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-						createdEvent.save()'''
-'''
-			#create all events for this solution schedule
-			for res_pk in resident_pk_to_index:
-				for rotation in rotation_names:
-					for week in weeks:
-						print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
-							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-							#assume only one object fits the filter!!
-							res = Resident.objects.filter(pk=res_pk)[0]
-							rot = Rotation.objects.filter(name=rotation)[0]
-							start = week_to_date[week]
-							end = week_to_end_date[week]
-							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-							createdEvent.save()'''
-
-'''		f.write("param P:=")
-
-		f.write("\n1 Vacation 1 1\n1 Vacation 4 1\n1 Vacation 7 1\n1 Vacation 8 1\n1 Vacation 9 1\n1 Vacation 10 1\n1 Vacation 11 1\n1 Vacation 12 1")
+		f.write("param P:=")
 
 		for res_index in vacation1:
 			for week in vacation1[res_index]:
@@ -557,7 +442,167 @@ class Command(BaseCommand):
 		for res_index in elective10:
 			for week in weeks:
 				f.write("\n"+str(res_index)+" "+str(elective10[res_index])+" "+str(week)+" 2")
-		f.write(';\n\n')'''
+		f.write(';\n\n')
+			
+##----YearlyDemandLower--------#
+		f.write("param YearlyDemandLower :=")
+		for rotation in yearlyDemandLower:
+			for year in yearlyDemandLower[rotation]:
+				for week in range(1,3):  #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandLower[rotation][year]))
+		f.write(';\n\n')
+##----YearlyDemandUpper--------#
+		f.write("param YearlyDemandUpper :=")
+		for rotation in yearlyDemandUpper:
+			for year in yearlyDemandUpper[rotation]:
+				for week in range(1,4): #weeks #HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
+		f.write(';\n\n')
+
+#		f.write("param YearlyDemandLower :=\n'Rotation1' 'PGY1' 1 1\n'Rotation1' 'PGY1' 2 1\n'Rotation1' 'PGY1' 3 1\n'Rotation1' 'PGY2' 1 1\n'Rotation1' 'PGY2' 2 1\n'Rotation1' 'PGY2' 3 1\n'Rotation1' 'PGY3' 1 1\n
+#'Rotation1' 'PGY3' 2 1
+#'Rotation1' 'PGY3' 3 1 ;
+
+##----MinTrack--------#
+		minTrack_initialized = False
+		for track in minTrack:
+			if minTrack[track]:
+				if len(minTrack[track]) != 0:
+					if minTrack_initialized is False:
+						f.write("param MinTrack :=")
+						minTrack_initialized = True
+					for rotation in minTrack[track]:
+						f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
+		
+		if minTrack_initialized:
+			f.write(';\n\n')
+##----MaxTrack--------#
+		maxTrack_initialized = False
+		for track in maxTrack:
+			if maxTrack[track]:
+				if len(maxTrack[track]) != 0:
+					if maxTrack_initialized is False:
+						f.write("param MaxTrack :=")
+						maxTrack_initialized = True
+				for rotation in maxTrack[track]:
+					f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
+		if maxTrack_initialized:
+			f.write(';\n\n')
+##----MinLength--------#
+		f.write("param MinLength :=")
+		for blockName in minLength:
+			if blockName in block_name_to_dblock:
+				for rotation in minLength[blockName]:
+					for block in block_name_to_dblock[blockName]:
+						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(minLength[blockName][rotation]))
+		f.write(';\n\n')
+##----MaxLength--------#
+		f.write("param MaxLength :=")
+		for blockName in maxLength:
+			if blockName in block_name_to_dblock:
+				for rotation in maxLength[blockName]:
+					for block in block_name_to_dblock[blockName]:
+						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(maxLength[blockName][rotation]))
+		f.write(';\n\n')
+
+##----TotalDemandLower--------#
+		f.write("param TotalDemandLower :=")
+		for rotation in total_demand_lower:
+			for week in weeks:
+				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_lower[rotation]))
+		f.write(';\n\n')
+
+##----TotalDemandUpper--------#	
+		f.write("param TotalDemandUpper :=")
+		for rotation in total_demand_upper:
+			for week in weeks:
+				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_upper[rotation]))
+		f.write(';\n\n')
+
+##----MinYear--------#
+		f.write("param MinYear :=")
+		for year in minYear:
+			for rotation in minYear[year]:
+				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(minYear[year][rotation]))
+		f.write(';\n\n')
+##----MaxYear--------#
+		f.write("param MaxYear :=")
+		for year in maxYear:
+			for rotation in maxYear[year]:
+				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(maxYear[year][rotation]))
+		f.write(';\n\n')
+
+		f.close()
+		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler4.py test.dat --symbolic-solver-labels')
+
+###############################################################################
+############ Cplex solution #######################################################
+		import cplex
+		cpx=cplex.Cplex("rotsched.lp")
+		cpx.parameters.mip.pool.intensity.set(4)
+		cpx.parameters.mip.limits.populate.set(3)
+		cpx.populate_solution_pool()
+		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
+		###Since we set this to 10, numSolns =10
+		solnNames = cpx.solution.pool.get_names() ##names of the solutions
+		print(solnNames)
+		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
+		cpx.populate_solution_pool()
+		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
+		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
+
+		Schedule.objects.all().delete()
+		Event.objects.all().delete()
+		
+		for j in solnIndices:
+			#create a new schedule for each cplex solution
+			print cpx.solution.pool.get_objective_value(j)
+			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
+			createdSchedule.save()
+
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks: 
+						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							#print "assigned!*******************************************************************"
+							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+							#assume only one object fits the filter!!
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()
+'''
+		temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
+		for d in range(1,5):
+			for rotation in temp_rotation_list:
+				for w in range(1,9):
+					print "Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")"
+					if str(cpx.solution.pool.get_values(solnIndices[0],"Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")")) == "1.0":
+						print "assigned!"
+						res = Resident.objects.filter(pk=res_pk)[0]
+						rot = Rotation.objects.filter(name=rotation)[0]
+						start = week_to_date[week]
+						end = week_to_end_date[week]
+						createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+						createdEvent.save()'''
+'''
+			#create all events for this solution schedule
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks:
+						print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+							#assume only one object fits the filter!!
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()'''
 
 
 '''
@@ -614,33 +659,9 @@ class Command(BaseCommand):
 				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(maxYear[year][rotation]))
 		f.write(';\n\n')
 
-##----MinLength--------#
-		f.write("param MinLength :=")
-		for block in minLength:
-			for rotation in minLength[block]:
-				f.write("\n'"+str(rotation)+"' '"+str(block)+"' "+str(minLength[block][rotation]))
-		f.write(';\n\n')
-##----MaxLength--------#
-		f.write("param MaxLength :=")
-		for block in maxLength:
-			for rotation in maxLength[block]:
-				f.write("\n'"+str(rotation)+"' '"+str(block)+"' "+str(maxLength[block][rotation]))
-		f.write(';\n\n')
 ##skipping: Difficulties, Objective#########
 
-##----TotalDemandLower--------#
-		f.write("param TotalDemandLower :=")
-		for rotation in total_demand_lower:
-			for week in weeks:
-				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_lower[rotation]))
-		f.write(';\n\n')
-
-##----TotalDemandUpper--------#	
-		f.write("param TotalDemandUpper :=")
-		for rotation in total_demand_upper:
-			for week in weeks:
-				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_upper[rotation]))
-		f.write(';\n\n')'''
+'''
 
 
 		#rotation_dat_year_working_new

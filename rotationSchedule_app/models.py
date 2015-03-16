@@ -10,7 +10,7 @@ class Rotation(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200)
-    minResidents = models.PositiveIntegerField(default=1)
+    minResidents = models.PositiveIntegerField(default=0)
     maxResidents = models.PositiveIntegerField(default=100)
     isElective = models.BooleanField(default=False)
     recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')

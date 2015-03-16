@@ -143,7 +143,7 @@ model.rotationConstraintUpper = Constraint(model.R, model.W, rule=coverage4_rule
 
 #each resident can only be on one rotation each week
 def week_rule(model, d, w):
-	return sum(model.Z[d,r,w] for r in model.R) <= 1
+	return sum(model.Z[d,r,w] for r in model.R) == 1
 model.weekConstraint = Constraint(model.D, model.W, rule=week_rule)
 
 #Educational Requirement : each resident of year y must meet the rotation requirements for their residency year

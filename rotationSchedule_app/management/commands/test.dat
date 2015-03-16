@@ -1,7 +1,7 @@
-set R := 'Vacation' 'Clinic' 'Rotation2' 'Rotation1' ;
+set R := 'Pulmonary' 'Vacation' 'Clinic' 'ICU' ;
 set Y := 'PGY1' 'PGY2' 'PGY3' ;
 set W:= 1 2 3 4 5 6 7 8 ;
-set D := 1 2 3 4 ;
+set D := 2 3 4 5 6 7 1 ;
 set B:= 1 2 3 4 5 6 ;
 set T := 1 2 ;
 
@@ -22,10 +22,13 @@ param BWeeksMinus1 :=
 6 [6, 7];
 
 param DBlocks :=
-1 [1, 2, 3]
+2 [1, 2, 3]
+3 [1, 2, 3]
 4 [1, 2, 3]
-2 [4, 5, 6]
-3 [4, 5, 6];
+5 [4, 5, 6]
+6 [4, 5, 6]
+7 [4, 5, 6]
+1 [4, 5, 6];
 
 param YBlocks :=
 'PGY1' [1, 2, 3]
@@ -33,42 +36,198 @@ param YBlocks :=
 'PGY3' [4, 5, 6];
 
 param YDoctors :=
-'PGY1' [1, 4]
-'PGY2' [2]
-'PGY3' [3];
+'PGY1' [2, 3, 4]
+'PGY2' [5, 6, 7]
+'PGY3' [1];
 
 param Year :=
-1 'PGY1'
+2 'PGY1'
+3 'PGY1'
 4 'PGY1'
-2 'PGY2'
-3 'PGY3';
+5 'PGY2'
+6 'PGY2'
+7 'PGY2'
+1 'PGY3';
+
+param P:=
+1 Vacation 7 25000000
+1 Vacation 8 25000000
+2 Vacation 1 25000000
+2 Vacation 2 25000000
+3 Vacation 2 25000000
+3 Vacation 3 25000000
+4 Vacation 3 25000000
+4 Vacation 4 25000000
+5 Vacation 4 25000000
+5 Vacation 5 25000000
+6 Vacation 5 25000000
+6 Vacation 6 25000000
+7 Vacation 6 25000000
+7 Vacation 7 25000000
+2 ICU 1 3906250
+2 ICU 2 3906250
+2 ICU 3 3906250
+2 ICU 4 3906250
+2 ICU 5 3906250
+2 ICU 6 3906250
+2 ICU 7 3906250
+2 ICU 8 3906250
+7 ICU 1 3906250
+7 ICU 2 3906250
+7 ICU 3 3906250
+7 ICU 4 3906250
+7 ICU 5 3906250
+7 ICU 6 3906250
+7 ICU 7 3906250
+7 ICU 8 3906250;
 
 param YearlyDemandLower :=
-'Rotation2' 'PGY3' 1 0
-'Rotation2' 'PGY3' 2 0
-'Rotation1' 'PGY1' 1 1
-'Rotation1' 'PGY1' 2 1
-'Rotation1' 'PGY2' 1 1
-'Rotation1' 'PGY2' 2 1
-'Rotation1' 'PGY3' 1 1
-'Rotation1' 'PGY3' 2 1;
+'Pulmonary' 'PGY3' 1 0
+'Pulmonary' 'PGY3' 2 0
+'ICU' 'PGY1' 1 1
+'ICU' 'PGY1' 2 1
+'ICU' 'PGY2' 1 0
+'ICU' 'PGY2' 2 0
+'ICU' 'PGY3' 1 0
+'ICU' 'PGY3' 2 0;
 
 param YearlyDemandUpper :=
-'Rotation2' 'PGY3' 1 100
-'Rotation2' 'PGY3' 2 100
-'Rotation2' 'PGY3' 3 100
-'Rotation1' 'PGY1' 1 100
-'Rotation1' 'PGY1' 2 100
-'Rotation1' 'PGY1' 3 100
-'Rotation1' 'PGY2' 1 100
-'Rotation1' 'PGY2' 2 100
-'Rotation1' 'PGY2' 3 100
-'Rotation1' 'PGY3' 1 100
-'Rotation1' 'PGY3' 2 100
-'Rotation1' 'PGY3' 3 100;
+'Pulmonary' 'PGY3' 1 100
+'Pulmonary' 'PGY3' 2 100
+'Pulmonary' 'PGY3' 3 100
+'ICU' 'PGY1' 1 100
+'ICU' 'PGY1' 2 100
+'ICU' 'PGY1' 3 100
+'ICU' 'PGY2' 1 100
+'ICU' 'PGY2' 2 100
+'ICU' 'PGY2' 3 100
+'ICU' 'PGY3' 1 100
+'ICU' 'PGY3' 2 100
+'ICU' 'PGY3' 3 100;
 
-param P :=
-2 'Rotation2' 1 2
-3 'Rotation2' 1 2
-1 'Rotation1' 2 2
-1 'Rotation1' 3 2 ;
+param MinLength :=
+'Pulmonary' 1 2
+'Pulmonary' 2 2
+'Pulmonary' 5 2
+'Pulmonary' 6 2
+'Clinic' 1 0
+'Clinic' 2 0
+'Clinic' 5 0
+'Clinic' 6 0
+'Vacation' 1 2
+'Vacation' 2 2
+'Vacation' 5 2
+'Vacation' 6 2
+'ICU' 1 2
+'ICU' 2 2
+'ICU' 5 2
+'ICU' 6 2
+'Pulmonary' 3 2
+'Pulmonary' 4 2
+'Clinic' 3 2
+'Clinic' 4 2
+'ICU' 3 2
+'ICU' 4 2
+'Vacation' 3 2
+'Vacation' 4 2;
+
+param MaxLength :=
+'Pulmonary' 1 3
+'Pulmonary' 2 3
+'Pulmonary' 5 3
+'Pulmonary' 6 3
+'Clinic' 1 100
+'Clinic' 2 100
+'Clinic' 5 100
+'Clinic' 6 100
+'Vacation' 1 2
+'Vacation' 2 2
+'Vacation' 5 2
+'Vacation' 6 2
+'ICU' 1 3
+'ICU' 2 3
+'ICU' 5 3
+'ICU' 6 3
+'Pulmonary' 3 2
+'Pulmonary' 4 2
+'Clinic' 3 2
+'Clinic' 4 2
+'ICU' 3 2
+'ICU' 4 2
+'Vacation' 3 2
+'Vacation' 4 2;
+
+param TotalDemandLower :=
+'Pulmonary' 1 2
+'Pulmonary' 2 2
+'Pulmonary' 3 2
+'Pulmonary' 4 2
+'Pulmonary' 5 2
+'Pulmonary' 6 2
+'Pulmonary' 7 2
+'Pulmonary' 8 2
+'Clinic' 1 1
+'Clinic' 2 1
+'Clinic' 3 1
+'Clinic' 4 1
+'Clinic' 5 1
+'Clinic' 6 1
+'Clinic' 7 1
+'Clinic' 8 1
+'Vacation' 1 0
+'Vacation' 2 0
+'Vacation' 3 0
+'Vacation' 4 0
+'Vacation' 5 0
+'Vacation' 6 0
+'Vacation' 7 0
+'Vacation' 8 0
+'ICU' 1 2
+'ICU' 2 2
+'ICU' 3 2
+'ICU' 4 2
+'ICU' 5 2
+'ICU' 6 2
+'ICU' 7 2
+'ICU' 8 2;
+
+param TotalDemandUpper :=
+'Pulmonary' 1 3
+'Pulmonary' 2 3
+'Pulmonary' 3 3
+'Pulmonary' 4 3
+'Pulmonary' 5 3
+'Pulmonary' 6 3
+'Pulmonary' 7 3
+'Pulmonary' 8 3
+'Clinic' 1 3
+'Clinic' 2 3
+'Clinic' 3 3
+'Clinic' 4 3
+'Clinic' 5 3
+'Clinic' 6 3
+'Clinic' 7 3
+'Clinic' 8 3
+'Vacation' 1 100
+'Vacation' 2 100
+'Vacation' 3 100
+'Vacation' 4 100
+'Vacation' 5 100
+'Vacation' 6 100
+'Vacation' 7 100
+'Vacation' 8 100
+'ICU' 1 3
+'ICU' 2 3
+'ICU' 3 3
+'ICU' 4 3
+'ICU' 5 3
+'ICU' 6 3
+'ICU' 7 3
+'ICU' 8 3;
+
+param MinYear :=
+'PGY3' 'Pulmonary' 0;
+
+param MaxYear :=
+'PGY3' 'Pulmonary' 100;
+
