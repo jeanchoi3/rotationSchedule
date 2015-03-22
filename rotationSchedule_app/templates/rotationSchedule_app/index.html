@@ -159,7 +159,8 @@
             }
 
             //$('#calendar').fullCalendar('removeEvents');
-            {{template_list|safe}}[j].name
+            //{{template_list|safe}}[j].name
+            $('#'+{{template_list|safe}}[j].name).fullCalendar('removeEvents');
             $('#'+{{template_list|safe}}[j].name).empty();
             $('#'+{{template_list|safe}}[j].name).append(eventString);
             $('#'+{{template_list|safe}}[j].name+' .fc-event').each(function() {
@@ -512,52 +513,77 @@
 
         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-        <!--a id="program"></a>
-        <form id="myForm">
+
+        <form action="/" method="post" id="program-form">
             <legend>Program Information</legend>
-            <span class="help-block">General information about the residency program.</span>
-
-            <p><b>Program Name: </b><input type="text" name="programName"></p>
-
-            <p></p>
-
-            <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
-            <p><b>Schedule End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
-            <button type="submit" class="btn">Save and Update</button>
-        </form><br><br-->
-
-        <!--form action="/create_post/" method="post" id="program-form">
-            <legend>Program Information</legend>
-                <span class="help-block">General information about the residency program.</span>
             {% csrf_token %}
             <div>
             {% for field in pForm %}
                 <div>
                     <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}
+                    {{ field }}{{ field.help_text }}
                 </div>
             {% endfor %}
             </div>
-            <div id="results"></div> 
-            <input type="submit" name="program" value="Submit Program" />
-        </form-->
+            <input type="submit" name="program" value="Save and Continue" />
+        </form> <br><br>
 
-        <div id='results'></div>
-
-        <div id="all_templates"></div>
-        
-        <!--a id="block_template"></a>
-        <legend>Block Template</legend>
-        <span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span>
-        <div id='wrap'>
-            <div class='external-events'>
+        <form action="/" method="post" id="year-form">
+            <legend>Year Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in yForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
             </div>
-        
-            <div id='calendar'></div>
-            <div style='clear:both'></div>
-            <button onclick="myAlert()">alert with events</button>
-        </div-->
+            <input type="submit" name="year" value="Save and Continue" />
+        </form> <br><br>
 
+        <form action="/" method="post" id="track-form">
+            <legend>Track Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in tForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div>
+            <input type="submit" name="track" value="Save and Continue" />
+        </form> <br><br>
+
+
+        <form action="/" method="post" id="block-form">
+            <legend>Block Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in bForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div>
+            <input type="submit" name="block" value="Save and Continue" />
+        </form> <br><br>
+
+        <form action="/" method="post" id="resident-form">
+            <legend>Resident Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in residentForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div>
+            <input type="submit" name="resident" value="Save and Continue" />
+        </form> <br><br>
 
         <form action="/" method="post" id="rotation-form">
             <legend>Rotation Information</legend>
@@ -598,90 +624,6 @@
             <input type="submit" name="rotation" value="Save and Continue" />
         </form> <br><br>
 
-        <form action="/" method="post" id="year-form">
-            <legend>Year Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in yForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }} {{field.help_text}}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="year" value="Save and Continue" />
-        </form> <br><br>
-
-        <form action="/" method="post" id="track-form">
-            <legend>Track Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in tForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }} {{field.help_text}}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="track" value="Save and Continue" />
-        </form> <br><br>
-
-        <form action="/" method="post" id="block-form">
-            <legend>Block Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in bForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }} {{field.help_text}}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="block" value="Save and Continue" />
-        </form> <br><br>
-
-        <form action="/" method="post" id="resident-form">
-            <legend>Resident Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in residentForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }} {{field.help_text}}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="resident" value="Save and Continue" />
-        </form> <br><br>
-
-        <form action="/" method="post" id="event-form">
-            <legend>Event Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in eForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }} {{field.help_text}}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="event" value="Save and Continue" />
-        </form> <br><br>
-
-        <form action="/" method="post" id="program-form">
-            <legend>Program Information</legend>
-            {% csrf_token %}
-            <div>
-            {% for field in pForm %}
-                <div>
-                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
-                    {{ field }}{{ field.help_text }}
-                </div>
-            {% endfor %}
-            </div>
-            <input type="submit" name="program" value="Save and Continue" />
-        </form> <br><br>
-
         <form action="/" method="post" id="template-form">
             <legend>Template Information</legend>
             {% csrf_token %}
@@ -696,6 +638,67 @@
             <input type="submit" name="template" value="Save and Continue" />
         </form> <br><br>
 
+        <!--a id="program"></a>
+        <form id="myForm">
+            <legend>Program Information</legend>
+            <span class="help-block">General information about the residency program.</span>
+
+            <p><b>Program Name: </b><input type="text" name="programName"></p>
+
+            <p></p>
+
+            <p><b>Schedule Start Date: </b><input type="text" id="datepicker-1" name="startDate"></p>
+            <p><b>Schedule End Date: </b><input type="text" id="datepicker-2" name="endDate"></p>
+            <button type="submit" class="btn">Save and Update</button>
+        </form><br><br-->
+
+        <!--form action="/create_post/" method="post" id="program-form">
+            <legend>Program Information</legend>
+                <span class="help-block">General information about the residency program.</span>
+            {% csrf_token %}
+            <div>
+            {% for field in pForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            </div>
+            <div id="results"></div> 
+            <input type="submit" name="program" value="Submit Program" />
+        </form-->
+        <div id='results'></div>
+
+        <div id="all_templates"></div>
+        
+        <!--a id="block_template"></a>
+        <legend>Block Template</legend>
+        <span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span>
+        <div id='wrap'>
+            <div class='external-events'>
+            </div>
+        
+            <div id='calendar'></div>
+            <div style='clear:both'></div>
+            <button onclick="myAlert()">alert with events</button>
+        </div-->
+
+
+        <!--form action="/" method="post" id="event-form">
+            <legend>Event Information</legend>
+            {% csrf_token %}
+            <div>
+            {% for field in eForm %}
+                <div>
+                    <label for="{{ field.label }}">{{ field.label_tag }}</label>
+                    {{ field }} {{field.help_text}}
+                </div>
+            {% endfor %}
+            </div>
+            <input type="submit" name="event" value="Save and Continue" />
+        </form> <br><br>
+
+
         <form action="/" method="post" id="template-event-form">
             <legend>Template Event Information</legend>
             {% csrf_token %}
@@ -708,10 +711,10 @@
             {% endfor %}
             </div>
             <input type="submit" name="template-event" value="Save and Continue" />
-        </form> <br><br>
+        </form> <br><br-->
 
-        <form action="/" method="post" id="multiple-form">
-            <!--legend>Rotation Length Formset</legend>
+        <!--form action="/" method="post" id="multiple-form">
+            <legend>Rotation Length Formset</legend>
                 {{ RotationLengthForm.management_form }}
                 <table>
                 <tbody>
@@ -731,7 +734,7 @@
                 </div>
                 {% endfor %}
                 </tbody>
-                </table-->
+                </table>
 
 
             <legend>Program Information</legend>
@@ -769,7 +772,7 @@
             {% endfor %}
             </div><br><br>
 
-            <!--legend>Rotation Formset</legend>
+            <legend>Rotation Formset</legend>
             {{ rotation_formset.management_form }}
             <table>
             <tbody>
@@ -789,14 +792,14 @@
             </div>
             {% endfor %}
             </tbody>
-            </table-->
+            </table>
 
-            <input type="submit" name="multiple" value="Save and Continue" />
+            <!input type="submit" name="multiple" value="Save and Continue" />
         </form>
 
         <!--p><tt type="text" id="results"></tt></p-->
 
-        <a id="block"></a>
+        <!--a id="block"></a>
         <form id="blockForm">
             <legend>Block Information</legend>
             <span class="help-block">Input all types of blocks to be used in the schedule</span>
@@ -805,7 +808,7 @@
 
         <div>
             <!--form action="/" method="post" id="sign-up_area"-->
-            <form id="sign-up_area">
+            <!--form id="sign-up_area">
                 <div id="entry1" class="clonedInput">
                     <h4 id="reference" name="reference" class="heading-reference">Entry #1</h4>
 
@@ -815,20 +818,20 @@
                         <input class="input_bn" type="text" name="block_name" id="block_name" value="">
 
                             <p class="form-help">E.g. Four-week block, Clinic block</p><!-- this is optional -->
-                    </fieldset>
+                    <!--/fieldset>
 
                     <!--fieldset class="radio entrylist"-->
-                    <fieldset>
+                    <!--fieldset>
                         <label class="label_bl" for="block_length">Block length:</label>
                         <input class="input_bl" type="text" name="block_length" id="block_length" value=""> Weeks
 
                         <!--label class="label_radio" for="radioitem"></label><input type="radio" id="weeks" value="weeks" name="radioitem" class="input_radio"> Weeks
                         <label class="label_radio" for="radioitem"></label><input type="radio" id="months" value="months" name="radioitem" class="input_radio"> Months
                         <p class="form-help">E.g. "4" Weeks, "2" Months</p-->
-                    </fieldset>
+                    <!--/fieldset>
                 </div><!-- end #entry1 -->
 
-                <div id="addDelButtons">
+                <!--div id="addDelButtons">
                     <input type="button" id="btnAdd" value="add block"> <input type="button" id="btnDel" value="remove block above">
                 </div>
                 <br>
@@ -837,9 +840,9 @@
                 <!--fieldset class="form-actions">
                     <input type="submit" value="Submit">
                 </fieldset-->
-            </form>
+            <!--/form>
         </div><!-- end cloned form -->
-        <br><br>
+        <!--br><br>
 
         <a id="rotation"></a>
         <form id="rotationForm">
@@ -861,7 +864,7 @@
                 <input class="input_max_res" type="text" name="max_res" id="max_res" value="" style="width:50px;">
                 </fieldset>
                 <!--input type="checkbox" id="isElective" value="isElective" name="isElective" class="input_checkboxitem">  Elective-->
-                <br>
+                <!--br>
             </div><br>
 
             <div id="addDelButtons">
@@ -905,7 +908,7 @@
 
                     <label class="label_rs" for="rotation_select">Rotation(s):</label>
                     <!--em>Rotation(s)</em-->
-                    <select name="select_rotation" id="rotation_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
+                    <!--select name="select_rotation" id="rotation_select" multiple class="chosen-select" style="width:350px;" tabindex="8">
                         <option value=""></option>
                     </select>
                 </fieldset><p></p>
@@ -980,7 +983,7 @@
                 <label class="label_ys" for="res_year_select">Year/Track(s):</label>
                     <select name="select_year" id="res_year_select" multiple class="chosen-select res_year_select" style="width:200px;" tabindex="8">
                     <!--multiple class="chosen-select"-->
-                        <option value=""></option>
+                        <!--option value=""></option>
                 </select>
             </div><br>
 
@@ -1009,8 +1012,8 @@
 
                 <!--couple matching, electives/vacation, -->
 
-            </span>
-        </div><br><br>
+            <!--/span>
+        </div><br><br-->
 
         <a href="schedule/">
         <button type="submit" class="btn">Create Schedule</button></a>

@@ -42,11 +42,12 @@ class TrackForm(ModelForm):
 class ProgramForm(ModelForm):
     class Meta:
         model = Program
-        fields = ['name','startDate','endDate','rigidXY']
+        fields = ['name','startDate','endDate','minClinicWeeks','windowSize']
         labels = {
             'startDate': _('Start Date'),
             'endDate': _('End Date'),
-            'rigidXY': _('Rigid X+Y scheduling system')
+            'windowSize': _('Total number of weeks in an X+Y schedule (e.g. 6 for a 4+2 schedule)'),
+            'minClinicWeeks': _('Minimum required number of clinic weeks in a window, e.g. Y in an X+Y schedule')
         }
 
     def __init__(self, *args, **kwargs):

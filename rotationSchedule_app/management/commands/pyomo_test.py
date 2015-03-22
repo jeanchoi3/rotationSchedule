@@ -386,62 +386,62 @@ class Command(BaseCommand):
 # 4,000,000 20,000,000 1,000,000,000
 # 1,000,000 5,000,000 25,000,000
 # 250,000 1,250,000 6,250,000 		
-		f.write("param P:=")
+		f.write("param P :=")
 
 		for res_index in vacation1:
 			for week in vacation1[res_index]:
 				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1000000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000000")
 				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 25000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 25000000")
 				else:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 6250000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 6250000")
 		for res_index in vacation2:
 			for week in vacation2[res_index]:
 				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 20000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 20000000")
 				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 5000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 5000000")
 				else:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1250000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1250000")
 		for res_index in vacation3:
 			for week in vacation3[res_index]:
 				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 4000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 4000000")
 				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 1000000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000")
 				else:
-					f.write("\n"+str(res_index)+" Vacation "+str(week)+" 250000")
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 250000")
 		for res_index in elective1:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" 3906250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" 3906250")
 		for res_index in elective2:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective2[res_index])+" "+str(week)+" 781250")
+				f.write("\n"+str(res_index)+" '"+str(elective2[res_index])+"' "+str(week)+" 781250")
 		for res_index in elective3:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective3[res_index])+" "+str(week)+" 156250")
+				f.write("\n"+str(res_index)+" '"+str(elective3[res_index])+"' "+str(week)+" 156250")
 		for res_index in elective4:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective4[res_index])+" "+str(week)+" 31250")
+				f.write("\n"+str(res_index)+" '"+str(elective4[res_index])+"' "+str(week)+" 31250")
 		for res_index in elective5:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective5[res_index])+" "+str(week)+" 6250")
+				f.write("\n"+str(res_index)+" '"+str(elective5[res_index])+"' "+str(week)+" 6250")
 		for res_index in elective6:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective6[res_index])+" "+str(week)+" 1250")
+				f.write("\n"+str(res_index)+" '"+str(elective6[res_index])+"' "+str(week)+" 1250")
 		for res_index in elective7:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective7[res_index])+" "+str(week)+" 250")
+				f.write("\n"+str(res_index)+" '"+str(elective7[res_index])+"' "+str(week)+" 250")
 		for res_index in elective8:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective8[res_index])+" "+str(week)+" 50")
+				f.write("\n"+str(res_index)+" '"+str(elective8[res_index])+"' "+str(week)+" 50")
 		for res_index in elective9:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective9[res_index])+" "+str(week)+" 10")
+				f.write("\n"+str(res_index)+" '"+str(elective9[res_index])+"' "+str(week)+" 10")
 		for res_index in elective10:
 			for week in weeks:
-				f.write("\n"+str(res_index)+" "+str(elective10[res_index])+" "+str(week)+" 2")
+				f.write("\n"+str(res_index)+" '"+str(elective10[res_index])+"' "+str(week)+" 2")
 		f.write(';\n\n')
 			
 ##----YearlyDemandLower--------#
@@ -540,25 +540,39 @@ class Command(BaseCommand):
 		import cplex
 		cpx=cplex.Cplex("rotsched.lp")
 		cpx.parameters.mip.pool.intensity.set(4)
-		cpx.parameters.mip.limits.populate.set(3)
+		cpx.parameters.mip.limits.populate.set(8)
 		cpx.populate_solution_pool()
 		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
+		print numSolns
 		###Since we set this to 10, numSolns =10
 		solnNames = cpx.solution.pool.get_names() ##names of the solutions
 		print(solnNames)
 		solnIndices = cpx.solution.pool.get_indices(solnNames) ## indices of all solutions from their names
-		cpx.populate_solution_pool()
-		solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
-		solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
+		print solnIndices
+		#cpx.populate_solution_pool()
+		#solnNames2 = cpx.solution.pool.get_names() ##names of the solutions
+		#solnIndices2 = cpx.solution.pool.get_indices(solnNames2)
 
 		Schedule.objects.all().delete()
-		Event.objects.all().delete()
+		Event.objects.all().delete() 
 		
+		max_obj = 1
+
 		for j in solnIndices:
 			#create a new schedule for each cplex solution
+			#print abs(max_obj - cpx.solution.pool.get_objective_value(j))
+
+			#check for redundant answers (within 0.9 of maximum objective value)
+			if abs(max_obj - cpx.solution.pool.get_objective_value(j)) < (0.1*max_obj):
+				if cpx.solution.pool.get_objective_value(j) > max_obj:
+					max_obj = cpx.solution.pool.get_objective_value(j)
+				continue
 			print cpx.solution.pool.get_objective_value(j)
+			if cpx.solution.pool.get_objective_value(j) > max_obj:
+					max_obj = cpx.solution.pool.get_objective_value(j)
 			createdSchedule = Schedule(name="NewSchedule"+str(j+1),utility=cpx.solution.pool.get_objective_value(j))
 			createdSchedule.save()
+			print createdSchedule.name
 
 			for res_pk in resident_pk_to_index:
 				for rotation in rotation_names:
@@ -574,20 +588,15 @@ class Command(BaseCommand):
 							end = week_to_end_date[week]
 							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
 							createdEvent.save()
-'''
-		temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
-		for d in range(1,5):
-			for rotation in temp_rotation_list:
-				for w in range(1,9):
-					print "Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")"
-					if str(cpx.solution.pool.get_values(solnIndices[0],"Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")")) == "1.0":
-						print "assigned!"
-						res = Resident.objects.filter(pk=res_pk)[0]
-						rot = Rotation.objects.filter(name=rotation)[0]
-						start = week_to_date[week]
-						end = week_to_end_date[week]
-						createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-						createdEvent.save()'''
+		'''for j in solnIndices:
+			print str(cpx.solution.pool.get_objective_value(j)) + "-----------------------"
+			temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
+			for d in range(1,5):
+				for rotation in temp_rotation_list:
+					for w in range(1,9):
+						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")")) == "1.0":
+							print "Z("+str(d)+"_"+str(rotation)+"_"+str(w)+")"'''
+							
 '''
 			#create all events for this solution schedule
 			for res_pk in resident_pk_to_index:
@@ -646,28 +655,10 @@ class Command(BaseCommand):
 					#"Z("+str(doctor)+"_Rotation2_"+str(week)+")"
 
 
-##----MinYear--------#
-'''		f.write("param MinYear :=")
-		for year in minYear:
-			for rotation in minYear[year]:
-				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(minYear[year][rotation]))
-		f.write(';\n\n')
-##----MaxYear--------#
-		f.write("param MaxYear :=")
-		for year in maxYear:
-			for rotation in maxYear[year]:
-				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(maxYear[year][rotation]))
-		f.write(';\n\n')
+
 
 ##skipping: Difficulties, Objective#########
 
-'''
-
-
-		#rotation_dat_year_working_new
-
-
-#pyomo --instance-only --save-model=rotschel4.lp ../rotation_scheduler3.py ../pyomoScripts/test.dat --symbolic-solver-labels
 
 
 
