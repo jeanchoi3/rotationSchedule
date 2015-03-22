@@ -156,6 +156,10 @@
                     });
                 }
 
+                //variables for master schedule view
+                var resident_assignment_array = []
+                var header_column = []
+                header_column.push({"title":"Name"})
 
                 //create new calendar for each resident
                 var length = {{resident_list|safe}}.length
@@ -197,23 +201,10 @@
                     events: {{ schedule_resident_events|safe }}[i-1][j]
                     });
 
-                } //resident loop ends here
 
-
-
-            } //schedule loop ends here
-
-
-            /* CODE FOR FILLING EVENTS ARRAY FOR DATATABLES */
-                var resident_assignment_array = []
-                var numResidents = {{resident_list|safe}}.length
-                var header_column = []
-                header_column.push({"title":"Name"})
-                //going through list of events for each resident
-                for (j = 0; j < numResidents; j++) {
-
+                /******* FILLING EVENTS ARRAY FOR DATATABLES **********************/
                     var array=[]
-                    var jsonObject = {{ schedule_resident_events|safe }}[0][j] //[i-1][j]
+                    var jsonObject = {{ schedule_resident_events|safe }}[i-1][j] //[i-1][j]
                     for (a in jsonObject){
                      array.push(jsonObject[a])
                     }
@@ -233,10 +224,12 @@
                     }
 
                     resident_assignment_array.push(resident_assignment_row)
-                }
 
-                /*****************************************/
+                /*********************************************************************************/
 
+                } //resident loop ends here
+
+            } //schedule loop ends here
 
                 var test2_table = $('#test2').dataTable( {
                     "scrollY": "500px",
