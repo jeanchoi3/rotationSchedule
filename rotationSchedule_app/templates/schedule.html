@@ -196,55 +196,46 @@
                     eventLimit: true, // allow "more" link when too many events
                     events: {{ schedule_resident_events|safe }}[i-1][j]
                     });
-                }
+
+                } //resident loop ends here
 
 
 
-            }
+            } //schedule loop ends here
 
-            var array=[]
-            var jsonObject = {{ schedule_resident_events|safe }}[0][0]
-            for(a in jsonObject){
-             array.push(jsonObject[a])
-            }
-            array.sort(function(a,b){return $.datepicker.parseDate("yy-mm-dd",a['start']) - $.datepicker.parseDate("yy-mm-dd",b['start'])});
 
-                var num_weeks = {{ schedule_resident_events|safe }}[0][0].length
-
+            /* CODE FOR FILLING EVENTS ARRAY FOR DATATABLES */
+                var resident_assignment_array = []
+                var numResidents = {{resident_list|safe}}.length
                 var header_column = []
                 header_column.push({"title":"Name"})
- 
-                for (k = 0; k < num_weeks; k++) {
-                    header_column.push({"title":String($.datepicker.formatDate('M dd yy',$.datepicker.parseDate("yy-mm-dd",array[k]['start'])))})
- 
-                }
-
-
-                mega_array = []
-
-                var numResidents = {{resident_list|safe}}.length
-
                 //going through list of events for each resident
                 for (j = 0; j < numResidents; j++) {
 
                     var array=[]
                     var jsonObject = {{ schedule_resident_events|safe }}[0][j] //[i-1][j]
-                    for(a in jsonObject){
+                    for (a in jsonObject){
                      array.push(jsonObject[a])
                     }
                     //sort this resident's rotation events according to date
                     array.sort(function(a,b){return $.datepicker.parseDate("yy-mm-dd",a['start']) - $.datepicker.parseDate("yy-mm-dd",b['start'])});
 
                     //create list for row of table: Name Week1-rotation Week2-rotation etc
-                    table_array = []
-                    table_array.push({{resident_list|safe}}[j])
+                    resident_assignment_row = []
+                    resident_assignment_row.push({{resident_list|safe}}[j])
+                    var num_weeks = {{ schedule_resident_events|safe }}[0][0].length
 
                     for (k = 0; k < num_weeks; k++) {
-                        table_array.push(array[k]['rotation'])
+                        resident_assignment_row.push(array[k]['rotation'])
+                        if (j == 0) {
+                            header_column.push({"title":String($.datepicker.formatDate('M dd yy',$.datepicker.parseDate("yy-mm-dd",array[k]['start'])))})
+                        }
                     }
 
-                    mega_array.push(table_array)
+                    resident_assignment_array.push(resident_assignment_row)
                 }
+
+                /*****************************************/
 
 
                 var test2_table = $('#test2').dataTable( {
@@ -252,7 +243,7 @@
                     "scrollX": "100%",
                     "scrollCollapse": true,
                     "paging": false,
-                    "data": mega_array,
+                    "data": resident_assignment_array,
                     "columns": header_column
                 } ); 
                 new $.fn.dataTable.FixedColumns( test2_table );  
