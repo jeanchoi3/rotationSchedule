@@ -215,17 +215,7 @@
              array.push(jsonObject[a])
             }
             array.sort(function(a,b){return $.datepicker.parseDate("yy-mm-dd",a['start']) - $.datepicker.parseDate("yy-mm-dd",b['start'])});
-            //$('#results_test').text(String(array));
-            //array.reverse();
 
-            //num_weeks
-                /*{'title': str(event.rotation),
-                            'start':str(event.startDate),
-                            'end':str(event.endDate),
-                            'schedule':str(event.schedule),
-                            'resident':str(event.resident),
-                            'rotation':str(event.rotation),
-                            'pk':event.pk})*/
                 var num_weeks = {{ schedule_resident_events|safe }}[0][0].length
                 var test_string = ""
                 var table = document.getElementById("test_table")
@@ -233,12 +223,15 @@
                 var header = table.createTHead();
                 var row = header.insertRow(0);
                 var th = document.createElement('th')
+                var header_column = []
+                header_column.push({"title":"Name"})
                 th.innerHTML = "Name"
                 row.appendChild(th)
 
                 for (k = 0; k < num_weeks; k++) {
                     th = document.createElement('th')
                     th.innerHTML = String($.datepicker.formatDate('M dd yy',$.datepicker.parseDate("yy-mm-dd",array[k]['start'])))
+                    header_column.push({"title":String($.datepicker.formatDate('M dd yy',$.datepicker.parseDate("yy-mm-dd",array[k]['start'])))})
                     row.appendChild(th)
 
                 }
@@ -284,10 +277,7 @@
                     $('#test_table').append('</tbody>')
 
 
-                    mega_array.push(table_array) ////////////////////////////////////////////////////////////////
-                    //$('#example').append('</tr>')
-                    //test_string +='</tr>'
-                    //test_string += "</tbody>"
+                    mega_array.push(table_array)
                 }
 
                 var my_table = $('#test_table').DataTable( {
@@ -305,17 +295,7 @@
                     "scrollCollapse": true,
                     "paging": false,
                     "data": mega_array,
-                    "columns": [
-                        { "title": "Name" },
-                        { "title": "Week 1" },/////////////////////////////////////////////////
-                        { "title": "Week 2" },/////////////////////////////////////////////////
-                        { "title": "Week 3" },/////////////////////////////////////////////////
-                        { "title": "Week 4" },
-                        { "title": "Week 5" },
-                        { "title": "Week 6" },
-                        { "title": "Week 7" },
-                        { "title": "Week 8" }
-                    ]
+                    "columns": header_column
                 } ); 
                 new $.fn.dataTable.FixedColumns( test2_table );  
                 /*$('#example').append('</tbody>', function(){
