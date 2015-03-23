@@ -20,6 +20,7 @@ class Year(models.Model):
     def __str__(self):
         return self.name
     name = models.CharField(max_length=200, default='PGY1')
+    yearNum = models.PositiveIntegerField(default=1)
     requiredRotations = models.ManyToManyField(Rotation, related_name='requiredRotations', through='EducationReq')
     rotationDemand = models.ManyToManyField(Rotation, related_name='rotationDemand',through='YearDemand')
 
