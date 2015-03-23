@@ -302,6 +302,294 @@ Total_Utility:
 
 s.t.
 
+c_e_clinicConstraint(1_1)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_2)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_3)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_4)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_5)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_6)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_7)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(1_8)_:
++1 Zhat(1)
+= 0
+
+c_e_clinicConstraint(2_1)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_2)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_3)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_4)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_5)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_6)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_7)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(2_8)_:
++1 Zhat(2)
+= 0
+
+c_e_clinicConstraint(3_1)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_2)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_3)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_4)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_5)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_6)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_7)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(3_8)_:
++1 Zhat(3)
+= 0
+
+c_e_clinicConstraint(4_1)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_2)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_3)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_4)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_5)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_6)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_7)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(4_8)_:
++1 Zhat(4)
+= 0
+
+c_e_clinicConstraint(5_1)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_2)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_3)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_4)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_5)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_6)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_7)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(5_8)_:
++1 Zhat(5)
+= 0
+
+c_e_clinicConstraint(6_1)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_2)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_3)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_4)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_5)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_6)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_7)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(6_8)_:
++1 Zhat(6)
+= 0
+
+c_e_clinicConstraint(7_1)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_2)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_3)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_4)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_5)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_6)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_7)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(7_8)_:
++1 Zhat(7)
+= 0
+
+c_e_clinicConstraint(8_1)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_2)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_3)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_4)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_5)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_6)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_7)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(8_8)_:
++1 Zhat(8)
+= 0
+
+c_e_clinicConstraint(9_1)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_2)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_3)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_4)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_5)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_6)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_7)_:
++1 Zhat(9)
+= 0
+
+c_e_clinicConstraint(9_8)_:
++1 Zhat(9)
+= 0
+
 c_u_vacationConstraint(1)_:
 +1 Z(1_Vacation_1)
 +1 Z(1_Vacation_2)
@@ -7269,15 +7557,15 @@ bounds
    0 <= Zabs(9_Vacation_4) <= 1
    0 <= Zabs(9_Vacation_6) <= 1
    0 <= Zabs(9_Vacation_7) <= 1
-   0 <= Zhat(1) <= +inf
-   0 <= Zhat(2) <= +inf
-   0 <= Zhat(3) <= +inf
-   0 <= Zhat(4) <= +inf
-   0 <= Zhat(5) <= +inf
-   0 <= Zhat(6) <= +inf
-   0 <= Zhat(7) <= +inf
-   0 <= Zhat(8) <= +inf
-   0 <= Zhat(9) <= +inf
+   0 <= Zhat(1) <= 0
+   0 <= Zhat(2) <= 0
+   0 <= Zhat(3) <= 0
+   0 <= Zhat(4) <= 0
+   0 <= Zhat(5) <= 0
+   0 <= Zhat(6) <= 0
+   0 <= Zhat(7) <= 0
+   0 <= Zhat(8) <= 0
+   0 <= Zhat(9) <= 0
 general
   Zhat(1)
   Zhat(2)

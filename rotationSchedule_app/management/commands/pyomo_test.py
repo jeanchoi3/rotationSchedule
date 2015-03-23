@@ -114,6 +114,7 @@ class Command(BaseCommand):
 		all_residents = Resident.objects.all()
 		resident_names = []
 		resident_pk_to_index = dict()
+		resident_index_to_pk = dict()
 		resident_pk_to_track = dict()
 
 		vacationPreference = dict() # key = res index, value = vacationPref/10
@@ -137,6 +138,7 @@ class Command(BaseCommand):
 			#print resident.pk
 			resident_names.append(str(resident.name))
 			resident_pk_to_index[resident.pk] = index
+			resident_index_to_pk[index] = resident.pk
 			YDoctors[str(resident.year)].append(index)
 
 			vacationPreference[index] = resident.vacationPreference
@@ -533,14 +535,14 @@ class Command(BaseCommand):
 		f.write(';\n\n')
 
 		f.close()
-		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler4.py test.dat --symbolic-solver-labels')
+		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler5.py test.dat --symbolic-solver-labels')
 
 ###############################################################################
 ############ Cplex solution #######################################################
 		import cplex
 		cpx=cplex.Cplex("rotsched.lp")
 		cpx.parameters.mip.pool.intensity.set(4)
-		cpx.parameters.mip.limits.populate.set(8)
+		cpx.parameters.mip.limits.populate.set(3)
 		cpx.populate_solution_pool()
 		numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated. 
 		print numSolns
@@ -557,16 +559,11 @@ class Command(BaseCommand):
 		Event.objects.all().delete() 
 		
 		max_obj = 1
+		all_accepted_schedules = []
 
 		for j in solnIndices:
-			#create a new schedule for each cplex solution
-			#print abs(max_obj - cpx.solution.pool.get_objective_value(j))
+			accepted_schedule = []
 
-			#check for redundant answers (within 0.9 of maximum objective value)
-			if abs(max_obj - cpx.solution.pool.get_objective_value(j)) < (0.1*max_obj):
-				if cpx.solution.pool.get_objective_value(j) > max_obj:
-					max_obj = cpx.solution.pool.get_objective_value(j)
-				continue
 			print cpx.solution.pool.get_objective_value(j)
 			if cpx.solution.pool.get_objective_value(j) > max_obj:
 					max_obj = cpx.solution.pool.get_objective_value(j)
@@ -574,20 +571,43 @@ class Command(BaseCommand):
 			createdSchedule.save()
 			print createdSchedule.name
 
+			#create arrays with all assignments, used for checking uniqueness of solutions
 			for res_pk in resident_pk_to_index:
 				for rotation in rotation_names:
 					for week in weeks: 
 						#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
 						if str(cpx.solution.pool.get_values(solnIndices[j],"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
-							#print "assigned!*******************************************************************"
+							accepted_schedule.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")
 							#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
 							#assume only one object fits the filter!!
-							res = Resident.objects.filter(pk=res_pk)[0]
-							rot = Rotation.objects.filter(name=rotation)[0]
-							start = week_to_date[week]
-							end = week_to_end_date[week]
-							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-							createdEvent.save()
+							
+							#res = Resident.objects.filter(pk=res_pk)[0]
+							#rot = Rotation.objects.filter(name=rotation)[0]
+							#start = week_to_date[week]
+							#end = week_to_end_date[week]
+							#createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							#createdEvent.save()
+
+			#check for redundant answers
+			unique_schedule = True
+			for sched in all_accepted_schedules:
+				if set(sched) == set(accepted_schedule):
+					unique_schedule = False
+					break
+			if unique_schedule:
+				all_accepted_schedules.append(accepted_schedule)
+
+			#create model Events for unique schedules
+			for sched in all_accepted_schedules:
+				for assignment in sched:
+					split_variable = assignment.strip(")").split("(")[1].split("_")
+					res = Resident.objects.filter(pk=resident_index_to_pk[int(split_variable[0])])[0]
+					rot = Rotation.objects.filter(name=split_variable[1])[0]
+					start = week_to_date[int(split_variable[2])]
+					end = week_to_end_date[int(split_variable[2])]
+					createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+					createdEvent.save()
+
 		'''for j in solnIndices:
 			print str(cpx.solution.pool.get_objective_value(j)) + "-----------------------"
 			temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
