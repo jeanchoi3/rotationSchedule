@@ -54,32 +54,32 @@ param Year :=
 9 'PGY3';
 
 param P :=
-1 'Vacation' 7 25000000
-1 'Vacation' 8 25000000
+1 'Vacation' 7 75000000
+1 'Vacation' 8 75000000
 2 'Vacation' 3 25000000
 2 'Vacation' 4 25000000
-3 'Vacation' 4 25000000
-3 'Vacation' 5 25000000
-4 'Vacation' 5 25000000
-4 'Vacation' 6 25000000
+3 'Vacation' 4 50000000
+3 'Vacation' 5 50000000
+4 'Vacation' 5 50000000
+4 'Vacation' 6 50000000
 5 'Vacation' 1 25000000
 5 'Vacation' 2 25000000
 6 'Vacation' 2 25000000
 6 'Vacation' 3 25000000
-7 'Vacation' 6 25000000
-7 'Vacation' 7 25000000
-8 'Vacation' 1 25000000
-8 'Vacation' 2 25000000
-9 'Vacation' 7 25000000
-9 'Vacation' 8 25000000
-8 'Vacation' 7 5000000
-8 'Vacation' 8 5000000;
+7 'Vacation' 6 50000000
+7 'Vacation' 7 50000000
+8 'Vacation' 1 75000000
+8 'Vacation' 2 75000000
+9 'Vacation' 7 75000000
+9 'Vacation' 8 75000000
+8 'Vacation' 7 15000000
+8 'Vacation' 8 15000000;
 
 param YearlyDemandLower :=
 'Pulmonary' 'PGY3' 1 0
 'Pulmonary' 'PGY3' 2 0
-'ICU' 'PGY1' 1 1
-'ICU' 'PGY1' 2 1
+'ICU' 'PGY1' 1 0
+'ICU' 'PGY1' 2 0
 'ICU' 'PGY2' 1 0
 'ICU' 'PGY2' 2 0
 'ICU' 'PGY3' 1 0
@@ -220,20 +220,20 @@ param TotalDemandUpper :=
 'ICU' 8 3;
 
 param MinYear :=
-'PGY1' 'Clinic' 2
+'PGY1' 'Clinic' 0
 'PGY1' 'ICU' 0
-'PGY2' 'Clinic' 2
+'PGY2' 'Clinic' 0
 'PGY2' 'ICU' 0
 'PGY3' 'Pulmonary' 0
-'PGY3' 'Clinic' 2
+'PGY3' 'Clinic' 0
 'PGY3' 'ICU' 0;
 
 param MaxYear :=
 'PGY1' 'Clinic' 100
-'PGY1' 'ICU' 4
+'PGY1' 'ICU' 100
 'PGY2' 'Clinic' 100
-'PGY2' 'ICU' 4
+'PGY2' 'ICU' 100
 'PGY3' 'Pulmonary' 100
 'PGY3' 'Clinic' 100
-'PGY3' 'ICU' 4;
+'PGY3' 'ICU' 100;
 

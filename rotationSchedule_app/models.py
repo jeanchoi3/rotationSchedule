@@ -68,6 +68,7 @@ class Resident(models.Model):
     elective9 = models.ForeignKey(Rotation, related_name='elective9',limit_choices_to={'isElective':True},null=True,blank=True)
     elective10 = models.ForeignKey(Rotation, related_name='elective10',limit_choices_to={'isElective':True},null=True,blank=True)
     vacationPreference = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(10)],default=5,help_text='Weight out of 10, indicating importance versus elective, e.g. 5 = vacation and elective are of equal importance; 10 = only vacation is important')
+    couple = models.ForeignKey('self',related_name='couple_match',null=True,blank=True)
 
     #http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 

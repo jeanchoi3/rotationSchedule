@@ -32,8 +32,8 @@ Total_Utility:
 +1 Z(1_Vacation_4)
 +1 Z(1_Vacation_5)
 +1 Z(1_Vacation_6)
-+25000000 Z(1_Vacation_7)
-+25000000 Z(1_Vacation_8)
++75000000 Z(1_Vacation_7)
++75000000 Z(1_Vacation_8)
 +1 Z(2_Clinic_1)
 +1 Z(2_Clinic_2)
 +1 Z(2_Clinic_3)
@@ -93,8 +93,8 @@ Total_Utility:
 +1 Z(3_Vacation_1)
 +1 Z(3_Vacation_2)
 +1 Z(3_Vacation_3)
-+25000000 Z(3_Vacation_4)
-+25000000 Z(3_Vacation_5)
++50000000 Z(3_Vacation_4)
++50000000 Z(3_Vacation_5)
 +1 Z(3_Vacation_6)
 +1 Z(3_Vacation_7)
 +1 Z(3_Vacation_8)
@@ -126,8 +126,8 @@ Total_Utility:
 +1 Z(4_Vacation_2)
 +1 Z(4_Vacation_3)
 +1 Z(4_Vacation_4)
-+25000000 Z(4_Vacation_5)
-+25000000 Z(4_Vacation_6)
++50000000 Z(4_Vacation_5)
++50000000 Z(4_Vacation_6)
 +1 Z(4_Vacation_7)
 +1 Z(4_Vacation_8)
 +1 Z(5_Clinic_1)
@@ -223,8 +223,8 @@ Total_Utility:
 +1 Z(7_Vacation_3)
 +1 Z(7_Vacation_4)
 +1 Z(7_Vacation_5)
-+25000000 Z(7_Vacation_6)
-+25000000 Z(7_Vacation_7)
++50000000 Z(7_Vacation_6)
++50000000 Z(7_Vacation_7)
 +1 Z(7_Vacation_8)
 +1 Z(8_Clinic_1)
 +1 Z(8_Clinic_2)
@@ -250,14 +250,14 @@ Total_Utility:
 +1 Z(8_Pulmonary_6)
 +1 Z(8_Pulmonary_7)
 +1 Z(8_Pulmonary_8)
-+25000000 Z(8_Vacation_1)
-+25000000 Z(8_Vacation_2)
++75000000 Z(8_Vacation_1)
++75000000 Z(8_Vacation_2)
 +1 Z(8_Vacation_3)
 +1 Z(8_Vacation_4)
 +1 Z(8_Vacation_5)
 +1 Z(8_Vacation_6)
-+5000000 Z(8_Vacation_7)
-+5000000 Z(8_Vacation_8)
++15000000 Z(8_Vacation_7)
++15000000 Z(8_Vacation_8)
 +1 Z(9_Clinic_1)
 +1 Z(9_Clinic_2)
 +1 Z(9_Clinic_3)
@@ -288,8 +288,8 @@ Total_Utility:
 +1 Z(9_Vacation_4)
 +1 Z(9_Vacation_5)
 +1 Z(9_Vacation_6)
-+25000000 Z(9_Vacation_7)
-+25000000 Z(9_Vacation_8)
++75000000 Z(9_Vacation_7)
++75000000 Z(9_Vacation_8)
 +1 Zhat(1)
 +1 Zhat(2)
 +1 Zhat(3)
@@ -693,13 +693,13 @@ c_l_rotationConstraintYearlyLower(ICU_PGY1_1)_:
 +1 Z(2_ICU_1)
 +1 Z(5_ICU_1)
 +1 Z(6_ICU_1)
->= 1
+>= 0
 
 c_l_rotationConstraintYearlyLower(ICU_PGY1_2)_:
 +1 Z(2_ICU_2)
 +1 Z(5_ICU_2)
 +1 Z(6_ICU_2)
->= 1
+>= 0
 
 c_l_rotationConstraintYearlyLower(ICU_PGY2_1)_:
 +1 Z(3_ICU_1)
@@ -2090,7 +2090,7 @@ c_l_minYearConstraint(1_Clinic)_:
 +1 Z(1_Clinic_6)
 +1 Z(1_Clinic_7)
 +1 Z(1_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(1_ICU)_:
 +1 Z(1_ICU_1)
@@ -2134,7 +2134,7 @@ c_l_minYearConstraint(2_Clinic)_:
 +1 Z(2_Clinic_6)
 +1 Z(2_Clinic_7)
 +1 Z(2_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(2_ICU)_:
 +1 Z(2_ICU_1)
@@ -2178,7 +2178,7 @@ c_l_minYearConstraint(3_Clinic)_:
 +1 Z(3_Clinic_6)
 +1 Z(3_Clinic_7)
 +1 Z(3_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(3_ICU)_:
 +1 Z(3_ICU_1)
@@ -2222,7 +2222,7 @@ c_l_minYearConstraint(4_Clinic)_:
 +1 Z(4_Clinic_6)
 +1 Z(4_Clinic_7)
 +1 Z(4_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(4_ICU)_:
 +1 Z(4_ICU_1)
@@ -2266,7 +2266,7 @@ c_l_minYearConstraint(5_Clinic)_:
 +1 Z(5_Clinic_6)
 +1 Z(5_Clinic_7)
 +1 Z(5_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(5_ICU)_:
 +1 Z(5_ICU_1)
@@ -2310,7 +2310,7 @@ c_l_minYearConstraint(6_Clinic)_:
 +1 Z(6_Clinic_6)
 +1 Z(6_Clinic_7)
 +1 Z(6_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(6_ICU)_:
 +1 Z(6_ICU_1)
@@ -2354,7 +2354,7 @@ c_l_minYearConstraint(7_Clinic)_:
 +1 Z(7_Clinic_6)
 +1 Z(7_Clinic_7)
 +1 Z(7_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(7_ICU)_:
 +1 Z(7_ICU_1)
@@ -2398,7 +2398,7 @@ c_l_minYearConstraint(8_Clinic)_:
 +1 Z(8_Clinic_6)
 +1 Z(8_Clinic_7)
 +1 Z(8_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(8_ICU)_:
 +1 Z(8_ICU_1)
@@ -2442,7 +2442,7 @@ c_l_minYearConstraint(9_Clinic)_:
 +1 Z(9_Clinic_6)
 +1 Z(9_Clinic_7)
 +1 Z(9_Clinic_8)
->= 2
+>= 0
 
 c_l_minYearConstraint(9_ICU)_:
 +1 Z(9_ICU_1)
@@ -2497,7 +2497,7 @@ c_u_maxYearConstraint(1_ICU)_:
 +1 Z(1_ICU_6)
 +1 Z(1_ICU_7)
 +1 Z(1_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(1_Pulmonary)_:
 +1 Z(1_Pulmonary_1)
@@ -2541,7 +2541,7 @@ c_u_maxYearConstraint(2_ICU)_:
 +1 Z(2_ICU_6)
 +1 Z(2_ICU_7)
 +1 Z(2_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(2_Pulmonary)_:
 +1 Z(2_Pulmonary_1)
@@ -2585,7 +2585,7 @@ c_u_maxYearConstraint(3_ICU)_:
 +1 Z(3_ICU_6)
 +1 Z(3_ICU_7)
 +1 Z(3_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(3_Pulmonary)_:
 +1 Z(3_Pulmonary_1)
@@ -2629,7 +2629,7 @@ c_u_maxYearConstraint(4_ICU)_:
 +1 Z(4_ICU_6)
 +1 Z(4_ICU_7)
 +1 Z(4_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(4_Pulmonary)_:
 +1 Z(4_Pulmonary_1)
@@ -2673,7 +2673,7 @@ c_u_maxYearConstraint(5_ICU)_:
 +1 Z(5_ICU_6)
 +1 Z(5_ICU_7)
 +1 Z(5_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(5_Pulmonary)_:
 +1 Z(5_Pulmonary_1)
@@ -2717,7 +2717,7 @@ c_u_maxYearConstraint(6_ICU)_:
 +1 Z(6_ICU_6)
 +1 Z(6_ICU_7)
 +1 Z(6_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(6_Pulmonary)_:
 +1 Z(6_Pulmonary_1)
@@ -2761,7 +2761,7 @@ c_u_maxYearConstraint(7_ICU)_:
 +1 Z(7_ICU_6)
 +1 Z(7_ICU_7)
 +1 Z(7_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(7_Pulmonary)_:
 +1 Z(7_Pulmonary_1)
@@ -2805,7 +2805,7 @@ c_u_maxYearConstraint(8_ICU)_:
 +1 Z(8_ICU_6)
 +1 Z(8_ICU_7)
 +1 Z(8_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(8_Pulmonary)_:
 +1 Z(8_Pulmonary_1)
@@ -2849,7 +2849,7 @@ c_u_maxYearConstraint(9_ICU)_:
 +1 Z(9_ICU_6)
 +1 Z(9_ICU_7)
 +1 Z(9_ICU_8)
-<= 4
+<= 100
 
 c_u_maxYearConstraint(9_Pulmonary)_:
 +1 Z(9_Pulmonary_1)

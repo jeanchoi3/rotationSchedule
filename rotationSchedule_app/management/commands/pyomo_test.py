@@ -55,6 +55,8 @@ class Command(BaseCommand):
 		template_year_to_pk = dict() #used to find DBlocks, filled in Templates section
 		minYear = dict() #for param minYear
 		maxYear = dict() # for param maxYear
+		yearNum = dict() # key year name, value year number
+						 # for year number, e.g. Intern = yearNum 1, PGY2 = yearNum 2. Used for seniority weighting in model.P
 
 		f.write('set Y := ')
 
@@ -64,6 +66,7 @@ class Command(BaseCommand):
 			f.write("'"+str(year.name)+"' ")
 			YDoctors[str(year.name)] = []
 			template_year_to_pk[str(year.name)] = []
+			yearNum[str(year.name)] = year.yearNum
 			for yearDemand in year.yeardemand_set.all():
 				yearlyDemandLower[str(yearDemand.rotation.name)][str(year)] = yearDemand.minResidents
 				yearlyDemandUpper[str(yearDemand.rotation.name)][str(year)] = yearDemand.maxResidents
@@ -116,6 +119,7 @@ class Command(BaseCommand):
 		resident_pk_to_index = dict()
 		resident_index_to_pk = dict()
 		resident_pk_to_track = dict()
+		resident_index_to_year = dict()
 
 		vacationPreference = dict() # key = res index, value = vacationPref/10
 		vacation1 = dict() # key = res index, value = list of weeks
@@ -140,6 +144,7 @@ class Command(BaseCommand):
 			resident_pk_to_index[resident.pk] = index
 			resident_index_to_pk[index] = resident.pk
 			YDoctors[str(resident.year)].append(index)
+			resident_index_to_year[index] = str(resident.year)
 
 			vacationPreference[index] = resident.vacationPreference
 			##assume that vacationStart is on a sunday, and vacationEnd is on a Saturday
@@ -387,63 +392,96 @@ class Command(BaseCommand):
 # electives: 2 10 50 250 1250 6250 31250 156250 781250 3906250 (*5)
 # 4,000,000 20,000,000 1,000,000,000
 # 1,000,000 5,000,000 25,000,000
-# 250,000 1,250,000 6,250,000 		
+# 250,000 1,250,000 6,250,000
+
+		#constants used for vacation preference assignments
+		vacationBase = {}
+		vacationMult = 5
+
+		electiveBase = 2
+		electiveMult = 5
+
+		#assign base according to vacation weighting
+		for i in range(1,11):
+			if i >= 7:
+				vacationBase[i] = 4000000
+			elif i > 3 and i <= 6:
+				vacationBase[i] = 1000000
+			else:
+				vacationBase[i] = 250000
+
 		f.write("param P :=")
 
-		for res_index in vacation1:
-			for week in vacation1[res_index]:
-				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000000")
-				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 25000000")
-				else:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 6250000")
+		for res_index in vacation1: #for each resident that specified a first-choice vacation
+			#find resident's year: used for seniority weighting
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
+			for week in vacation1[res_index]: #for the weeks they specified they want their first-choice vacation
+				vacWeight = vacationPreference[res_index]
+				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult ** 2))) 
 		for res_index in vacation2:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in vacation2[res_index]:
-				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 20000000")
-				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 5000000")
-				else:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1250000")
+				vacWeight = vacationPreference[res_index]
+				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult))) 
 		for res_index in vacation3:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in vacation3[res_index]:
-				if vacationPreference[res_index] >= 7:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 4000000")
-				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000")
-				else:
-					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 250000")
+				vacWeight = vacationPreference[res_index]
+				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight])))
+
 		for res_index in elective1:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" 3906250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 9)))
 		for res_index in elective2:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective2[res_index])+"' "+str(week)+" 781250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 8)))
 		for res_index in elective3:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective3[res_index])+"' "+str(week)+" 156250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 7)))
 		for res_index in elective4:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective4[res_index])+"' "+str(week)+" 31250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 6)))
 		for res_index in elective5:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective5[res_index])+"' "+str(week)+" 6250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 5)))
 		for res_index in elective6:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective6[res_index])+"' "+str(week)+" 1250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 4)))
 		for res_index in elective7:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective7[res_index])+"' "+str(week)+" 250")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 3)))
 		for res_index in elective8:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective8[res_index])+"' "+str(week)+" 50")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 2)))
 		for res_index in elective9:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective9[res_index])+"' "+str(week)+" 10")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult)))
 		for res_index in elective10:
+			year = resident_index_to_year[res_index]
+			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective10[res_index])+"' "+str(week)+" 2")
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase)))
 		f.write(';\n\n')
 			
 ##----YearlyDemandLower--------#
@@ -539,6 +577,168 @@ class Command(BaseCommand):
 
 ###############################################################################
 ############ Cplex solution #######################################################
+		Schedule.objects.all().delete()
+		Event.objects.all().delete() 
+
+		import cplex
+		cpx = cplex.Cplex("rotsched.lp") ### any lp file generated by pyomo
+		M = 3 #numSolns to generate
+		ObjTolerance = 0.95 #fraction of best objective tolerated while finding multiple schedules,1 == find only optimal
+		cpx.solve() # solve for optimal solution
+		successful = cpx.solution.get_status()
+		print(successful)
+		#### successful != 101 := problem is infeasible .. Raise flags for the web app
+
+		if successful == 101: #101 is code for MIP_optimal #Todo: remove this hardcode
+			acceptedSolnIndices = [] #indices of optimal solutions, not including best optimal, # of such solutions = M
+			acceptedSolnVars = [] #list of lists of Z variables of accepted solns (as strings), including best optimal
+								  # used for comparison with newly found schedules to prevent redundancy
+			alternate_solutions = {} #not used currently
+			obj_value = {} #objective value of each solution
+			solnIndicesAll = [] # indices of all solutions found so far, not including best optimal
+			solnNamesAll = [] # names of all solutions found so far, not including best optimal
+
+			bestObjective = cpx.solution.get_objective_value()
+			optimal_solution = cpx.solution.get_values() ## One optimal solution ready to be displayed in the web-app
+
+			#create the best schedule
+			createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
+			createdSchedule.save()
+
+			solnVars = [] #list of Z variables of this solution
+						  # used for comparison with previously-found solns to prevent redundancy
+			#create events in best schedule
+			for res_pk in resident_pk_to_index:
+				for rotation in rotation_names:
+					for week in weeks:
+						if str(cpx.solution.get_values("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
+							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")
+							res = Resident.objects.filter(pk=res_pk)[0]
+							rot = Rotation.objects.filter(name=rotation)[0]
+							start = week_to_date[week]
+							end = week_to_end_date[week]
+							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+							createdEvent.save()
+
+			acceptedSolnVars.append(solnVars) #add best optimal solution to accepted soln variable list, to prevent redundancy in solution pool
+
+			cpx.parameters.mip.pool.intensity.set(4) #leave no stone unturned: find all feasible solutions
+			numOptimalSolns = M
+			cpx.parameters.mip.limits.populate.set(M) #set number of solutions to M
+			cpx.populate_solution_pool() #solve and populate the solution pool
+			solnNames = cpx.solution.pool.get_names()
+			solnIndices = cpx.solution.pool.get_indices(solnNames)
+
+			while (len(acceptedSolnIndices)+1) < numOptimalSolns and solnIndices: #because len(acceptedSolnIndices) doesn't count best optimal soln
+				for i in solnIndices:
+					solnVars = [] #list of Z variables of this solution
+								  # used for comparison with previously-found solns to prevent redundancy
+					obj_value[i] = cpx.solution.pool.get_objective_value(i)
+
+					# solution objective value is above threshold
+					if obj_value[i] >= ObjTolerance*bestObjective:
+						#add all Z variables to solnVars, then compare with previously-found solns; check uniqueness
+						for res_pk in resident_pk_to_index:
+							for rotation in rotation_names:
+								for week in weeks: 
+									#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
+									if str(cpx.solution.pool.get_values(i,"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0": #used to have solnIndices[i] as first arg!!!
+										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")
+
+						unique_schedule = True
+						for sched in acceptedSolnVars:
+							if set(sched) == set(solnVars):
+								unique_schedule = False
+								break
+						if unique_schedule:
+							acceptedSolnVars.append(solnVars)
+
+							#create model Schedule instance
+							createdSchedule = Schedule(name="Schedule"+str(i+1),utility=obj_value[i])
+							createdSchedule.save()
+							#print createdSchedule.name
+
+							#create model Events for this schedule
+							for assignment in solnVars:
+								split_variable = assignment.strip(")").split("(")[1].split("_")
+								res = Resident.objects.filter(pk=resident_index_to_pk[int(split_variable[0])])[0]
+								rot = Rotation.objects.filter(name=split_variable[1])[0]
+								start = week_to_date[int(split_variable[2])]
+								end = week_to_end_date[int(split_variable[2])]
+								createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+								createdEvent.save()
+
+							acceptedSolnIndices.append(i)
+
+				solnIndicesAll.extend(solnIndices)
+				solnNamesAll.extend(solnNames)
+
+				cpx.parameters.mip.limits.populate.set(M) #set number of solutions to M
+				cpx.populate_solution_pool() #solve and populate the solution pool
+				#numSolns = cpx.solution.pool.get_num() ##get the number of solutions generated.
+				solnNames = cpx.solution.pool.get_names()
+				[solnNames.remove(s) for s in solnNamesAll] #getting rid of solutions that have been found already
+				solnIndices = cpx.solution.pool.get_indices(solnNames)
+				#print "SolnIndices: "+str(solnIndices)+"*********************"
+			print "Accepted solution indices, not including best solution: "+str(acceptedSolnIndices)
+			print "All solution indices: "+str(solnIndicesAll)
+			print(obj_value)
+'''
+if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 25000000")
+				else:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 6250000")
+		for res_index in vacation2:
+			for week in vacation2[res_index]:
+				if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 20000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 5000000")
+				else:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1250000")
+		for res_index in vacation3:
+			for week in vacation3[res_index]:
+				if vacationPreference[res_index] >= 7:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 4000000")
+				elif vacationPreference[res_index] > 3 and vacationPreference[res_index] <= 6:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 1000000")
+				else:
+					f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" 250000")
+		for res_index in elective1:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" 3906250")
+		for res_index in elective2:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective2[res_index])+"' "+str(week)+" 781250")
+		for res_index in elective3:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective3[res_index])+"' "+str(week)+" 156250")
+		for res_index in elective4:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective4[res_index])+"' "+str(week)+" 31250")
+		for res_index in elective5:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective5[res_index])+"' "+str(week)+" 6250")
+		for res_index in elective6:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective6[res_index])+"' "+str(week)+" 1250")
+		for res_index in elective7:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective7[res_index])+"' "+str(week)+" 250")
+		for res_index in elective8:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective8[res_index])+"' "+str(week)+" 50")
+		for res_index in elective9:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective9[res_index])+"' "+str(week)+" 10")
+		for res_index in elective10:
+			for week in weeks:
+				f.write("\n"+str(res_index)+" '"+str(elective10[res_index])+"' "+str(week)+" 2")
+		f.write(';\n\n')'''
+
+''' #old cplex code; replaced with cplexRotationScheduler.py
 		import cplex
 		cpx=cplex.Cplex("rotsched.lp")
 		cpx.parameters.mip.pool.intensity.set(4)
@@ -606,9 +806,9 @@ class Command(BaseCommand):
 					start = week_to_date[int(split_variable[2])]
 					end = week_to_end_date[int(split_variable[2])]
 					createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-					createdEvent.save()
+					createdEvent.save()'''
 
-		'''for j in solnIndices:
+'''		for j in solnIndices:
 			print str(cpx.solution.pool.get_objective_value(j)) + "-----------------------"
 			temp_rotation_list = ['Vacation','Clinic','Rotation1','Rotation2']
 			for d in range(1,5):
