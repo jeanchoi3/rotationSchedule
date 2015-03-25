@@ -1,173 +1,465 @@
-set R := 'ICU' 'Clinic' 'Vacation' 'Pulmonary' ;
+set R := 'MICU-N' 'MICU-S' 'CCU' 'Med 1' 'Med 2' 'Cardiology' 'Cardiology Night Float' 'Med 2 Night Float' 'Fourth Night Float' 'Procedure' 'Med Consult' 'Neuro' 'Elective' 'Vacation' 'Geri' 'Clinic' 'Inpt' ;
 set Y := 'PGY1' 'PGY2' 'PGY3' ;
-set W:= 1 2 3 4 5 6 7 8 ;
-set D := 5 6 2 3 4 7 1 8 9 ;
-set B:= 1 2 3 4 5 6 ;
+set W:= 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ;
+set D := 45 46 47 48 49 50 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 ;
+set B:= 1 2 3 4 ;
 set T := 1 2 ;
 
 param BWeeks :=
-1 [1, 2, 3]
-2 [4, 5, 6]
-3 [7, 8]
-4 [1, 2]
-5 [3, 4, 5]
-6 [6, 7, 8];
+1 [1, 2, 3, 4]
+2 [5, 6, 7, 8]
+3 [9, 10, 11, 12]
+4 [13, 14, 15, 16];
 
 param BWeeksMinus1 :=
-1 [1, 2]
-2 [4, 5]
-3 [7]
-4 [1]
-5 [3, 4]
-6 [6, 7];
+1 [1, 2, 3]
+2 [5, 6, 7]
+3 [9, 10, 11]
+4 [13, 14, 15];
 
 param DBlocks :=
-2 [1, 2, 3]
-5 [1, 2, 3]
-6 [1, 2, 3]
-3 [4, 5, 6]
-4 [4, 5, 6]
-7 [4, 5, 6]
-1 [4, 5, 6]
-8 [4, 5, 6]
-9 [4, 5, 6];
+1 [1, 2, 3, 4]
+2 [1, 2, 3, 4]
+3 [1, 2, 3, 4]
+4 [1, 2, 3, 4]
+5 [1, 2, 3, 4]
+6 [1, 2, 3, 4]
+7 [1, 2, 3, 4]
+8 [1, 2, 3, 4]
+9 [1, 2, 3, 4]
+10 [1, 2, 3, 4]
+11 [1, 2, 3, 4]
+12 [1, 2, 3, 4]
+13 [1, 2, 3, 4]
+14 [1, 2, 3, 4]
+15 [1, 2, 3, 4]
+16 [1, 2, 3, 4]
+17 [1, 2, 3, 4]
+18 [1, 2, 3, 4]
+19 [1, 2, 3, 4]
+20 [1, 2, 3, 4]
+21 [1, 2, 3, 4]
+22 [1, 2, 3, 4]
+23 [1, 2, 3, 4]
+24 [1, 2, 3, 4]
+25 [1, 2, 3, 4]
+26 [1, 2, 3, 4]
+27 [1, 2, 3, 4]
+28 [1, 2, 3, 4]
+29 [1, 2, 3, 4]
+30 [1, 2, 3, 4]
+31 [1, 2, 3, 4]
+32 [1, 2, 3, 4]
+33 [1, 2, 3, 4]
+34 [1, 2, 3, 4]
+35 [1, 2, 3, 4]
+36 [1, 2, 3, 4]
+37 [1, 2, 3, 4]
+38 [1, 2, 3, 4]
+39 [1, 2, 3, 4]
+40 [1, 2, 3, 4]
+41 [1, 2, 3, 4]
+42 [1, 2, 3, 4]
+43 [1, 2, 3, 4]
+44 [1, 2, 3, 4]
+45 [1, 2, 3, 4]
+46 [1, 2, 3, 4]
+47 [1, 2, 3, 4]
+48 [1, 2, 3, 4]
+49 [1, 2, 3, 4]
+50 [1, 2, 3, 4];
 
 param YBlocks :=
-'PGY1' [1, 2, 3]
-'PGY2' [4, 5, 6]
-'PGY3' [4, 5, 6];
+'PGY1' [1, 2, 3, 4];
 
 param YDoctors :=
-'PGY1' [2, 5, 6]
-'PGY2' [3, 4, 7]
-'PGY3' [1, 8, 9];
+'PGY1' [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
 
 param Year :=
+1 'PGY1'
 2 'PGY1'
+3 'PGY1'
+4 'PGY1'
 5 'PGY1'
 6 'PGY1'
-3 'PGY2'
-4 'PGY2'
-7 'PGY2'
-1 'PGY3'
-8 'PGY3'
-9 'PGY3';
+7 'PGY1'
+8 'PGY1'
+9 'PGY1'
+10 'PGY1'
+11 'PGY1'
+12 'PGY1'
+13 'PGY1'
+14 'PGY1'
+15 'PGY1'
+16 'PGY1'
+17 'PGY1'
+18 'PGY1'
+19 'PGY1'
+20 'PGY1'
+21 'PGY1'
+22 'PGY1'
+23 'PGY1'
+24 'PGY1'
+25 'PGY1'
+26 'PGY1'
+27 'PGY1'
+28 'PGY1'
+29 'PGY1'
+30 'PGY1'
+31 'PGY1'
+32 'PGY1'
+33 'PGY1'
+34 'PGY1'
+35 'PGY1'
+36 'PGY1'
+37 'PGY1'
+38 'PGY1'
+39 'PGY1'
+40 'PGY1'
+41 'PGY1'
+42 'PGY1'
+43 'PGY1'
+44 'PGY1'
+45 'PGY1'
+46 'PGY1'
+47 'PGY1'
+48 'PGY1'
+49 'PGY1'
+50 'PGY1';
 
 param P :=
-1 'Vacation' 7 75000000
-1 'Vacation' 8 75000000
-2 'Vacation' 3 25000000
-2 'Vacation' 4 25000000
-3 'Vacation' 4 50000000
-3 'Vacation' 5 50000000
-4 'Vacation' 5 50000000
-4 'Vacation' 6 50000000
-5 'Vacation' 1 25000000
-5 'Vacation' 2 25000000
-6 'Vacation' 2 25000000
-6 'Vacation' 3 25000000
-7 'Vacation' 6 50000000
-7 'Vacation' 7 50000000
-8 'Vacation' 1 75000000
-8 'Vacation' 2 75000000
-9 'Vacation' 7 75000000
-9 'Vacation' 8 75000000
-8 'Vacation' 7 15000000
-8 'Vacation' 8 15000000;
-
-param YearlyDemandLower :=
-'Pulmonary' 'PGY3' 1 0
-'Pulmonary' 'PGY3' 2 0
-'ICU' 'PGY1' 1 0
-'ICU' 'PGY1' 2 0
-'ICU' 'PGY2' 1 0
-'ICU' 'PGY2' 2 0
-'ICU' 'PGY3' 1 0
-'ICU' 'PGY3' 2 0;
-
-param YearlyDemandUpper :=
-'Pulmonary' 'PGY3' 1 100
-'Pulmonary' 'PGY3' 2 100
-'Pulmonary' 'PGY3' 3 100
-'ICU' 'PGY1' 1 100
-'ICU' 'PGY1' 2 100
-'ICU' 'PGY1' 3 100
-'ICU' 'PGY2' 1 100
-'ICU' 'PGY2' 2 100
-'ICU' 'PGY2' 3 100
-'ICU' 'PGY3' 1 100
-'ICU' 'PGY3' 2 100
-'ICU' 'PGY3' 3 100;
+48 'Vacation' 17 25000000
+48 'Vacation' 18 25000000
+49 'Vacation' 17 25000000
+49 'Vacation' 18 25000000
+50 'Vacation' 19 25000000
+50 'Vacation' 20 25000000
+46 'Vacation' 7 25000000
+46 'Vacation' 8 25000000
+47 'Vacation' 15 25000000
+47 'Vacation' 16 25000000;
 
 param MinLength :=
-'Pulmonary' 1 2
-'Pulmonary' 2 2
-'Pulmonary' 5 2
-'Pulmonary' 6 2
-'Clinic' 1 1
-'Clinic' 2 1
-'Clinic' 5 1
-'Clinic' 6 1
+'MICU-S' 1 4
+'MICU-S' 2 4
+'MICU-S' 3 4
+'MICU-S' 4 4
+'Med 2 Night Float' 1 2
+'Med 2 Night Float' 2 2
+'Med 2 Night Float' 3 2
+'Med 2 Night Float' 4 2
+'Geri' 1 2
+'Geri' 2 2
+'Geri' 3 2
+'Geri' 4 2
+'Neuro' 1 2
+'Neuro' 2 2
+'Neuro' 3 2
+'Neuro' 4 2
+'Med 2' 1 4
+'Med 2' 2 4
+'Med 2' 3 4
+'Med 2' 4 4
+'Med 1' 1 4
+'Med 1' 2 4
+'Med 1' 3 4
+'Med 1' 4 4
+'Cardiology' 1 4
+'Cardiology' 2 4
+'Cardiology' 3 4
+'Cardiology' 4 4
+'CCU' 1 4
+'CCU' 2 4
+'CCU' 3 4
+'CCU' 4 4
+'Cardiology Night Float' 1 2
+'Cardiology Night Float' 2 2
+'Cardiology Night Float' 3 2
+'Cardiology Night Float' 4 2
 'Vacation' 1 2
 'Vacation' 2 2
-'Vacation' 5 2
-'Vacation' 6 2
-'ICU' 1 2
-'ICU' 2 2
-'ICU' 5 2
-'ICU' 6 2
-'Pulmonary' 3 2
-'Pulmonary' 4 2
+'Vacation' 3 2
+'Vacation' 4 2
+'Inpt' 1 2
+'Inpt' 2 2
+'Inpt' 3 2
+'Inpt' 4 2
+'Fourth Night Float' 1 2
+'Fourth Night Float' 2 2
+'Fourth Night Float' 3 2
+'Fourth Night Float' 4 2
+'Elective' 1 2
+'Elective' 2 2
+'Elective' 3 2
+'Elective' 4 2
+'Med Consult' 1 2
+'Med Consult' 2 2
+'Med Consult' 3 2
+'Med Consult' 4 2
+'Clinic' 1 2
+'Clinic' 2 2
 'Clinic' 3 2
 'Clinic' 4 2
-'ICU' 3 2
-'ICU' 4 2
-'Vacation' 3 2
-'Vacation' 4 2;
+'MICU-N' 1 4
+'MICU-N' 2 4
+'MICU-N' 3 4
+'MICU-N' 4 4
+'Procedure' 1 2
+'Procedure' 2 2
+'Procedure' 3 2
+'Procedure' 4 2;
 
 param MaxLength :=
-'Pulmonary' 1 3
-'Pulmonary' 2 3
-'Pulmonary' 5 3
-'Pulmonary' 6 3
-'Clinic' 1 3
-'Clinic' 2 3
-'Clinic' 5 3
-'Clinic' 6 3
+'MICU-S' 1 4
+'MICU-S' 2 4
+'MICU-S' 3 4
+'MICU-S' 4 4
+'Med 2 Night Float' 1 2
+'Med 2 Night Float' 2 2
+'Med 2 Night Float' 3 2
+'Med 2 Night Float' 4 2
+'Geri' 1 2
+'Geri' 2 2
+'Geri' 3 2
+'Geri' 4 2
+'Neuro' 1 2
+'Neuro' 2 2
+'Neuro' 3 2
+'Neuro' 4 2
+'Med 2' 1 4
+'Med 2' 2 4
+'Med 2' 3 4
+'Med 2' 4 4
+'Med 1' 1 4
+'Med 1' 2 4
+'Med 1' 3 4
+'Med 1' 4 4
+'Cardiology' 1 4
+'Cardiology' 2 4
+'Cardiology' 3 4
+'Cardiology' 4 4
+'CCU' 1 4
+'CCU' 2 4
+'CCU' 3 4
+'CCU' 4 4
+'Cardiology Night Float' 1 2
+'Cardiology Night Float' 2 2
+'Cardiology Night Float' 3 2
+'Cardiology Night Float' 4 2
 'Vacation' 1 2
 'Vacation' 2 2
-'Vacation' 5 2
-'Vacation' 6 2
-'ICU' 1 3
-'ICU' 2 3
-'ICU' 5 3
-'ICU' 6 3
-'Pulmonary' 3 2
-'Pulmonary' 4 2
+'Vacation' 3 2
+'Vacation' 4 2
+'Inpt' 1 2
+'Inpt' 2 2
+'Inpt' 3 2
+'Inpt' 4 2
+'Fourth Night Float' 1 2
+'Fourth Night Float' 2 2
+'Fourth Night Float' 3 2
+'Fourth Night Float' 4 2
+'Elective' 1 2
+'Elective' 2 2
+'Elective' 3 2
+'Elective' 4 2
+'Med Consult' 1 2
+'Med Consult' 2 2
+'Med Consult' 3 2
+'Med Consult' 4 2
+'Clinic' 1 2
+'Clinic' 2 2
 'Clinic' 3 2
 'Clinic' 4 2
-'ICU' 3 2
-'ICU' 4 2
-'Vacation' 3 2
-'Vacation' 4 2;
+'MICU-N' 1 4
+'MICU-N' 2 4
+'MICU-N' 3 4
+'MICU-N' 4 4
+'Procedure' 1 2
+'Procedure' 2 2
+'Procedure' 3 2
+'Procedure' 4 2;
 
 param TotalDemandLower :=
-'Pulmonary' 1 1
-'Pulmonary' 2 1
-'Pulmonary' 3 1
-'Pulmonary' 4 1
-'Pulmonary' 5 1
-'Pulmonary' 6 1
-'Pulmonary' 7 1
-'Pulmonary' 8 1
-'Clinic' 1 1
-'Clinic' 2 1
-'Clinic' 3 1
-'Clinic' 4 1
-'Clinic' 5 1
-'Clinic' 6 1
-'Clinic' 7 1
-'Clinic' 8 1
+'MICU-S' 1 2
+'MICU-S' 2 2
+'MICU-S' 3 2
+'MICU-S' 4 2
+'MICU-S' 5 2
+'MICU-S' 6 2
+'MICU-S' 7 2
+'MICU-S' 8 2
+'MICU-S' 9 2
+'MICU-S' 10 2
+'MICU-S' 11 2
+'MICU-S' 12 2
+'MICU-S' 13 2
+'MICU-S' 14 2
+'MICU-S' 15 2
+'MICU-S' 16 2
+'MICU-S' 17 2
+'MICU-S' 18 2
+'MICU-S' 19 2
+'MICU-S' 20 2
+'Med 2 Night Float' 1 1
+'Med 2 Night Float' 2 1
+'Med 2 Night Float' 3 1
+'Med 2 Night Float' 4 1
+'Med 2 Night Float' 5 1
+'Med 2 Night Float' 6 1
+'Med 2 Night Float' 7 1
+'Med 2 Night Float' 8 1
+'Med 2 Night Float' 9 1
+'Med 2 Night Float' 10 1
+'Med 2 Night Float' 11 1
+'Med 2 Night Float' 12 1
+'Med 2 Night Float' 13 1
+'Med 2 Night Float' 14 1
+'Med 2 Night Float' 15 1
+'Med 2 Night Float' 16 1
+'Med 2 Night Float' 17 1
+'Med 2 Night Float' 18 1
+'Med 2 Night Float' 19 1
+'Med 2 Night Float' 20 1
+'Geri' 1 0
+'Geri' 2 0
+'Geri' 3 0
+'Geri' 4 0
+'Geri' 5 0
+'Geri' 6 0
+'Geri' 7 0
+'Geri' 8 0
+'Geri' 9 0
+'Geri' 10 0
+'Geri' 11 0
+'Geri' 12 0
+'Geri' 13 0
+'Geri' 14 0
+'Geri' 15 0
+'Geri' 16 0
+'Geri' 17 0
+'Geri' 18 0
+'Geri' 19 0
+'Geri' 20 0
+'Neuro' 1 0
+'Neuro' 2 0
+'Neuro' 3 0
+'Neuro' 4 0
+'Neuro' 5 0
+'Neuro' 6 0
+'Neuro' 7 0
+'Neuro' 8 0
+'Neuro' 9 0
+'Neuro' 10 0
+'Neuro' 11 0
+'Neuro' 12 0
+'Neuro' 13 0
+'Neuro' 14 0
+'Neuro' 15 0
+'Neuro' 16 0
+'Neuro' 17 0
+'Neuro' 18 0
+'Neuro' 19 0
+'Neuro' 20 0
+'Med 2' 1 2
+'Med 2' 2 2
+'Med 2' 3 2
+'Med 2' 4 2
+'Med 2' 5 2
+'Med 2' 6 2
+'Med 2' 7 2
+'Med 2' 8 2
+'Med 2' 9 2
+'Med 2' 10 2
+'Med 2' 11 2
+'Med 2' 12 2
+'Med 2' 13 2
+'Med 2' 14 2
+'Med 2' 15 2
+'Med 2' 16 2
+'Med 2' 17 2
+'Med 2' 18 2
+'Med 2' 19 2
+'Med 2' 20 2
+'Med 1' 1 2
+'Med 1' 2 2
+'Med 1' 3 2
+'Med 1' 4 2
+'Med 1' 5 2
+'Med 1' 6 2
+'Med 1' 7 2
+'Med 1' 8 2
+'Med 1' 9 2
+'Med 1' 10 2
+'Med 1' 11 2
+'Med 1' 12 2
+'Med 1' 13 2
+'Med 1' 14 2
+'Med 1' 15 2
+'Med 1' 16 2
+'Med 1' 17 2
+'Med 1' 18 2
+'Med 1' 19 2
+'Med 1' 20 2
+'Cardiology' 1 2
+'Cardiology' 2 2
+'Cardiology' 3 2
+'Cardiology' 4 2
+'Cardiology' 5 2
+'Cardiology' 6 2
+'Cardiology' 7 2
+'Cardiology' 8 2
+'Cardiology' 9 2
+'Cardiology' 10 2
+'Cardiology' 11 2
+'Cardiology' 12 2
+'Cardiology' 13 2
+'Cardiology' 14 2
+'Cardiology' 15 2
+'Cardiology' 16 2
+'Cardiology' 17 2
+'Cardiology' 18 2
+'Cardiology' 19 2
+'Cardiology' 20 2
+'CCU' 1 2
+'CCU' 2 2
+'CCU' 3 2
+'CCU' 4 2
+'CCU' 5 2
+'CCU' 6 2
+'CCU' 7 2
+'CCU' 8 2
+'CCU' 9 2
+'CCU' 10 2
+'CCU' 11 2
+'CCU' 12 2
+'CCU' 13 2
+'CCU' 14 2
+'CCU' 15 2
+'CCU' 16 2
+'CCU' 17 2
+'CCU' 18 2
+'CCU' 19 2
+'CCU' 20 2
+'Cardiology Night Float' 1 1
+'Cardiology Night Float' 2 1
+'Cardiology Night Float' 3 1
+'Cardiology Night Float' 4 1
+'Cardiology Night Float' 5 1
+'Cardiology Night Float' 6 1
+'Cardiology Night Float' 7 1
+'Cardiology Night Float' 8 1
+'Cardiology Night Float' 9 1
+'Cardiology Night Float' 10 1
+'Cardiology Night Float' 11 1
+'Cardiology Night Float' 12 1
+'Cardiology Night Float' 13 1
+'Cardiology Night Float' 14 1
+'Cardiology Night Float' 15 1
+'Cardiology Night Float' 16 1
+'Cardiology Night Float' 17 1
+'Cardiology Night Float' 18 1
+'Cardiology Night Float' 19 1
+'Cardiology Night Float' 20 1
 'Vacation' 1 0
 'Vacation' 2 0
 'Vacation' 3 0
@@ -176,32 +468,340 @@ param TotalDemandLower :=
 'Vacation' 6 0
 'Vacation' 7 0
 'Vacation' 8 0
-'ICU' 1 1
-'ICU' 2 1
-'ICU' 3 1
-'ICU' 4 1
-'ICU' 5 1
-'ICU' 6 1
-'ICU' 7 1
-'ICU' 8 1;
+'Vacation' 9 0
+'Vacation' 10 0
+'Vacation' 11 0
+'Vacation' 12 0
+'Vacation' 13 0
+'Vacation' 14 0
+'Vacation' 15 0
+'Vacation' 16 0
+'Vacation' 17 0
+'Vacation' 18 0
+'Vacation' 19 0
+'Vacation' 20 0
+'Inpt' 1 0
+'Inpt' 2 0
+'Inpt' 3 0
+'Inpt' 4 0
+'Inpt' 5 0
+'Inpt' 6 0
+'Inpt' 7 0
+'Inpt' 8 0
+'Inpt' 9 0
+'Inpt' 10 0
+'Inpt' 11 0
+'Inpt' 12 0
+'Inpt' 13 0
+'Inpt' 14 0
+'Inpt' 15 0
+'Inpt' 16 0
+'Inpt' 17 0
+'Inpt' 18 0
+'Inpt' 19 0
+'Inpt' 20 0
+'Fourth Night Float' 1 1
+'Fourth Night Float' 2 1
+'Fourth Night Float' 3 1
+'Fourth Night Float' 4 1
+'Fourth Night Float' 5 1
+'Fourth Night Float' 6 1
+'Fourth Night Float' 7 1
+'Fourth Night Float' 8 1
+'Fourth Night Float' 9 1
+'Fourth Night Float' 10 1
+'Fourth Night Float' 11 1
+'Fourth Night Float' 12 1
+'Fourth Night Float' 13 1
+'Fourth Night Float' 14 1
+'Fourth Night Float' 15 1
+'Fourth Night Float' 16 1
+'Fourth Night Float' 17 1
+'Fourth Night Float' 18 1
+'Fourth Night Float' 19 1
+'Fourth Night Float' 20 1
+'Elective' 1 0
+'Elective' 2 0
+'Elective' 3 0
+'Elective' 4 0
+'Elective' 5 0
+'Elective' 6 0
+'Elective' 7 0
+'Elective' 8 0
+'Elective' 9 0
+'Elective' 10 0
+'Elective' 11 0
+'Elective' 12 0
+'Elective' 13 0
+'Elective' 14 0
+'Elective' 15 0
+'Elective' 16 0
+'Elective' 17 0
+'Elective' 18 0
+'Elective' 19 0
+'Elective' 20 0
+'Med Consult' 1 1
+'Med Consult' 2 1
+'Med Consult' 3 1
+'Med Consult' 4 1
+'Med Consult' 5 1
+'Med Consult' 6 1
+'Med Consult' 7 1
+'Med Consult' 8 1
+'Med Consult' 9 1
+'Med Consult' 10 1
+'Med Consult' 11 1
+'Med Consult' 12 1
+'Med Consult' 13 1
+'Med Consult' 14 1
+'Med Consult' 15 1
+'Med Consult' 16 1
+'Med Consult' 17 1
+'Med Consult' 18 1
+'Med Consult' 19 1
+'Med Consult' 20 1
+'Clinic' 1 7
+'Clinic' 2 7
+'Clinic' 3 7
+'Clinic' 4 7
+'Clinic' 5 7
+'Clinic' 6 7
+'Clinic' 7 7
+'Clinic' 8 7
+'Clinic' 9 7
+'Clinic' 10 7
+'Clinic' 11 7
+'Clinic' 12 7
+'Clinic' 13 7
+'Clinic' 14 7
+'Clinic' 15 7
+'Clinic' 16 7
+'Clinic' 17 7
+'Clinic' 18 7
+'Clinic' 19 7
+'Clinic' 20 7
+'MICU-N' 1 2
+'MICU-N' 2 2
+'MICU-N' 3 2
+'MICU-N' 4 2
+'MICU-N' 5 2
+'MICU-N' 6 2
+'MICU-N' 7 2
+'MICU-N' 8 2
+'MICU-N' 9 2
+'MICU-N' 10 2
+'MICU-N' 11 2
+'MICU-N' 12 2
+'MICU-N' 13 2
+'MICU-N' 14 2
+'MICU-N' 15 2
+'MICU-N' 16 2
+'MICU-N' 17 2
+'MICU-N' 18 2
+'MICU-N' 19 2
+'MICU-N' 20 2
+'Procedure' 1 0
+'Procedure' 2 0
+'Procedure' 3 0
+'Procedure' 4 0
+'Procedure' 5 0
+'Procedure' 6 0
+'Procedure' 7 0
+'Procedure' 8 0
+'Procedure' 9 0
+'Procedure' 10 0
+'Procedure' 11 0
+'Procedure' 12 0
+'Procedure' 13 0
+'Procedure' 14 0
+'Procedure' 15 0
+'Procedure' 16 0
+'Procedure' 17 0
+'Procedure' 18 0
+'Procedure' 19 0
+'Procedure' 20 0;
 
 param TotalDemandUpper :=
-'Pulmonary' 1 3
-'Pulmonary' 2 3
-'Pulmonary' 3 3
-'Pulmonary' 4 3
-'Pulmonary' 5 3
-'Pulmonary' 6 3
-'Pulmonary' 7 3
-'Pulmonary' 8 3
-'Clinic' 1 4
-'Clinic' 2 4
-'Clinic' 3 4
-'Clinic' 4 4
-'Clinic' 5 4
-'Clinic' 6 4
-'Clinic' 7 4
-'Clinic' 8 4
+'MICU-S' 1 2
+'MICU-S' 2 2
+'MICU-S' 3 2
+'MICU-S' 4 2
+'MICU-S' 5 2
+'MICU-S' 6 2
+'MICU-S' 7 2
+'MICU-S' 8 2
+'MICU-S' 9 2
+'MICU-S' 10 2
+'MICU-S' 11 2
+'MICU-S' 12 2
+'MICU-S' 13 2
+'MICU-S' 14 2
+'MICU-S' 15 2
+'MICU-S' 16 2
+'MICU-S' 17 2
+'MICU-S' 18 2
+'MICU-S' 19 2
+'MICU-S' 20 2
+'Med 2 Night Float' 1 1
+'Med 2 Night Float' 2 1
+'Med 2 Night Float' 3 1
+'Med 2 Night Float' 4 1
+'Med 2 Night Float' 5 1
+'Med 2 Night Float' 6 1
+'Med 2 Night Float' 7 1
+'Med 2 Night Float' 8 1
+'Med 2 Night Float' 9 1
+'Med 2 Night Float' 10 1
+'Med 2 Night Float' 11 1
+'Med 2 Night Float' 12 1
+'Med 2 Night Float' 13 1
+'Med 2 Night Float' 14 1
+'Med 2 Night Float' 15 1
+'Med 2 Night Float' 16 1
+'Med 2 Night Float' 17 1
+'Med 2 Night Float' 18 1
+'Med 2 Night Float' 19 1
+'Med 2 Night Float' 20 1
+'Geri' 1 4
+'Geri' 2 4
+'Geri' 3 4
+'Geri' 4 4
+'Geri' 5 4
+'Geri' 6 4
+'Geri' 7 4
+'Geri' 8 4
+'Geri' 9 4
+'Geri' 10 4
+'Geri' 11 4
+'Geri' 12 4
+'Geri' 13 4
+'Geri' 14 4
+'Geri' 15 4
+'Geri' 16 4
+'Geri' 17 4
+'Geri' 18 4
+'Geri' 19 4
+'Geri' 20 4
+'Neuro' 1 4
+'Neuro' 2 4
+'Neuro' 3 4
+'Neuro' 4 4
+'Neuro' 5 4
+'Neuro' 6 4
+'Neuro' 7 4
+'Neuro' 8 4
+'Neuro' 9 4
+'Neuro' 10 4
+'Neuro' 11 4
+'Neuro' 12 4
+'Neuro' 13 4
+'Neuro' 14 4
+'Neuro' 15 4
+'Neuro' 16 4
+'Neuro' 17 4
+'Neuro' 18 4
+'Neuro' 19 4
+'Neuro' 20 4
+'Med 2' 1 2
+'Med 2' 2 2
+'Med 2' 3 2
+'Med 2' 4 2
+'Med 2' 5 2
+'Med 2' 6 2
+'Med 2' 7 2
+'Med 2' 8 2
+'Med 2' 9 2
+'Med 2' 10 2
+'Med 2' 11 2
+'Med 2' 12 2
+'Med 2' 13 2
+'Med 2' 14 2
+'Med 2' 15 2
+'Med 2' 16 2
+'Med 2' 17 2
+'Med 2' 18 2
+'Med 2' 19 2
+'Med 2' 20 2
+'Med 1' 1 2
+'Med 1' 2 2
+'Med 1' 3 2
+'Med 1' 4 2
+'Med 1' 5 2
+'Med 1' 6 2
+'Med 1' 7 2
+'Med 1' 8 2
+'Med 1' 9 2
+'Med 1' 10 2
+'Med 1' 11 2
+'Med 1' 12 2
+'Med 1' 13 2
+'Med 1' 14 2
+'Med 1' 15 2
+'Med 1' 16 2
+'Med 1' 17 2
+'Med 1' 18 2
+'Med 1' 19 2
+'Med 1' 20 2
+'Cardiology' 1 2
+'Cardiology' 2 2
+'Cardiology' 3 2
+'Cardiology' 4 2
+'Cardiology' 5 2
+'Cardiology' 6 2
+'Cardiology' 7 2
+'Cardiology' 8 2
+'Cardiology' 9 2
+'Cardiology' 10 2
+'Cardiology' 11 2
+'Cardiology' 12 2
+'Cardiology' 13 2
+'Cardiology' 14 2
+'Cardiology' 15 2
+'Cardiology' 16 2
+'Cardiology' 17 2
+'Cardiology' 18 2
+'Cardiology' 19 2
+'Cardiology' 20 2
+'CCU' 1 2
+'CCU' 2 2
+'CCU' 3 2
+'CCU' 4 2
+'CCU' 5 2
+'CCU' 6 2
+'CCU' 7 2
+'CCU' 8 2
+'CCU' 9 2
+'CCU' 10 2
+'CCU' 11 2
+'CCU' 12 2
+'CCU' 13 2
+'CCU' 14 2
+'CCU' 15 2
+'CCU' 16 2
+'CCU' 17 2
+'CCU' 18 2
+'CCU' 19 2
+'CCU' 20 2
+'Cardiology Night Float' 1 1
+'Cardiology Night Float' 2 1
+'Cardiology Night Float' 3 1
+'Cardiology Night Float' 4 1
+'Cardiology Night Float' 5 1
+'Cardiology Night Float' 6 1
+'Cardiology Night Float' 7 1
+'Cardiology Night Float' 8 1
+'Cardiology Night Float' 9 1
+'Cardiology Night Float' 10 1
+'Cardiology Night Float' 11 1
+'Cardiology Night Float' 12 1
+'Cardiology Night Float' 13 1
+'Cardiology Night Float' 14 1
+'Cardiology Night Float' 15 1
+'Cardiology Night Float' 16 1
+'Cardiology Night Float' 17 1
+'Cardiology Night Float' 18 1
+'Cardiology Night Float' 19 1
+'Cardiology Night Float' 20 1
 'Vacation' 1 100
 'Vacation' 2 100
 'Vacation' 3 100
@@ -210,30 +810,166 @@ param TotalDemandUpper :=
 'Vacation' 6 100
 'Vacation' 7 100
 'Vacation' 8 100
-'ICU' 1 3
-'ICU' 2 3
-'ICU' 3 3
-'ICU' 4 3
-'ICU' 5 3
-'ICU' 6 3
-'ICU' 7 3
-'ICU' 8 3;
+'Vacation' 9 100
+'Vacation' 10 100
+'Vacation' 11 100
+'Vacation' 12 100
+'Vacation' 13 100
+'Vacation' 14 100
+'Vacation' 15 100
+'Vacation' 16 100
+'Vacation' 17 100
+'Vacation' 18 100
+'Vacation' 19 100
+'Vacation' 20 100
+'Inpt' 1 10
+'Inpt' 2 10
+'Inpt' 3 10
+'Inpt' 4 10
+'Inpt' 5 10
+'Inpt' 6 10
+'Inpt' 7 10
+'Inpt' 8 10
+'Inpt' 9 10
+'Inpt' 10 10
+'Inpt' 11 10
+'Inpt' 12 10
+'Inpt' 13 10
+'Inpt' 14 10
+'Inpt' 15 10
+'Inpt' 16 10
+'Inpt' 17 10
+'Inpt' 18 10
+'Inpt' 19 10
+'Inpt' 20 10
+'Fourth Night Float' 1 1
+'Fourth Night Float' 2 1
+'Fourth Night Float' 3 1
+'Fourth Night Float' 4 1
+'Fourth Night Float' 5 1
+'Fourth Night Float' 6 1
+'Fourth Night Float' 7 1
+'Fourth Night Float' 8 1
+'Fourth Night Float' 9 1
+'Fourth Night Float' 10 1
+'Fourth Night Float' 11 1
+'Fourth Night Float' 12 1
+'Fourth Night Float' 13 1
+'Fourth Night Float' 14 1
+'Fourth Night Float' 15 1
+'Fourth Night Float' 16 1
+'Fourth Night Float' 17 1
+'Fourth Night Float' 18 1
+'Fourth Night Float' 19 1
+'Fourth Night Float' 20 1
+'Elective' 1 10
+'Elective' 2 10
+'Elective' 3 10
+'Elective' 4 10
+'Elective' 5 10
+'Elective' 6 10
+'Elective' 7 10
+'Elective' 8 10
+'Elective' 9 10
+'Elective' 10 10
+'Elective' 11 10
+'Elective' 12 10
+'Elective' 13 10
+'Elective' 14 10
+'Elective' 15 10
+'Elective' 16 10
+'Elective' 17 10
+'Elective' 18 10
+'Elective' 19 10
+'Elective' 20 10
+'Med Consult' 1 1
+'Med Consult' 2 1
+'Med Consult' 3 1
+'Med Consult' 4 1
+'Med Consult' 5 1
+'Med Consult' 6 1
+'Med Consult' 7 1
+'Med Consult' 8 1
+'Med Consult' 9 1
+'Med Consult' 10 1
+'Med Consult' 11 1
+'Med Consult' 12 1
+'Med Consult' 13 1
+'Med Consult' 14 1
+'Med Consult' 15 1
+'Med Consult' 16 1
+'Med Consult' 17 1
+'Med Consult' 18 1
+'Med Consult' 19 1
+'Med Consult' 20 1
+'Clinic' 1 20
+'Clinic' 2 20
+'Clinic' 3 20
+'Clinic' 4 20
+'Clinic' 5 20
+'Clinic' 6 20
+'Clinic' 7 20
+'Clinic' 8 20
+'Clinic' 9 20
+'Clinic' 10 20
+'Clinic' 11 20
+'Clinic' 12 20
+'Clinic' 13 20
+'Clinic' 14 20
+'Clinic' 15 20
+'Clinic' 16 20
+'Clinic' 17 20
+'Clinic' 18 20
+'Clinic' 19 20
+'Clinic' 20 20
+'MICU-N' 1 2
+'MICU-N' 2 2
+'MICU-N' 3 2
+'MICU-N' 4 2
+'MICU-N' 5 2
+'MICU-N' 6 2
+'MICU-N' 7 2
+'MICU-N' 8 2
+'MICU-N' 9 2
+'MICU-N' 10 2
+'MICU-N' 11 2
+'MICU-N' 12 2
+'MICU-N' 13 2
+'MICU-N' 14 2
+'MICU-N' 15 2
+'MICU-N' 16 2
+'MICU-N' 17 2
+'MICU-N' 18 2
+'MICU-N' 19 2
+'MICU-N' 20 2
+'Procedure' 1 1
+'Procedure' 2 1
+'Procedure' 3 1
+'Procedure' 4 1
+'Procedure' 5 1
+'Procedure' 6 1
+'Procedure' 7 1
+'Procedure' 8 1
+'Procedure' 9 1
+'Procedure' 10 1
+'Procedure' 11 1
+'Procedure' 12 1
+'Procedure' 13 1
+'Procedure' 14 1
+'Procedure' 15 1
+'Procedure' 16 1
+'Procedure' 17 1
+'Procedure' 18 1
+'Procedure' 19 1
+'Procedure' 20 1;
 
 param MinYear :=
 'PGY1' 'Clinic' 0
-'PGY1' 'ICU' 0
 'PGY2' 'Clinic' 0
-'PGY2' 'ICU' 0
-'PGY3' 'Pulmonary' 0
-'PGY3' 'Clinic' 0
-'PGY3' 'ICU' 0;
+'PGY3' 'Clinic' 0;
 
 param MaxYear :=
 'PGY1' 'Clinic' 100
-'PGY1' 'ICU' 100
 'PGY2' 'Clinic' 100
-'PGY2' 'ICU' 100
-'PGY3' 'Pulmonary' 100
-'PGY3' 'Clinic' 100
-'PGY3' 'ICU' 100;
+'PGY3' 'Clinic' 100;
 
