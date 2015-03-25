@@ -585,12 +585,6 @@ class Command(BaseCommand):
 			print "Optimal solution 1: "+str(optimal_solution_1)+"---------------------------------"
 			##print "Variables: "+str(cpx.variables.get_names())
 
-			solnNames = cpx.solution.pool.get_names()
-			solnIndices = cpx.solution.pool.get_indices(solnNames)
-
-			#print "SolnNames are: "+str(solnNames)
-			#print "Soln Indices are: "+str(solnIndices)
-
 			createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
 			createdSchedule.save()
 
@@ -600,16 +594,8 @@ class Command(BaseCommand):
 			for res_pk in resident_pk_to_index:
 				for rotation in rotation_names:
 					for week in weeks:
-						#used to be cpx.solution.get_values("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":, added POOL
-						#http://www.stat.washington.edu/~hoytak/code/pycpx/api.html
-						# first argument 1 is because this is the best answer: http://www-01.ibm.com/support/knowledgecenter/SSSA5P_12.4.0/ilog.odms.cplex.help/refpythoncplex/html/cplex._internal._subinterfaces.SolnPoolInterface-class.html%23get_values?cp=SSSA5P_12.4.0&lang=en
-						#print "optimal solution: "+str(optimal_solution) 
-						#print "optimal solution 1: "+str(optimal_solution_1)
-						#print "Z("+str(resident_pk_to_index[res_pk])+"_'"+str(rotation)+"'_"+str(week)+")" #ADDED SINGLE QUOTES AROUND ROTATION!
-						#if str(cpx.solution.pool.get_values()["Z("+str(resident_pk_to_index[res_pk])+"_'"+str(rotation)+"'_"+str(week)+")"]) == "1.0":
-						print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation).replace("-","_").replace(" ","_")+"_"+str(week)+")"
-						if str(cpx.solution.pool.get_values(0,"Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")")) == "1.0":#ADDED SINGLE QUOTES AROUND ROTATION!
-							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")") #CHANGE THIS ACCORDING TO ABOVE!!!
+						if str(cpx.solution.pool.get_values(0,"Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")")) == "1.0":
+							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation+"_"+str(week)+")") #note: keep rotation as is, so later event can refer to original rotation name, w/o "_" replacements
 							res = Resident.objects.filter(pk=res_pk)[0]
 							rot = Rotation.objects.filter(name=rotation)[0]
 							start = week_to_date[week]
@@ -617,18 +603,17 @@ class Command(BaseCommand):
 							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
 							createdEvent.save()
 
-			#print "best objective value is "+str(bestObjective)
+			acceptedSolnVars.append(solnVars) #add best optimal solution to accepted soln variable list, to prevent redundancy in solution pool
 
 
-			'''cpx.parameters.mip.pool.intensity.set(4) #leave no stone unturned: find all feasible solutions
+			cpx.parameters.mip.pool.intensity.set(4) #leave no stone unturned: find all feasible solutions
 			numOptimalSolns = M
 			cpx.parameters.mip.limits.populate.set(M) #set number of solutions to M
 			cpx.populate_solution_pool() #solve and populate the solution pool
 			solnNames = cpx.solution.pool.get_names()
 			solnIndices = cpx.solution.pool.get_indices(solnNames)
 
-			#while (len(acceptedSolnIndices)+1) < numOptimalSolns and solnIndices: #because len(acceptedSolnIndices) doesn't count best optimal soln
-			while len(acceptedSolnIndices) < numOptimalSolns and solnIndices:
+			while (len(acceptedSolnIndices)+1) < numOptimalSolns and solnIndices:
 				for i in solnIndices:
 					solnVars = [] #list of Z variables of this solution
 								  # used for comparison with previously-found solns to prevent redundancy
@@ -641,8 +626,8 @@ class Command(BaseCommand):
 							for rotation in rotation_names:
 								for week in weeks: 
 									#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-									if str(cpx.solution.pool.get_values(i,"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0": #used to have solnIndices[i] as first arg!!!
-										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")
+									if str(cpx.solution.pool.get_values(i,"Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")")) == "1.0": #used to have solnIndices[i] as first arg!!!
+										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation+"_"+str(week)+")")
 
 						unique_schedule = True
 						for sched in acceptedSolnVars:
@@ -653,7 +638,7 @@ class Command(BaseCommand):
 							acceptedSolnVars.append(solnVars)
 
 							#create model Schedule instance
-							createdSchedule = Schedule(name="Schedule"+str(i+1),utility=obj_value[i])
+							createdSchedule = Schedule(name="Schedule"+str(i),utility=obj_value[i])
 							createdSchedule.save()
 							#print createdSchedule.name
 
@@ -680,29 +665,6 @@ class Command(BaseCommand):
 
 			print "Accepted solution indices, not including best solution: "+str(acceptedSolnIndices)
 			print "All solution indices: "+str(solnIndicesAll)
-			print(obj_value)'''
-
-
-			'''
-			#create the best schedule
-			createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
-			createdSchedule.save()
-
-			solnVars = [] #list of Z variables of this solution
-						  # used for comparison with previously-found solns to prevent redundancy
-			#create events in best schedule
-			for res_pk in resident_pk_to_index:
-				for rotation in rotation_names:
-					for week in weeks:
-						if str(cpx.solution.get_values("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")) == "1.0":
-							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")")
-							res = Resident.objects.filter(pk=res_pk)[0]
-							rot = Rotation.objects.filter(name=rotation)[0]
-							start = week_to_date[week]
-							end = week_to_end_date[week]
-							createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-							createdEvent.save()
-
-			acceptedSolnVars.append(solnVars) #add best optimal solution to accepted soln variable list, to prevent redundancy in solution pool'''
+			print(obj_value)
 
 
