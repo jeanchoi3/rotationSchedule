@@ -296,11 +296,11 @@ class Command(BaseCommand):
 ############ Parameters #######################################################
 
 ##----windowSize--------#
-#		f.write("param windowSize := \n"+str(windowSize)+"\n\n")
+#		f.write("param windowSize := \n"+str(windowSize)+";\n\n")
 ##----minClinicWeeks--------#
-#		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+"\n\n")
+#		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+";\n\n")
 ##----lastWindowStart--------#
-#		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+"\n\n")
+#		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+";\n\n")
 ##----BWeeks--------#
 		f.write("param BWeeks :=")
 		for BWeek in BWeeks:
@@ -630,6 +630,8 @@ class Command(BaseCommand):
 										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation+"_"+str(week)+")")
 
 						unique_schedule = True
+
+						#compare this schedule to every already-accepted soln
 						for sched in acceptedSolnVars:
 							if set(sched) == set(solnVars):
 								unique_schedule = False
