@@ -13,7 +13,7 @@ class Rotation(models.Model):
     minResidents = models.PositiveIntegerField(default=0)
     maxResidents = models.PositiveIntegerField(default=100)
     isElective = models.BooleanField(default=False)
-    recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')
+    recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete 2 weeks of this rotation')
 
 #Year
 class Year(models.Model):

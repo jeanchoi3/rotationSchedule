@@ -18,7 +18,7 @@ model.BlockTemplates = Set() #Block templates in the network
 #Parameters
 model.maxVacationWeeks = Param(within=NonNegativeIntegers, default=4)
 #model.Windows = Param(model.W, default=[])
-# param Windows :=
+# param Windows :=  
 # 1 [1,2,3,4,5,6]
 # 2 [2, 3, 4, 5,6,7]
 # 3 [3, 4, 5, 6, 7, 8];

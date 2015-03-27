@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from rotationSchedule_app.forms import ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm, ScheduleForm, EventForm, TemplateForm, TemplateEventForm
+from rotationSchedule_app.forms import ShortResidentForm, ResidentForm, YearForm, TrackForm, ProgramForm, RotationForm, BlockForm, ScheduleForm, EventForm, TemplateForm, TemplateEventForm
 import json
 from django.core.management import call_command
 from django.forms.models import modelformset_factory, inlineformset_factory
@@ -38,7 +38,7 @@ def index(request):
         bForm = BlockForm(request.POST)
         yForm = YearForm(request.POST) 
         tForm = TrackForm(request.POST) 
-        residentForm = ResidentForm(request.POST) #this is in the resident side....
+        residentForm = ShortResidentForm(request.POST) #this is in the resident side....
         sForm = ScheduleForm(request.POST) 
         eForm = EventForm(request.POST) 
         templateForm = TemplateForm(request.POST) 
@@ -110,7 +110,7 @@ def index(request):
         bForm = BlockForm()
         yForm = YearForm()
         tForm = TrackForm()
-        residentForm = ResidentForm()
+        residentForm = ShortResidentForm()
         sForm = ScheduleForm()
         eForm = EventForm()
         templateForm = TemplateForm()

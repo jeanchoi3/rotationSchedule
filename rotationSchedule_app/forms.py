@@ -2,6 +2,15 @@ from django.forms import ModelForm
 from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, Schedule, Event, Template, TemplateEvent
 from django.utils.translation import ugettext_lazy as _
 
+class ShortResidentForm(ModelForm):
+    class Meta:
+        model = Resident
+        fields = ['name','email','year','tracks']
+    def __init__(self, *args, **kwargs):
+        super(ShortResidentForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'required':True})
+
+
 class ResidentForm(ModelForm):
     class Meta:
         model = Resident
@@ -33,6 +42,12 @@ class YearForm(ModelForm):
     class Meta:
         model = Year
         exclude=['requiredRotations','rotationDemand']
+        labels = {
+            'yearNum': _('Post-grad year'),
+        }
+    def __init__(self, *args, **kwargs):
+        super(YearForm, self).__init__(*args, **kwargs)
+        self.fields['yearNum'].widget.attrs.update({'required':True,'placeholder':'E.g. 1 for Intern Year'})
 
 class TrackForm(ModelForm):
     class Meta:
@@ -62,7 +77,8 @@ class RotationForm(ModelForm):
         #fields = ['name','minResidents','maxResidents']
         labels = {
             'minResidents': _('Min Total # Residents'),
-            'maxResidents': _('Max Total # Residents')
+            'maxResidents': _('Max Total # Residents'),
+            'isElective': _('Elective')
         }
     def __init__(self, *args, **kwargs):
         super(RotationForm, self).__init__(*args, **kwargs)
@@ -79,6 +95,7 @@ class BlockForm(ModelForm):
         labels = {
             'name': _('Block Name'),
             'length': _('Block Length (Weeks)'),
+            'maxNumRotations':  _('Max # Rotations Scheduled in Block')
             #'includedRotation': _('Included Rotation')
         }
     def __init__(self, *args, **kwargs):
