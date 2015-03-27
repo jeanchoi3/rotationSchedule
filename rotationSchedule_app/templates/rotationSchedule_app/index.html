@@ -35,7 +35,7 @@
         <script type="text/javascript" src="{% static 'js/clone-form-td.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-ui.custom.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/fullcalendar.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/fullcalendar.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/lang-all.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/gcal.js' %}"></script>
         <!--script type="text/javascript" src="{% static 'js/fullcalendar.custom.js' %}"></script-->
@@ -46,14 +46,13 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            $('#datepicker-1').datepicker();
-            $('#datepicker-2').datepicker();
             var numBlocks = {{block_list|safe}}.length
 
             var numTemplates = {{template_list|safe}}.length
 
             for (j = 0; j < numTemplates; j++) {
                 $('#templates').append('<legend>'+{{template_list|safe}}[j].name+'</legend><span class="help-block">Drag and drop blocks onto the calendar to create a block template.</span><div id="wrap"><div class="external-events" id="'+{{template_list|safe}}[j].name+'"></div><div id="'+{{template_list|safe}}[j].name+'-calendar" class="calendar"></div><div style="clear:both"></div></div>');
+
                 $('#'+{{template_list|safe}}[j].name+'-calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -77,7 +76,7 @@
                                 end: endDate
                             },
                             success: function(json) {
-                                alert("success!"+JSON.stringify(json))
+                                //alert("success!"+JSON.stringify(json))
                                 //$('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
                             },
                             error: function(xhr, errmsg,err) {
@@ -86,10 +85,10 @@
                         });
 
                         // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
+                        /*if ($('#drop-remove').is(':checked')) {
                             // if so, remove the element from the "Draggable Events" list
                             $(this).remove();
-                        }
+                        }*/
                     }
                 });
             /*function myAlert() {
