@@ -108,7 +108,7 @@
                 $('#resident-calendar-info-'+i).text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
 
                 //create new calendar for each rotation
-                var length = {{rotation_list|safe}}.length
+                /*var length = {{rotation_list|safe}}.length
                 for (j = 0; j < length; j++) {
                     //add new calendar to html
                     $('#rotation-calendars-'+i).append('<h3>'+String({{rotation_list|safe}}[j])+'</h3><div id='+String({{rotation_list|safe}}[j]).split(" ").join("_")+i+'></div><br><br>');
@@ -165,7 +165,7 @@
                             error: function(xhr, errmsg,err) {
                                 alert("fail "+errmsg+err+xhr.responseText)
                             }
-                        });
+                        });*.
 
                         //alert("Current events: "+$.each($('#'+String({{rotation_list|safe}}[j])+i).fullCalendar('clientEvents'), function(key, value) {key + ": "+value)})
                         //ideas: make a var using the each function, and it might not just be key/value, bc each event has a lot
@@ -218,7 +218,7 @@
                 var length = {{resident_list|safe}}.length
                 for (j = 0; j < length; j++) {
                     //add new calendar to html
-                    $('#resident-calendars-'+i).append('<h3>'+String({{resident_list|safe}}[j])+'</h3><div id='+String({{resident_list|safe}}[j])+i+'></div><br><br>');
+                    /*$('#resident-calendars-'+i).append('<h3>'+String({{resident_list|safe}}[j])+'</h3><div id='+String({{resident_list|safe}}[j])+i+'></div><br><br>');
 
                     //add rotation calendar navigation to sidebar
                     if (i == 0) {
@@ -252,7 +252,7 @@
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
                     events: {{ schedule_resident_events|safe }}[i-1][j]
-                    });
+                    });*/
 
 
                 /******* FILLING EVENTS ARRAY FOR DATATABLES **********************/
