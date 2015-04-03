@@ -1,10 +1,9 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, YearDemand, EducationReq, Event, Schedule, Template, TemplateEvent, TrackEducationReq
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule, Template, TemplateEvent, TrackEducationReq, EducationReq, YearDemand, RotationSet, setEduReq, setTrackEduReq
 from django.http import HttpResponse
 
 # Register your models here.
 admin.site.register(Resident)
-admin.site.register(Track)
 
 def export_csv(modeladmin, request, queryset):
     import csv
@@ -43,6 +42,10 @@ class YearDemandInline(admin.TabularInline):
     model=YearDemand
     extra=1
 
+# class YearSetDemandInline(admin.TabularInline):
+#     model=SetYearDemand
+#     extra=1
+
 class EducationReqInline(admin.TabularInline):
     model=EducationReq
     extra=1
@@ -51,15 +54,34 @@ class TrackEducationReqInline(admin.TabularInline):
     model=TrackEducationReq
     extra=1
 
+class SetEduReqInline(admin.TabularInline):
+    model=setEduReq
+    extra=1
+
+class SetTrackEduReqInline(admin.TabularInline):
+    model=setTrackEduReq
+    extra=1
+
 class BlockAdmin(admin.ModelAdmin):
     inlines = (RotationLengthInline,)
 
 class RotationAdmin(admin.ModelAdmin):
-    inlines = (RotationLengthInline,YearDemandInline,EducationReqInline,TrackEducationReqInline)
+    inlines = (RotationLengthInline,TrackEducationReqInline,YearDemandInline,EducationReqInline)
+#YearDemandInline,,EducationReqInline,
 
 class YearAdmin(admin.ModelAdmin):
-    inlines=(YearDemandInline,EducationReqInline)
+     inlines=(EducationReqInline,YearDemandInline,SetEduReqInline)
 
+class TrackAdmin(admin.ModelAdmin):
+     inlines=(SetTrackEduReqInline,)
+
+#YearDemandInline,
+# class YearSetAdmin(admin.ModelAdmin):
+#     inlines=(YearSetDemandInline,)
+
+class RotationSetAdmin(admin.ModelAdmin):
+    inlines=(SetEduReqInline,SetTrackEduReqInline)
+#SetTrackEduReqInline
 class EventAdmin(admin.ModelAdmin):
     list_display = ('rotation', 'resident', 'startDate','endDate','schedule')
 
@@ -74,4 +96,5 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Template)
 admin.site.register(TemplateEvent)
-
+admin.site.register(RotationSet, RotationSetAdmin)
+admin.site.register(Track, TrackAdmin)

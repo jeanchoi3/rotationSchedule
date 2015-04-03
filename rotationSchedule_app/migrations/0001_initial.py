@@ -42,6 +42,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('startDate', models.DateField(default=datetime.date.today)),
                 ('endDate', models.DateField(default=datetime.date.today)),
+                ('minClinicWeeks', models.IntegerField(default=0)),
+                ('windowSize', models.IntegerField(default=0)),
                 ('rigidXY', models.BooleanField(default=False, help_text=b'Check box if your program has a rigid X+Y or X+Y+Z structure that cannot be violated.  If this is a preference that can be violated, do not check the box.')),
             ],
             options={
@@ -62,6 +64,7 @@ class Migration(migrations.Migration):
                 ('vacationStart3', models.DateField(null=True, blank=True)),
                 ('vacationEnd3', models.DateField(null=True, blank=True)),
                 ('vacationPreference', models.IntegerField(default=5, help_text=b'Weight out of 10, indicating importance versus elective, e.g. 5 = vacation and elective are of equal importance; 10 = only vacation is important', validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(10)])),
+                ('couple', models.ForeignKey(related_name=b'couple_match', blank=True, to='rotationSchedule_app.Resident', null=True)),
             ],
             options={
             },
@@ -72,10 +75,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
-                ('minResidents', models.PositiveIntegerField(default=1)),
-                ('maxResidents', models.PositiveIntegerField(default=1)),
+                ('minResidents', models.PositiveIntegerField(default=0)),
+                ('maxResidents', models.PositiveIntegerField(default=100)),
                 ('isElective', models.BooleanField(default=False)),
-                ('recurrenceWindow', models.IntegerField(default=0, help_text=b'The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete one of these rotations')),
+                ('recurrenceWindow', models.IntegerField(default=0, help_text=b'The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete 2 weeks of this rotation')),
             ],
             options={
             },
@@ -120,6 +123,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
+                ('excludedBlocks', models.ManyToManyField(default=None, related_name=b'excludedBlocks', to='rotationSchedule_app.TemplateEvent', blank=True)),
                 ('trackRequiredRotations', models.ManyToManyField(related_name=b'trackRequiredRotations', to='rotationSchedule_app.Rotation')),
             ],
             options={
@@ -131,6 +135,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(default=b'PGY1', max_length=200)),
+                ('yearNum', models.PositiveIntegerField(default=1)),
                 ('requiredRotations', models.ManyToManyField(related_name=b'requiredRotations', to='rotationSchedule_app.Rotation')),
                 ('rotationDemand', models.ManyToManyField(related_name=b'rotationDemand', to='rotationSchedule_app.Rotation')),
             ],
@@ -202,6 +207,12 @@ class Migration(migrations.Migration):
             model_name='resident',
             name='elective9',
             field=models.ForeignKey(related_name=b'elective9', blank=True, to='rotationSchedule_app.Rotation', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='resident',
+            name='resExcludedBlocks',
+            field=models.ManyToManyField(default=None, related_name=b'resExcludedBlocks', to='rotationSchedule_app.TemplateEvent', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(

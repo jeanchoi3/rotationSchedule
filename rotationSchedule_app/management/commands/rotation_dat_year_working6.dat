@@ -1,0 +1,114 @@
+set R := 1 2 3 4 5;
+set Redu := 1 2 3 4; 
+set D := 1 2 3 4;
+set W := 1 2 3 4 5 6 7 8;
+set Y := 1 2 3 ;
+set Ycov := 1 2 3 4 5;
+set B := 1 2 3 4 5 6;
+set Couples := 1 2; 
+
+param lastWindowStart :=
+1;
+
+param windowSize :=
+8;
+
+param minClinicWeeks :=
+2;
+
+param Yset :=
+1 [1]
+2 [2]
+3 [3]
+4 [2,3]
+5 [1,2,3];
+
+param Rset :=
+1 [1]
+2 [2]
+3 [3]
+4 [4, 5];
+
+param WeeksPerBlock := 
+1 [1,2,3]
+2 [4,5,6]
+3 [7,8]
+4 [1,2]
+5 [3,4,5]
+6 [6,7,8]; 
+
+param WeeksPerBlockMinus1:=
+1 [1,2]
+2 [4,5]
+3 [7]
+4 [1]
+5 [3,4]
+6 [6,7]; 
+
+param BlocksPerDoctor := 
+1 [1,2,3]
+2 [4,5,6]
+3 [4,5,6]
+4 [1,2,3];
+
+param DoctorsPerYear:=
+1 [1,4]
+2 [2]
+3 [3];
+
+param DoctorsPerYearPerWeek:=
+1 1 [1,4]
+2 1 [2]
+3 1 [3]
+1 2 [1,4]
+2 2 [2]
+3 2 [3]
+1 3 [1,4]
+2 3 [2]
+3 3 [3]
+1 4 [1,4]
+2 4 [2]
+3 4 [3]
+1 5 [1,4]
+2 5 [2]
+3 5 [3]
+1 6 [1,4]
+2 6 [2]
+3 6 [3]
+1 7 [1,4]
+2 7 [2]
+3 7 [3]
+1 8 [1,4]
+2 8 [2]
+3 8 [3];
+
+param P :=
+2 4 1 2
+3 4 1 2
+1 3 2 2
+1 3 3 2 ;
+
+param DemandLower :=
+3 1 1 1
+3 1 2 1
+3 1 3 1 
+3 4 1 1
+3 4 2 1
+3 4 3 1; 
+
+param DemandUpper :=
+3 1 1 3
+3 1 2 3
+3 1 3 3 
+3 4 1 3
+3 4 2 3
+3 4 3 3; 
+
+param MaxEdu :=
+1 3 10
+1 4 10 
+2 4 10;
+
+param MinEdu :=
+1 3 2
+2 4 2;

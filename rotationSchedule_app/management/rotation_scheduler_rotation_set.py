@@ -6,6 +6,7 @@ model = AbstractModel()
 
 #Sets
 model.R = Set() #rotation
+model.Redu = Set() # meta rotations with educational requirements
 model.D = Set() #resident ("doctor")
 model.W = Set() #weeks in the year
 model.Y = Set() #years in the program
@@ -77,10 +78,11 @@ model.TotalDemandLower =Param(model.R,model.W,default=0) #demand of doctors for 
 model.TotalDemandUpper =Param(model.R,model.W,default=sys.maxsize) #demand of doctors for staffing rotation R irrespective of years.
 
 ###Education Requirements per year and per track 
-model.MaxYear = Param(model.Y, model.R, default=sys.maxsize) #max number of weeks of rotation r that a resident of year y can complete
-model.MinYear = Param(model.Y, model.R, default=0) # min number of weeks of rotation r that a resident of year y must complete
-model.MaxTrack = Param(model.T, model.R, default=sys.maxsize) #max number of weeks of rotation r that a resident of track t can complete
-model.MinTrack = Param(model.T, model.R, default=0) # min number of weeks of rotation r that a resident of track t must complete
+model.Rset = Param(model.Redu, default = []) ## lists of rotations with an educational requirements
+model.MaxYear = Param(model.Y, model.Redu, default=sys.maxsize) #max number of weeks of rotation r that a resident of year y can complete
+model.MinYear = Param(model.Y, model.Redu, default=0) # min number of weeks of rotation r that a resident of year y must complete
+model.MaxTrack = Param(model.T, model.Redu, default=sys.maxsize) #max number of weeks of rotation r that a resident of track t can complete
+model.MinTrack = Param(model.T, model.Redu, default=0) # min number of weeks of rotation r that a resident of track t must complete
 
 
 ### Miscellaneous Parameters
@@ -174,8 +176,8 @@ model.weekConstraint = Constraint(model.D, model.W, rule=week_rule)
 #Educational Requirement : each resident of year y must meet the rotation requirements for their residency year
 ###Per Year Education Requirements
 def min_year(model, d, r):
-	return sum(model.Z[d,r,w] for w in model.W) >= model.MinYear[model.Year[d], r]
-model.minYearConstraint = Constraint(model.D, model.R, rule=min_year)
+	return sum(sum(model.Z[d,rindex,w] for w in model.W) for rindex in model.Rset(r)) >= model.MinYear[model.Year[d], r]
+model.minYearConstraint = Constraint(model.D, model.Redu, rule=min_year)
 
 def max_year(model, d, r):
 	return sum(model.Z[d,r,w] for w in model.W) <= model.MaxYear[model.Year[d], r]
@@ -230,25 +232,3 @@ def continuity_rule(model, d,r,b):
 		return sum(model.Zabs[d,r,w] for w in model.BWeeksMinus1[b]) <=1
 	return Constraint.Skip
 model.continuityConstraint = Constraint(model.D, model.R, model.B, rule=continuity_rule)
-
-# def objective_function(model,r,d,w):
-# 	weights = []
-# 	i = 0
-# 	for o in model.Objective:
-# 		weights[i] = model.Objective[i]
-# 		i++
-# 	#weights[0] = average res util, weights[1] = min res util, weights[2] = time b/w hard rotations
-# 	return (weights[0] * model.P[r,d,w]*model.X[r,d,w]) + (weights[1] * min(model.P[r,d,w]*model.X[r,d,w])) + (weights[2] * distance(model.P[r,d,w]*model.X[r,d,w]))
-
-# def distance(model):
-# 	distance = 0
-# 	for r in model.R:
-# 		if model.Difficulties[r] == 3:
-# 			for d in model.Z[d,r,w]:
-# 				hardWeeks = []
-# 				if model.Z[d,r,w] == 1:
-# 					hardWeeks.append(w)
-# 			for h in hardWeeks:
-# 				if h != hardWeeks.length:
-# 					distance += hardWeeks[h+1] - hardWeeks[h]
-# 	return distance

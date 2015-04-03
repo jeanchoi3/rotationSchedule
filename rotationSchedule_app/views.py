@@ -115,7 +115,7 @@ def index(request):
         eForm = EventForm()
         templateForm = TemplateForm()
         tEventForm = TemplateEventForm()
-    context = {'template_list':template_list,'block_list':block_list,'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'residentForm':residentForm,'yForm':yForm,'sForm':sForm,'eForm':eForm,'templateForm':templateForm,'tEventForm':tEventForm,'tForm':tForm,'rotationLengthFormset':rotationLengthFormset,'educationReqFormset':educationReqFormset,'yearDemandFormset':yearDemandFormset,'trackEducationReqFormset':trackEducationReqFormset}
+    context = {'template_list':template_list,'block_list':block_list,'pForm':pForm,'rotationForm':rotationForm,'bForm':bForm,'residentForm':residentForm,'yForm':yForm,'sForm':sForm,'eForm':eForm,'templateForm':templateForm,'tEventForm':tEventForm,'tForm':tForm,'rotationLengthFormset':rotationLengthFormset,'trackEducationReqFormset':trackEducationReqFormset,'yearDemandFormset':yearDemandFormset,'educationReqFormset':educationReqFormset}#'yearDemandFormset':yearDemandFormset,
     return render_to_response('rotationSchedule_app/index.html', context, context_instance=RequestContext(request))
 
 

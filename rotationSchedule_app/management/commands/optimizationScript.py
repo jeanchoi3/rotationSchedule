@@ -28,6 +28,8 @@ class Command(BaseCommand):
 ############ Rotations ##################################################
 		all_rotations = Rotation.objects.all()
 
+		rotation_index_to_name = dict()
+		rotation_name_to_index = dict()
 		rotation_names = []
 		#rotation_names.append('Vacation')
 		total_demand_lower = dict()
@@ -37,13 +39,36 @@ class Command(BaseCommand):
 		
 		f.write("set R := ") # vacation NOT manually added as a rotation
 
+		rotation_index = 1
 		for rotation in all_rotations:
-			f.write("'"+str(rotation.name)+"' ")
+			f.write(str(rotation_index)+" ")
+			rotation_index_to_name[rotation_index] = str(rotation.name)
+			rotation_name_to_index[str(rotation.name)] = rotation_index
+			#f.write("'"+str(rotation.name)+"' ")
 			total_demand_lower[str(rotation.name)] = rotation.minResidents
 			total_demand_upper[str(rotation.name)] = rotation.maxResidents
 			yearlyDemandLower[str(rotation.name)] = dict()
 			yearlyDemandUpper[str(rotation.name)] = dict()
 			rotation_names.append(str(rotation.name))
+			rotation_index += 1
+
+		f.write(";\n")
+
+		redu_index_to_name = dict()
+
+		redu_index = 1
+		redu = [] #CAN PROBABLY GET RID OF THIS LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		#for debugging rotation set!!!!
+		f.write("set Redu := ")
+		for rotation in all_rotations:
+			if rotation.name != "Med 1" and rotation.name != "Med 2":
+				f.write(str(redu_index)+" ")
+				redu.append(rotation.name)
+				redu_index_to_name[redu_index] = rotation.name
+			redu_index += 1
+		f.write(str(redu_index)+" ") #adding another index for the "Med" redu
+		redu.append("Med")
+		redu_index_to_name[redu_index] = "Med"
 
 		f.write(";\n")
 
@@ -56,12 +81,19 @@ class Command(BaseCommand):
 		yearNum = dict() # key year name, value year number
 						 # for year number, e.g. Intern = yearNum 1, PGY2 = yearNum 2. Used for seniority weighting in model.P
 
+		year_index_to_name = dict()
+		year_name_to_index = dict()
+
 		f.write('set Y := ')
 
+		year_index = 1
 		for year in all_years:
 			minYear[str(year.name)] = dict()
 			maxYear[str(year.name)] = dict()
-			f.write("'"+str(year.name)+"' ")
+			#f.write("'"+str(year.name)+"' ")
+			f.write(str(year_index)+" ")
+			year_index_to_name[year_index] = str(year.name)
+			year_name_to_index[str(year.name)] = year_index
 			YDoctors[str(year.name)] = []
 			template_year_to_pk[str(year.name)] = []
 			yearNum[str(year.name)] = year.yearNum
@@ -71,6 +103,7 @@ class Command(BaseCommand):
 			for educationReq in year.educationreq_set.all():
 				minYear[str(year.name)][educationReq.rotation.name] = educationReq.minLength
 				maxYear[str(year.name)][educationReq.rotation.name] = educationReq.maxLength
+			year_index += 1
 		f.write(";\n")
 
 ############ Weeks #######################################################
@@ -87,7 +120,7 @@ class Command(BaseCommand):
 		week_to_date = dict()
 		week_to_end_date = dict()
 
-		f.write("set W:= ")
+		f.write("set W := ")
 
 		week = 1
 		for dt in rrule(WEEKLY,dtstart=start_date, until=end_date):
@@ -200,11 +233,25 @@ class Command(BaseCommand):
 				resident_pk_to_track[resident.pk].append(str(track.name))
 			index += 1
 
+		print resident_name_to_index
+
 		f.write('set D := ')
 
 		for res in resident_pk_to_index:
 			f.write(str(resident_pk_to_index[res]) + ' ')
 		f.write(";\n")
+
+##-----set Couples, for couple matching-----------#
+		if resident_couple:
+			f.write("set Couples :=")
+			listed_residents = [] #to prevent redundancy from both residents in couple
+			for resident in resident_couple:
+				if resident_couple[resident] in listed_residents:
+					continue
+				else:
+					f.write("\n"+str(resident_name_to_index[resident])+" "+str(resident_name_to_index[resident_couple[resident]]))
+					listed_residents.append(resident)
+			f.write(";\n")
 
 ############ Templates #######################################################
 
@@ -272,13 +319,14 @@ class Command(BaseCommand):
 		minTrack = dict()
 		maxTrack = dict()
 
-		f.write('set T := 1 ')
+		#THIS IS HARDCODED!!! GOT RID OF TRACKS!!!
+		#f.write('set T := 1 ')
 		#index 1 is 'noTrack'
 		track_name_to_index['noTrack'] = 1
 
 		track_index = 2
 		for track in all_tracks:
-			f.write(str(track_index) + ' ')
+			#f.write(str(track_index) + ' ')
 			track_name_to_index[str(track.name)] = track_index
 			minTrack[str(track.name)] = dict()
 			maxTrack[str(track.name)] = dict()
@@ -288,33 +336,52 @@ class Command(BaseCommand):
 #				minTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
 #				maxTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
 			track_index += 1
-		f.write(";\n\n")
+		#f.write(";\n\n")
 
 		print track_name_to_index
 
+############ YearSet/yearcov #######################################################
+		all_yearSets = YearSet.objects.all()
+		yearSet_name_to_index = dict()
+		yearSet_index_to_years = dict()
+
+		f.write("set Ycov := ")
+		for i in range(1,len(all_years)+1):
+			f.write(str(i)+" ")
+
+		yearSet_index = len(all_years)+1
+		for yearSet in all_yearSets:
+			f.write(str(yearSet_index)+" ")
+			yearSet_name_to_index[str(yearSet.name)] = yearSet_index
+			yearSet_index_to_years[str(yearSet_index)] = []
+			for year in yearSet.years.all():
+				yearSet_index_to_years[str(yearSet_index)].append(year_name_to_index[year.name])
+			yearSet_index += 1
+			
+		f.write(";\n")
 ###############################################################################
 ############ Parameters #######################################################
 
 ##----windowSize--------#
-#		f.write("param windowSize := \n"+str(windowSize)+";\n\n")
+		f.write("param windowSize := \n"+str(windowSize)+";\n\n")
 ##----minClinicWeeks--------#
-#		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+";\n\n")
+		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+";\n\n")
 ##----lastWindowStart--------#
-#		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+";\n\n")
+		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+";\n\n")
 ##----BWeeks--------#
-		f.write("param BWeeks :=")
+		f.write("param WeeksPerBlock :=")
 		for BWeek in BWeeks:
 			f.write("\n"+str(BWeek) + " " + str(BWeeks[BWeek]))
 		f.write(';\n\n')
 ##----BWeeksMinus1--------#
-		f.write("param BWeeksMinus1 :=")
+		f.write("param WeeksPerBlockMinus1 :=")
 		for BWeek in BWeeksMinus1:
 			f.write("\n"+str(BWeek) + " " + str(BWeeksMinus1[BWeek]))
 		f.write(';\n\n')
 
 ##----DBlocks--------#
 		#print template_pk_to_blocks
-		f.write("param DBlocks :=")
+		f.write("param BlocksPerDoctor :=")
 		for year in YDoctors:
 			#print year
 			for doctor in YDoctors[year]:
@@ -329,28 +396,60 @@ class Command(BaseCommand):
 					#print template_pk_to_blocks[pk]
 				f.write("\n"+str(doctor)+" "+str(current_block_list))
 		f.write(';\n\n')
-##----YBlocks--------#
-		f.write("param YBlocks :=")
-		for year in template_year_to_pk:
-			for pk in template_year_to_pk[year]:
-				if len(template_pk_to_blocks[pk]) != 0:
-					f.write("\n'"+str(year)+"' "+str(template_pk_to_blocks[pk]))
-		f.write(';\n\n')
 ##----YDoctors--------#
-		f.write("param YDoctors :=")
+		f.write("param DoctorsPerYear :=")
 		for year in YDoctors:
 			if len(YDoctors[year]) != 0: 
-				f.write("\n'"+str(year)+"' " + str(YDoctors[year]))
+				f.write("\n"+str(year_name_to_index[year])+" " + str(YDoctors[year]))
 		f.write(';\n\n')
-##----Year--------#
-		f.write("param Year :=")
+
+##----DoctorsPerYearPerWeek--------#
+
+		f.write("param DoctorsPerYearPerWeek:=")
 		for year in YDoctors:
-			for res_index in YDoctors[year]:
-				f.write("\n"+str(res_index)+" '"+str(year)+"'")
+			for week in weeks:
+				for doctor in YDoctors[year]:
+					f.write("\n"+str(year_name_to_index[year])+" "+str())
+		f.write(";\n\n")
+
+##----TotalDemandLower--------#
+		f.write("param DemandLower :=")
+		for rotation in total_demand_lower:
+			for week in weeks:
+				f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_lower[rotation]))
 		f.write(';\n\n')
 
-##----model.V--------#
+##----TotalDemandUpper--------#	
+		f.write("param DemandUpper :=")
+		for rotation in total_demand_upper:
+			for week in weeks:
+				f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_upper[rotation]))
+		f.write(';\n\n')
 
+##----MinYear--------#
+		f.write("param MinEdu :=")
+		for year in minYear:
+			for rotation in minYear[year]:
+				f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(minYear[year][rotation]))
+		f.write(';\n\n')
+##----MaxYear--------#
+		f.write("param MaxEdu :=")
+		for year in maxYear:
+			for rotation in maxYear[year]:
+				f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(maxYear[year][rotation]))
+		f.write(';\n\n')
+
+##----Rset--------#
+		f.write("param Rset :=")
+		for redu_index in redu_index_to_name:
+			if redu_index_to_name[redu_index] != "Med":
+				f.write("\n"+str(redu_index)+" ["+str(redu_index)+"]")
+			else:
+				f.write("\n"+str(redu_index)+" ["+str(rotation_name_to_index["Med 1"])+", "+str(rotation_name_to_index["Med 2"])+"]")
+		f.write(';\n\n')
+
+#THIS IS HARDCODED!!!!!!!
+		f.write("param Yset :=\n1 [1]\n2 [2]\n3 [3]\n4 [2,3];\n\n")
 ##----model.P--------#
 # electives: 2 10 50 250 1250 6250 31250 156250 781250 3906250 (*5)
 # 4,000,000 20,000,000 1,000,000,000
@@ -381,19 +480,19 @@ class Command(BaseCommand):
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in vacation1[res_index]: #for the weeks they specified they want their first-choice vacation
 				vacWeight = vacationPreference[res_index]
-				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult ** 2))) 
+				f.write("\n"+str(res_index)+" 1 "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult ** 2))) 
 		for res_index in vacation2:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in vacation2[res_index]:
 				vacWeight = vacationPreference[res_index]
-				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult))) 
+				f.write("\n"+str(res_index)+" 1 "+str(week)+" "+str(yearMult*(vacationBase[vacWeight] * vacationMult))) 
 		for res_index in vacation3:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in vacation3[res_index]:
 				vacWeight = vacationPreference[res_index]
-				f.write("\n"+str(res_index)+" 'Vacation' "+str(week)+" "+str(yearMult*(vacationBase[vacWeight])))
+				f.write("\n"+str(res_index)+" 1 "+str(week)+" "+str(yearMult*(vacationBase[vacWeight])))
 
 		for res_index in elective1:
 			year = resident_index_to_year[res_index]
@@ -446,118 +545,13 @@ class Command(BaseCommand):
 			for week in weeks:
 				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase)))
 		f.write(';\n\n')
-			
-##----YearlyDemandLower--------#
-		ydLower_initialized = False
-		for rotation in yearlyDemandLower:
-			for year in yearlyDemandLower[rotation]:
-				for week in weeks:##
-					if yearlyDemandLower[rotation][year] is not None:
-						if ydLower_initialized is False:
-							f.write("param YearlyDemandLower :=")
-							ydLower_initialized = True
-					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandLower[rotation][year]))
-		if ydLower_initialized:
-			f.write(';\n\n')
-##----YearlyDemandUpper--------#
-		ydUpper_initialized = False
-		for rotation in yearlyDemandUpper:
-			for year in yearlyDemandUpper[rotation]:
-				for week in weeks: 
-					if yearlyDemandUpper[rotation][year] is not None:
-						if ydUpper_initialized is False:
-							f.write("param YearlyDemandUpper :=")
-							ydUpper_initialized = True
-					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
-		if ydUpper_initialized:
-			f.write(';\n\n')
-
-##----MinTrack--------#
-		minTrack_initialized = False
-		for track in minTrack:
-			if minTrack[track]:
-				if len(minTrack[track]) != 0:
-					if minTrack_initialized is False:
-						f.write("param MinTrack :=")
-						minTrack_initialized = True
-					for rotation in minTrack[track]:
-						f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
-		
-		if minTrack_initialized:
-			f.write(';\n\n')
-##----MaxTrack--------#
-		maxTrack_initialized = False
-		for track in maxTrack:
-			if maxTrack[track]:
-				if len(maxTrack[track]) != 0:
-					if maxTrack_initialized is False:
-						f.write("param MaxTrack :=")
-						maxTrack_initialized = True
-				for rotation in maxTrack[track]:
-					f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
-		if maxTrack_initialized:
-			f.write(';\n\n')
-##----MinLength--------#
-		f.write("param MinLength :=")
-		for blockName in minLength:
-			if blockName in block_name_to_dblock:
-				for rotation in minLength[blockName]:
-					for block in block_name_to_dblock[blockName]:
-						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(minLength[blockName][rotation]))
-		f.write(';\n\n')
-##----MaxLength--------#
-		f.write("param MaxLength :=")
-		for blockName in maxLength:
-			if blockName in block_name_to_dblock:
-				for rotation in maxLength[blockName]:
-					for block in block_name_to_dblock[blockName]:
-						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(maxLength[blockName][rotation]))
-		f.write(';\n\n')
-
-##----TotalDemandLower--------#
-		f.write("param TotalDemandLower :=")
-		for rotation in total_demand_lower:
-			for week in weeks:
-				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_lower[rotation]))
-		f.write(';\n\n')
-
-##----TotalDemandUpper--------#	
-		f.write("param TotalDemandUpper :=")
-		for rotation in total_demand_upper:
-			for week in weeks:
-				f.write("\n'"+str(rotation)+"' "+str(week)+" "+str(total_demand_upper[rotation]))
-		f.write(';\n\n')
-
-##----MinYear--------#
-		f.write("param MinYear :=")
-		for year in minYear:
-			for rotation in minYear[year]:
-				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(minYear[year][rotation]))
-		f.write(';\n\n')
-##----MaxYear--------#
-		f.write("param MaxYear :=")
-		for year in maxYear:
-			for rotation in maxYear[year]:
-				f.write("\n'"+str(year)+"' '"+str(rotation)+"' "+str(maxYear[year][rotation]))
-		f.write(';\n\n')
-
-##-----model.C, for couple matching-----------#
-#		f.write("param C :=")
-#		listed_residents = [] #to prevent redundancy from both residents in couple
-#		for resident in resident_couple:
-#			if resident_couple[resident] in listed_residents:
-#				continue
-#			else:
-#				f.write("\n"+str(resident_name_to_index[resident])+" "+str(resident_name_to_index[resident_couple[resident]]))
-#				listed_residents.append(resident)
-
 
 		f.close()
-		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler5.py test.dat --symbolic-solver-labels')
+		os.system('pyomo --instance-only --save-model=rotsched.lp rotation_scheduler6.py test.dat --symbolic-solver-labels')
 
 ###############################################################################
 ############ Cplex solution #######################################################
-		Schedule.objects.all().delete()
+'''		Schedule.objects.all().delete()
 		Event.objects.all().delete() 
 
 		import cplex
@@ -668,5 +662,89 @@ class Command(BaseCommand):
 			print "Accepted solution indices, not including best solution: "+str(acceptedSolnIndices)
 			print "All solution indices: "+str(solnIndicesAll)
 			print(obj_value)
+'''
 
+##----YBlocks--------#
+'''		f.write("param YBlocks :=")
+		for year in template_year_to_pk:
+			for pk in template_year_to_pk[year]:
+				if len(template_pk_to_blocks[pk]) != 0:
+					f.write("\n'"+str(year)+"' "+str(template_pk_to_blocks[pk]))
+		f.write(';\n\n')
 
+##----Year--------#
+		f.write("param Year :=")
+		for year in YDoctors:
+			for res_index in YDoctors[year]:
+				f.write("\n"+str(res_index)+" '"+str(year)+"'")
+		f.write(';\n\n')
+
+			
+##----YearlyDemandLower--------#
+		ydLower_initialized = False
+		for rotation in yearlyDemandLower:
+			for year in yearlyDemandLower[rotation]:
+				for week in weeks:##
+					if yearlyDemandLower[rotation][year] is not None:
+						if ydLower_initialized is False:
+							f.write("param YearlyDemandLower :=")
+							ydLower_initialized = True
+					f.write("\n'"+str(rotation_name_to_index[rotation])+"' '"+str(year_name_to_index[year])+"' "+str(week)+" "+str(yearlyDemandLower[rotation][year]))
+		if ydLower_initialized:
+			f.write(';\n\n')
+##----YearlyDemandUpper--------#
+		ydUpper_initialized = False
+		for rotation in yearlyDemandUpper:
+			for year in yearlyDemandUpper[rotation]:
+				for week in weeks: 
+					if yearlyDemandUpper[rotation][year] is not None:
+						if ydUpper_initialized is False:
+							f.write("param YearlyDemandUpper :=")
+							ydUpper_initialized = True
+					f.write("\n'"+str(rotation)+"' '"+str(year)+"' "+str(week)+" "+str(yearlyDemandUpper[rotation][year]))
+		if ydUpper_initialized:
+			f.write(';\n\n')
+
+##----MinTrack--------#
+		minTrack_initialized = False
+		for track in minTrack:
+			if minTrack[track]:
+				if len(minTrack[track]) != 0:
+					if minTrack_initialized is False:
+						f.write("param MinTrack :=")
+						minTrack_initialized = True
+					for rotation in minTrack[track]:
+						f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(minTrack[track][rotation]))
+		
+		if minTrack_initialized:
+			f.write(';\n\n')
+##----MaxTrack--------#
+		maxTrack_initialized = False
+		for track in maxTrack:
+			if maxTrack[track]:
+				if len(maxTrack[track]) != 0:
+					if maxTrack_initialized is False:
+						f.write("param MaxTrack :=")
+						maxTrack_initialized = True
+				for rotation in maxTrack[track]:
+					f.write("\n'"+str(track)+"' '"+str(rotation)+"' "+str(maxTrack[track][rotation]))
+		if maxTrack_initialized:
+			f.write(';\n\n')
+
+##----MinLength--------#
+		f.write("param MinLength :=")
+		for blockName in minLength:
+			if blockName in block_name_to_dblock:
+				for rotation in minLength[blockName]:
+					for block in block_name_to_dblock[blockName]:
+						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(minLength[blockName][rotation]))
+		f.write(';\n\n')
+##----MaxLength--------#
+		f.write("param MaxLength :=")
+		for blockName in maxLength:
+			if blockName in block_name_to_dblock:
+				for rotation in maxLength[blockName]:
+					for block in block_name_to_dblock[blockName]:
+						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(maxLength[blockName][rotation]))
+		f.write(';\n\n')
+'''

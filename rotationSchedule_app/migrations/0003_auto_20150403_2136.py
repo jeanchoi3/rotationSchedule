@@ -7,20 +7,20 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rotationSchedule_app', '0001_initial'),
+        ('rotationSchedule_app', '0002_rotationset_setedureq'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='program',
-            name='minClinicWeeks',
-            field=models.IntegerField(default=0),
+            model_name='setedureq',
+            name='setEduReq_maxLength',
+            field=models.PositiveIntegerField(default=100),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='program',
-            name='windowSize',
-            field=models.IntegerField(default=0),
+            model_name='setedureq',
+            name='setEduReq_minLength',
+            field=models.PositiveIntegerField(default=0),
             preserve_default=True,
         ),
     ]

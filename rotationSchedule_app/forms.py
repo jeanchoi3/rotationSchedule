@@ -120,6 +120,14 @@ class TemplateEventForm(ModelForm):
     class Meta:
         model = TemplateEvent
 
+# class RotationSetForm(ModelForm):
+#     class Meta:
+#         model = RotationSet
+
+# class YearSetForm(ModelForm):
+#     class Meta:
+#         model = YearSet
+
 '''# -*- coding: utf-8 -*-
 import functools
 from import_export import resources, widgets, fields
