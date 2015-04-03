@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule, Template, TemplateEvent, TrackEducationReq, EducationReq, YearDemand, RotationSet, setEduReq, setTrackEduReq
+from rotationSchedule_app.models import Resident, Year, Track, Program, Rotation, Block, RotationLength, Event, Schedule, Template, TemplateEvent, TrackEducationReq, EducationReq, YearDemand, RotationSet, setEduReq, setTrackEduReq, YearSet, SetYearDemand
 from django.http import HttpResponse
 
 # Register your models here.
@@ -42,9 +42,9 @@ class YearDemandInline(admin.TabularInline):
     model=YearDemand
     extra=1
 
-# class YearSetDemandInline(admin.TabularInline):
-#     model=SetYearDemand
-#     extra=1
+class YearSetDemandInline(admin.TabularInline):
+    model=SetYearDemand
+    extra=1
 
 class EducationReqInline(admin.TabularInline):
     model=EducationReq
@@ -76,8 +76,8 @@ class TrackAdmin(admin.ModelAdmin):
      inlines=(SetTrackEduReqInline,)
 
 #YearDemandInline,
-# class YearSetAdmin(admin.ModelAdmin):
-#     inlines=(YearSetDemandInline,)
+class YearSetAdmin(admin.ModelAdmin):
+    inlines=(YearSetDemandInline,)
 
 class RotationSetAdmin(admin.ModelAdmin):
     inlines=(SetEduReqInline,SetTrackEduReqInline)
@@ -98,3 +98,4 @@ admin.site.register(Template)
 admin.site.register(TemplateEvent)
 admin.site.register(RotationSet, RotationSetAdmin)
 admin.site.register(Track, TrackAdmin)
+admin.site.register(YearSet, YearSetAdmin)

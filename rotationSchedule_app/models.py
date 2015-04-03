@@ -60,7 +60,6 @@ class YearDemand(models.Model):
     year = models.ForeignKey('Year')
     minResidents = models.PositiveIntegerField(default=0)
     maxResidents = models.PositiveIntegerField(default=100)
-    #demand = models.PositiveIntegerField(default=0)
 
 #Education requirements for weeks of rotation for a year
 class EducationReq(models.Model):
@@ -100,7 +99,7 @@ class Track(models.Model):
         return self.name
     name = models.CharField(max_length=200)
     trackRequiredRotations = models.ManyToManyField(Rotation, related_name='trackRequiredRotations', through='TrackEducationReq')
-    #excludedBlocks = models.ManyToManyField(TemplateEvent, related_name='excludedBlocks',blank=True,default=None)
+    excludedBlocks = models.ManyToManyField(TemplateEvent, related_name='excludedBlocks',blank=True,default=None)
 
 #Education requirements for weeks of rotation for a track
 class TrackEducationReq(models.Model):
@@ -138,7 +137,7 @@ class Resident(models.Model):
     elective10 = models.ForeignKey(Rotation, related_name='elective10',limit_choices_to={'isElective':True},null=True,blank=True)
     vacationPreference = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(10)],default=5,help_text='Weight out of 10, indicating importance versus elective, e.g. 5 = vacation and elective are of equal importance; 10 = only vacation is important')
     couple = models.ForeignKey('self',related_name='couple_match',null=True,blank=True)
-    # resExcludedBlocks = models.ManyToManyField(TemplateEvent, related_name='resExcludedBlocks',blank=True,default=None)
+    resExcludedBlocks = models.ManyToManyField(TemplateEvent, related_name='resExcludedBlocks',blank=True,default=None)
 
     #http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 
@@ -177,18 +176,17 @@ class setTrackEduReq(models.Model):
 #     class Meta():
 #         auto_created=True
 
-# class YearSet(models.Model):
-#     yearSet_name = models.CharField(max_length=200)
-#     years = models.ManyToManyField(Year)
-#     setRotationDemand = models.ManyToManyField(Rotation, related_name='setRotationDemand',through='SetYearDemand')
+class YearSet(models.Model):
+    yearSet_name = models.CharField(max_length=200)
+    years = models.ManyToManyField(Year)
+    setRotationDemand = models.ManyToManyField(Rotation, related_name='setRotationDemand',through='SetYearDemand')
 
 
-# class SetYearDemand(models.Model):
+class SetYearDemand(models.Model):
+    setYearDemand_rotation = models.ForeignKey('Rotation')
+    setYearDemand_yearSet = models.ForeignKey('YearSet')
+    setYearDemand_minResidents = models.PositiveIntegerField(default=0)
+    setYearDemand_maxResidents = models.PositiveIntegerField(default=100)
 #     class Meta():
 #         auto_created=True
-#     setYearDemand_rotation = models.ForeignKey('Rotation')
-#     setYearDemand_yearSet = models.ForeignKey('YearSet')
-#     setYearDemand_minResidents = models.PositiveIntegerField(default=0)
-#     setYearDemand_maxResidents = models.PositiveIntegerField(default=100)
-
 
