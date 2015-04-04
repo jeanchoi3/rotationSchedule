@@ -190,3 +190,5 @@ class SetYearDemand(models.Model):
 #     class Meta():
 #         auto_created=True
 
+
+

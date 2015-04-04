@@ -1,10 +1,10 @@
 set R := 1 2 3 4 5;
 set Redu := 1 2 3 4; 
-set D := 1 2 3 4;
-set W := 1 2 3 4 5 6 7 8;
 set Y := 1 2 3 ;
-set Ycov := 1 2 3 4 5;
+set W := 1 2 3 4 5 6 7 8;
+set D := 1 2 3 4;
 set B := 1 2 3 4 5 6;
+set Ycov := 1 2 3 4 5;
 set Couples := 1 2; 
 
 param lastWindowStart :=

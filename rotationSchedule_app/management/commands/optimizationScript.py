@@ -1,6 +1,6 @@
 from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError
-from rotationSchedule_app.models import Block, Resident, Year, Track, Program, Rotation, Event, Schedule, Template, TemplateEvent
+from rotationSchedule_app.models import Block, Resident, Year, Track, Program, Rotation, Event, Schedule, Template, TemplateEvent, RotationSet, YearSet
 import copy
 import random
 import operator
@@ -54,23 +54,33 @@ class Command(BaseCommand):
 
 		f.write(";\n")
 
+		all_rotationSets = RotationSet.objects.all()
 		redu_index_to_name = dict()
+		redu_index_to_rotation_indices = dict() #key: rotationSet index (only for those beyond the original rotations), value: list of rotations in it
 
-		redu_index = 1
-		redu = [] #CAN PROBABLY GET RID OF THIS LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		#for debugging rotation set!!!!
 		f.write("set Redu := ")
-		for rotation in all_rotations:
-			if rotation.name != "Med 1" and rotation.name != "Med 2":
-				f.write(str(redu_index)+" ")
-				redu.append(rotation.name)
-				redu_index_to_name[redu_index] = rotation.name
+		for index in rotation_index_to_name:
+			f.write(str(index)+" ")
+
+		redu_index = len(rotation_index_to_name)+1
+		#redu = [] #CAN PROBABLY GET RID OF THIS LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		#for debugging rotation set!!!!
+		for rotationSet in all_rotationSets:
+			f.write(str(redu_index)+" ")
+			redu_index_to_name[redu_index] = rotationSet.rotationSet_name
+			redu_index_to_rotation_indices[redu_index] = []
+			for rotation in rotationSet.rotations.all():
+				redu_index_to_rotation_indices[redu_index].append(rotation_name_to_index[rotation.name])
+			# if rotation.name != "Med 1" and rotation.name != "Med 2":
+			# 	f.write(str(redu_index)+" ")
+			# 	#redu.append(rotation.name)
+			# 	redu_index_to_name[redu_index] = rotation.name
 			redu_index += 1
-		f.write(str(redu_index)+" ") #adding another index for the "Med" redu
-		redu.append("Med")
-		redu_index_to_name[redu_index] = "Med"
 
 		f.write(";\n")
+
+		print redu_index_to_name
+		print redu_index_to_rotation_indices
 
 ############ Years #######################################################
 		all_years = Year.objects.all()
@@ -342,23 +352,25 @@ class Command(BaseCommand):
 
 ############ YearSet/yearcov #######################################################
 		all_yearSets = YearSet.objects.all()
-		yearSet_name_to_index = dict()
-		yearSet_index_to_years = dict()
+		yearSet_index_to_name = dict()
+		yearSet_index_to_year_indices = dict()
 
 		f.write("set Ycov := ")
-		for i in range(1,len(all_years)+1):
-			f.write(str(i)+" ")
+		for index in year_index_to_name:
+			f.write(str(index)+" ")
 
-		yearSet_index = len(all_years)+1
+		ycov_index = len(year_index_to_name)+1
 		for yearSet in all_yearSets:
-			f.write(str(yearSet_index)+" ")
-			yearSet_name_to_index[str(yearSet.name)] = yearSet_index
-			yearSet_index_to_years[str(yearSet_index)] = []
+			f.write(str(ycov_index)+" ")
+			yearSet_index_to_name[ycov_index] = yearSet.yearSet_name
+			yearSet_index_to_year_indices[ycov_index] = []
 			for year in yearSet.years.all():
-				yearSet_index_to_years[str(yearSet_index)].append(year_name_to_index[year.name])
-			yearSet_index += 1
-			
-		f.write(";\n")
+				yearSet_index_to_year_indices[ycov_index].append(year_name_to_index[year.name])
+			ycov_index += 1
+
+		f.write(";\n\n")
+
+
 ###############################################################################
 ############ Parameters #######################################################
 
@@ -368,6 +380,20 @@ class Command(BaseCommand):
 		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+";\n\n")
 ##----lastWindowStart--------#
 		f.write("param lastWindowStart := \n"+str(weeks[-1]-windowSize+1)+";\n\n")
+##----Yset--------#
+		f.write("param Yset :=")
+		for year_index in year_index_to_name:
+			f.write("\n"+str(year_index)+" ["+str(year_index)+"]")
+		for yCov_index in yearSet_index_to_year_indices:
+			f.write("\n"+str(yCov_index)+" "+str(yearSet_index_to_year_indices[yCov_index]))
+		f.write(';\n\n')
+##----Rset--------#
+		f.write("param Rset :=")
+		for rotation_index in rotation_index_to_name:
+			f.write("\n"+str(rotation_index)+" ["+str(rotation_index)+"]")
+		for redu_index in redu_index_to_rotation_indices:
+			f.write("\n"+str(redu_index)+" "+str(redu_index_to_rotation_indices[redu_index]))
+		f.write(';\n\n')
 ##----BWeeks--------#
 		f.write("param WeeksPerBlock :=")
 		for BWeek in BWeeks:
@@ -379,22 +405,28 @@ class Command(BaseCommand):
 			f.write("\n"+str(BWeek) + " " + str(BWeeksMinus1[BWeek]))
 		f.write(';\n\n')
 
-##----DBlocks--------#
+##----BlocksPerDoctor--------#
 		#print template_pk_to_blocks
 		f.write("param BlocksPerDoctor :=")
 		for year in YDoctors:
-			#print year
 			for doctor in YDoctors[year]:
-				#print doctor
 				current_block_list = []
 				for pk in template_year_to_pk[year]: #accounting for multiple templates; this shouldn't happen
-					#print pk
-					#print template_pk_to_blocks[pk]
 					for block in template_pk_to_blocks[pk]:
-						#print week
 						current_block_list.append(block)
+				resExcludedBlocks_indices = []
+				doctor_object = Resident.objects.filter(pk=resident_index_to_pk[doctor])[0] 
+				for tEvent in doctor_object.resExcludedBlocks.all():
+					resExcludedBlocks_indices.append(templateEvent_pk_to_block[tEvent.pk])
+				trackExcludedBlocks_indices = []
+				for track in doctor_object.tracks.all():
+					for tEvent in track.excludedBlocks.all():
+						trackExcludedBlocks_indices.append(tEvent)
+				final_block_list = list(set(current_block_list).difference(set(resExcludedBlocks_indices) | set(trackExcludedBlocks_indices)))
+					#do union of excluded blocks, then difference
+						#a.difference(b)
 					#print template_pk_to_blocks[pk]
-				f.write("\n"+str(doctor)+" "+str(current_block_list))
+				f.write("\n"+str(doctor)+" "+str(final_block_list))
 		f.write(';\n\n')
 ##----YDoctors--------#
 		f.write("param DoctorsPerYear :=")
@@ -404,27 +436,28 @@ class Command(BaseCommand):
 		f.write(';\n\n')
 
 ##----DoctorsPerYearPerWeek--------#
-
-		f.write("param DoctorsPerYearPerWeek:=")
-		for year in YDoctors:
-			for week in weeks:
-				for doctor in YDoctors[year]:
-					f.write("\n"+str(year_name_to_index[year])+" "+str())
-		f.write(";\n\n")
+		# f.write("param DoctorsPerYearPerWeek:=")
+		# for year in YDoctors:
+		# 	for week in weeks:
+		# 		for doctor in YDoctors[year]:
+		# 			f.write("\n"+str(year_name_to_index[year])+" "+str(week)+" "+)
+		# f.write(";\n\n")
+		# I have to account for: specialty excludedBlocks overriding the yearBlocks, and individual resident excludedBlocks union with specialty
+		#maybe make different sets, and take out the union etc
 
 ##----TotalDemandLower--------#
-		f.write("param DemandLower :=")
-		for rotation in total_demand_lower:
-			for week in weeks:
-				f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_lower[rotation]))
-		f.write(';\n\n')
+		# f.write("param DemandLower :=")
+		# for rotation in total_demand_lower:
+		# 	for week in weeks:
+		# 		f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_lower[rotation]))
+		# f.write(';\n\n')
 
 ##----TotalDemandUpper--------#	
-		f.write("param DemandUpper :=")
-		for rotation in total_demand_upper:
-			for week in weeks:
-				f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_upper[rotation]))
-		f.write(';\n\n')
+		# f.write("param DemandUpper :=")
+		# for rotation in total_demand_upper:
+		# 	for week in weeks:
+		# 		f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_upper[rotation]))
+		# f.write(';\n\n')
 
 ##----MinYear--------#
 		f.write("param MinEdu :=")
@@ -439,17 +472,6 @@ class Command(BaseCommand):
 				f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(maxYear[year][rotation]))
 		f.write(';\n\n')
 
-##----Rset--------#
-		f.write("param Rset :=")
-		for redu_index in redu_index_to_name:
-			if redu_index_to_name[redu_index] != "Med":
-				f.write("\n"+str(redu_index)+" ["+str(redu_index)+"]")
-			else:
-				f.write("\n"+str(redu_index)+" ["+str(rotation_name_to_index["Med 1"])+", "+str(rotation_name_to_index["Med 2"])+"]")
-		f.write(';\n\n')
-
-#THIS IS HARDCODED!!!!!!!
-		f.write("param Yset :=\n1 [1]\n2 [2]\n3 [3]\n4 [2,3];\n\n")
 ##----model.P--------#
 # electives: 2 10 50 250 1250 6250 31250 156250 781250 3906250 (*5)
 # 4,000,000 20,000,000 1,000,000,000
