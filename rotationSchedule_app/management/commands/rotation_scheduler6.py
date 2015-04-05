@@ -63,14 +63,14 @@ model.WeeksPerDoctor = Param(model.D, initialize = WeeksPerDoctor_init)
 model.DoctorsPerYear = Param(model.Y,default=[]) ### Residents corresponding to each year
 ### Must be a list of numbers for each year. eg. YD[PGY1] = [1,4]
  
-def DoctorsPerYearPerWeek_init(model, y, w):
-    doctors =[]
-    for d in model.DoctorsPerYear[y]:
-        if w in model.WeeksPerDoctor[d]:
-            doctors.append(d)
-    return doctors  
-model.DoctorsPerYearPerWeek = Param(model.Y, model.W, initialize = DoctorsPerYearPerWeek_init)
- 
+# def DoctorsPerYearPerWeek_init(model, y, w):
+#     doctors =[]
+#     for d in model.DoctorsPerYear[y]:
+#         if w in model.WeeksPerDoctor[d]:
+#             doctors.append(d)
+#     return doctors  
+# model.DoctorsPerYearPerWeek = Param(model.Y, model.W, initialize = DoctorsPerYearPerWeek_init)
+model.DoctorsPerYearPerWeek = Param(model.Y, model.W, default=[])
  
 ###Preference Parameters
 model.P = Param(model.D, model.R, model.W, default=1) #Preference for doctor d of yr y and rotation r of week w
@@ -164,10 +164,12 @@ model.vacationConstraint = Constraint(model.D, rule=vacation_rule)
 ##must be lesser than or equal to the demandUpper
 ###Combination: Requirement for some years and requirement overall
  
+ #this breaks if there is a missing/empty-list entry in DoctorsPerYearsPerWeek!!!!!
 def coverage1_rule(model, r, y, w):
     return sum(sum(model.Z[d,r,w] for d in model.DoctorsPerYearPerWeek[year,w]) for year in model.Yset[y]) >= model.DemandLower[r,y,w]
 model.rotationConstraintLower = Constraint(model.R, model.Ycov, model.W, rule=coverage1_rule)
- 
+
+  #this breaks if there is a missing/empty-list entry in DoctorsPerYearsPerWeek!!!!!
 def coverage2_rule(model, r, y, w):
     return sum(sum(model.Z[d,r,w] for d in model.DoctorsPerYearPerWeek[year,w]) for year in model.Yset[y]) <= model.DemandUpper[r,y,w]
 model.rotationConstraintUpper = Constraint(model.R, model.Ycov, model.W, rule=coverage2_rule)

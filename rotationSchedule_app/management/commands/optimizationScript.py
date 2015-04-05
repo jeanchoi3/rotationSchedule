@@ -36,7 +36,9 @@ class Command(BaseCommand):
 		total_demand_upper = dict()
 		yearlyDemandLower = dict() #for YearlyDemandLower param
 		yearlyDemandUpper = dict() #for YearlyDemandUpper param
-		
+		yearSetDemandLower = dict()
+		yearSetDemandUpper = dict()
+
 		f.write("set R := ") # vacation NOT manually added as a rotation
 
 		rotation_index = 1
@@ -45,10 +47,13 @@ class Command(BaseCommand):
 			rotation_index_to_name[rotation_index] = str(rotation.name)
 			rotation_name_to_index[str(rotation.name)] = rotation_index
 			#f.write("'"+str(rotation.name)+"' ")
-			total_demand_lower[str(rotation.name)] = rotation.minResidents
-			total_demand_upper[str(rotation.name)] = rotation.maxResidents
-			yearlyDemandLower[str(rotation.name)] = dict()
-			yearlyDemandUpper[str(rotation.name)] = dict()
+			total_demand_lower[rotation_index] = rotation.minResidents
+			total_demand_upper[rotation_index] = rotation.maxResidents
+			yearlyDemandLower[rotation_index] = dict()
+			yearlyDemandUpper[rotation_index] = dict()
+			yearSetDemandLower[rotation_index] = dict()
+			yearSetDemandUpper[rotation_index] = dict()
+
 			rotation_names.append(str(rotation.name))
 			rotation_index += 1
 
@@ -56,6 +61,7 @@ class Command(BaseCommand):
 
 		all_rotationSets = RotationSet.objects.all()
 		redu_index_to_name = dict()
+		redu_name_to_index = dict()
 		redu_index_to_rotation_indices = dict() #key: rotationSet index (only for those beyond the original rotations), value: list of rotations in it
 
 		f.write("set Redu := ")
@@ -68,26 +74,32 @@ class Command(BaseCommand):
 		for rotationSet in all_rotationSets:
 			f.write(str(redu_index)+" ")
 			redu_index_to_name[redu_index] = rotationSet.rotationSet_name
+			redu_name_to_index[rotationSet.rotationSet_name] = redu_index
 			redu_index_to_rotation_indices[redu_index] = []
 			for rotation in rotationSet.rotations.all():
 				redu_index_to_rotation_indices[redu_index].append(rotation_name_to_index[rotation.name])
-			# if rotation.name != "Med 1" and rotation.name != "Med 2":
-			# 	f.write(str(redu_index)+" ")
-			# 	#redu.append(rotation.name)
-			# 	redu_index_to_name[redu_index] = rotation.name
+			# for eduReq in rotationSet.setedureq_set.all():
+			# 	minSetYear[year_name_to_index[eduReq.setEduReq_year.name]][redu_index] = eduReq.setEduReq_minLength
+			# 	maxSetYear[year_name_to_index[eduReq.setEduReq_year.name]][redu_index] = eduReq.setEduReq_maxLength
+			# for trackEduReq in rotationSet.settrackedureq_set.all():
+			# 	minSetTrack[trackEduReq.setTrackEduReq_track.name][redu_index] = trackEduReq.setTrackEduReq_minLength
+			# 	maxSetTrack[trackEduReq.setTrackEduReq_track.name][redu_index] = trackEduReq.setTrackEduReq_maxLength
 			redu_index += 1
 
 		f.write(";\n")
 
-		print redu_index_to_name
-		print redu_index_to_rotation_indices
+		#print redu_index_to_name
+		#print redu_index_to_rotation_indices
+		print rotation_index_to_name
 
 ############ Years #######################################################
 		all_years = Year.objects.all()
 		YDoctors = dict()
 		template_year_to_pk = dict() #used to find DBlocks, filled in Templates section
-		minYear = dict() #for param minYear
-		maxYear = dict() # for param maxYear
+		minYear = dict() # key year index, value = dict w/ key rotation index and value min edu req for rotation
+		maxYear = dict() # key year index, value = dict w/ key rotation index and value max edu req for rotation
+		minSetYear = dict() # key year index, value = dict w/ key rotation index and value min edu req for rotationSet
+		maxSetYear = dict() # key year index, value = dict w/ key rotation index and value max edu req for rotationSet
 		yearNum = dict() # key year name, value year number
 						 # for year number, e.g. Intern = yearNum 1, PGY2 = yearNum 2. Used for seniority weighting in model.P
 
@@ -98,8 +110,10 @@ class Command(BaseCommand):
 
 		year_index = 1
 		for year in all_years:
-			minYear[str(year.name)] = dict()
-			maxYear[str(year.name)] = dict()
+			minYear[year_index] = dict()
+			maxYear[year_index] = dict()
+			minSetYear[year_index] = dict()
+			maxSetYear[year_index] = dict()
 			#f.write("'"+str(year.name)+"' ")
 			f.write(str(year_index)+" ")
 			year_index_to_name[year_index] = str(year.name)
@@ -108,13 +122,18 @@ class Command(BaseCommand):
 			template_year_to_pk[str(year.name)] = []
 			yearNum[str(year.name)] = year.yearNum
 			for yearDemand in year.yeardemand_set.all():
-				yearlyDemandLower[str(yearDemand.rotation.name)][str(year)] = yearDemand.minResidents
-				yearlyDemandUpper[str(yearDemand.rotation.name)][str(year)] = yearDemand.maxResidents
+				yearlyDemandLower[rotation_name_to_index[yearDemand.rotation.name]][year_index] = yearDemand.minResidents
+				yearlyDemandUpper[rotation_name_to_index[yearDemand.rotation.name]][year_index] = yearDemand.maxResidents
 			for educationReq in year.educationreq_set.all():
-				minYear[str(year.name)][educationReq.rotation.name] = educationReq.minLength
-				maxYear[str(year.name)][educationReq.rotation.name] = educationReq.maxLength
+				minYear[year_index][rotation_name_to_index[educationReq.rotation.name]] = educationReq.minLength
+				maxYear[year_index][rotation_name_to_index[educationReq.rotation.name]] = educationReq.maxLength
 			year_index += 1
 		f.write(";\n")
+
+		for rotationSet in all_rotationSets:
+			for eduReq in rotationSet.setedureq_set.all():
+				minSetYear[year_name_to_index[eduReq.setEduReq_year.name]][redu_name_to_index[rotationSet.rotationSet_name]] = eduReq.setEduReq_minLength
+				maxSetYear[year_name_to_index[eduReq.setEduReq_year.name]][redu_name_to_index[rotationSet.rotationSet_name]] = eduReq.setEduReq_maxLength
 
 ############ Weeks #######################################################
 
@@ -299,7 +318,7 @@ class Command(BaseCommand):
 	
 		all_templateEvents = TemplateEvent.objects.all()
 		templateEvent_pk_to_block = dict() #relates templateEvent model object to block index in .dat
-		BWeeks = dict()
+		BWeeks = dict() #key block (templateEvent) index, value = list of week indices
 		BWeeksMinus1 = dict()
 
 		f.write("set B:= ")
@@ -318,7 +337,6 @@ class Command(BaseCommand):
 			del BWeeksMinus1[block][-1]
 			template_pk_to_blocks[event.template.pk].append(block)
 
-
 			f.write(str(block) + ' ')
 			block += 1
 		f.write(";\n")
@@ -326,34 +344,51 @@ class Command(BaseCommand):
 ############  Tracks #######################################################
 		all_tracks = Track.objects.all()
 		track_name_to_index = dict()
-		minTrack = dict()
-		maxTrack = dict()
+		minTrack = dict() #key track name, value = dictionary w/ key rotation name, value min edu req for rotation
+		maxTrack = dict() #key track name, value = dictionary w/ key rotation name, value max edu req for rotation
+		minSetTrack = dict() #key track name, value = dictionary w/ key rotation name, value min edu req for rotationSet
+		maxSetTrack = dict() #key track name, value = dictionary w/ key rotation name, value max edu req for rotationSet
 
 		#THIS IS HARDCODED!!! GOT RID OF TRACKS!!!
-		#f.write('set T := 1 ')
+		f.write('set T := 1 ')
 		#index 1 is 'noTrack'
 		track_name_to_index['noTrack'] = 1
 
 		track_index = 2
 		for track in all_tracks:
-			#f.write(str(track_index) + ' ')
+			f.write(str(track_index) + ' ')
 			track_name_to_index[str(track.name)] = track_index
-			minTrack[str(track.name)] = dict()
+			minTrack[str(track.name)] = dict() 
 			maxTrack[str(track.name)] = dict()
+			minSetTrack[str(track.name)] = dict()
+			maxSetTrack[str(track.name)] = dict()
 
-#DEBUGGING! ADD IN LATER AGAIN!!!!!!!!!!!!!!!!!
-#			for trackEducationReq in track.trackeducationreq_set.all():
-#				minTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_minLength
-#				maxTrack[track_index][trackEducationReq.trackEducationReq_rotation.name] = trackEducationReq.trackEducationReq_maxLength
+			for trackEducationReq in track.trackeducationreq_set.all():
+				minTrack[str(track.name)][rotation_name_to_index[trackEducationReq.trackEducationReq_rotation.name]] = trackEducationReq.trackEducationReq_minLength
+				maxTrack[str(track.name)][rotation_name_to_index[trackEducationReq.trackEducationReq_rotation.name]] = trackEducationReq.trackEducationReq_maxLength
 			track_index += 1
-		#f.write(";\n\n")
+		f.write(";\n")
 
+		for rotationSet in all_rotationSets:
+			for trackEduReq in rotationSet.settrackedureq_set.all():
+				minSetTrack[trackEduReq.setTrackEduReq_track.name][redu_name_to_index[rotationSet.rotationSet_name]] = trackEduReq.setTrackEduReq_minLength
+				maxSetTrack[trackEduReq.setTrackEduReq_track.name][redu_name_to_index[rotationSet.rotationSet_name]] = trackEduReq.setTrackEduReq_maxLength
 		print track_name_to_index
 
 ############ YearSet/yearcov #######################################################
 		all_yearSets = YearSet.objects.all()
 		yearSet_index_to_name = dict()
+		yearSet_name_to_index = dict()
 		yearSet_index_to_year_indices = dict()
+		
+		#Add a Yearset including all years, with name "All Years" - used for total demand
+		if YearSet.objects.filter(yearSet_name="All Years").exists() is False:
+			total_yearset = YearSet.objects.create(yearSet_name="All Years")
+			for year in year_name_to_index: #assuming all names are different!
+				y1 = Year.objects.filter(name=year)[0]
+				total_yearset.years.add(y1)
+				total_yearset.save()
+
 
 		f.write("set Ycov := ")
 		for index in year_index_to_name:
@@ -363,13 +398,18 @@ class Command(BaseCommand):
 		for yearSet in all_yearSets:
 			f.write(str(ycov_index)+" ")
 			yearSet_index_to_name[ycov_index] = yearSet.yearSet_name
+			yearSet_name_to_index[yearSet.yearSet_name] = ycov_index
 			yearSet_index_to_year_indices[ycov_index] = []
 			for year in yearSet.years.all():
 				yearSet_index_to_year_indices[ycov_index].append(year_name_to_index[year.name])
+			for yearSetDemand in yearSet.setyeardemand_set.all():
+				yearSetDemandLower[rotation_name_to_index[yearSetDemand.setYearDemand_rotation.name]][ycov_index] = yearSetDemand.setYearDemand_minResidents
+				yearSetDemandUpper[rotation_name_to_index[yearSetDemand.setYearDemand_rotation.name]][ycov_index] = yearSetDemand.setYearDemand_maxResidents
 			ycov_index += 1
 
 		f.write(";\n\n")
 
+		print yearSet_index_to_name
 
 ###############################################################################
 ############ Parameters #######################################################
@@ -406,26 +446,28 @@ class Command(BaseCommand):
 		f.write(';\n\n')
 
 ##----BlocksPerDoctor--------#
-		#print template_pk_to_blocks
+		residentBlocks = dict() #key = resident index, value = list of blocks
 		f.write("param BlocksPerDoctor :=")
 		for year in YDoctors:
 			for doctor in YDoctors[year]:
 				current_block_list = []
+				#add all template blocks from doctor's year to current_block_list
 				for pk in template_year_to_pk[year]: #accounting for multiple templates; this shouldn't happen
 					for block in template_pk_to_blocks[pk]:
 						current_block_list.append(block)
+				#create list of blocks excluded from individual doctor
 				resExcludedBlocks_indices = []
 				doctor_object = Resident.objects.filter(pk=resident_index_to_pk[doctor])[0] 
 				for tEvent in doctor_object.resExcludedBlocks.all():
 					resExcludedBlocks_indices.append(templateEvent_pk_to_block[tEvent.pk])
+				#create list of blocks excluded from doctor's track
 				trackExcludedBlocks_indices = []
 				for track in doctor_object.tracks.all():
 					for tEvent in track.excludedBlocks.all():
-						trackExcludedBlocks_indices.append(tEvent)
-				final_block_list = list(set(current_block_list).difference(set(resExcludedBlocks_indices) | set(trackExcludedBlocks_indices)))
-					#do union of excluded blocks, then difference
-						#a.difference(b)
-					#print template_pk_to_blocks[pk]
+						trackExcludedBlocks_indices.append(templateEvent_pk_to_block[tEvent.pk])
+				#create final block list: (year template block list) - (res excluded blocks | track excluded blocks)
+				final_block_list = list(set(current_block_list).difference(set(resExcludedBlocks_indices).union(set(trackExcludedBlocks_indices))))
+				residentBlocks[doctor] = final_block_list
 				f.write("\n"+str(doctor)+" "+str(final_block_list))
 		f.write(';\n\n')
 ##----YDoctors--------#
@@ -436,40 +478,135 @@ class Command(BaseCommand):
 		f.write(';\n\n')
 
 ##----DoctorsPerYearPerWeek--------#
-		# f.write("param DoctorsPerYearPerWeek:=")
-		# for year in YDoctors:
-		# 	for week in weeks:
-		# 		for doctor in YDoctors[year]:
-		# 			f.write("\n"+str(year_name_to_index[year])+" "+str(week)+" "+)
-		# f.write(";\n\n")
-		# I have to account for: specialty excludedBlocks overriding the yearBlocks, and individual resident excludedBlocks union with specialty
-		#maybe make different sets, and take out the union etc
+		residentsPerWeek = dict() #key = week, value = dictionary w/ key year, value list of docs, e.g. {1: [1,2,3], 2: [4,5,6]}
+		#initialize empty residentsPerWeek
+		for week in weeks:
+			residentsPerWeek[week] = dict()
+			for year in year_index_to_name:
+				residentsPerWeek[week][year] = []
 
-##----TotalDemandLower--------#
-		# f.write("param DemandLower :=")
-		# for rotation in total_demand_lower:
-		# 	for week in weeks:
-		# 		f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_lower[rotation]))
-		# f.write(';\n\n')
+		for res in residentBlocks:
+			for block in residentBlocks[res]:
+				for week in BWeeks[block]:
+					residentsPerWeek[week][year_name_to_index[resident_index_to_year[res]]].append(res)
+		f.write("param DoctorsPerYearPerWeek:=")
+		for year in YDoctors:
+			for week in weeks:
+				yIndex = year_name_to_index[year]
+				if residentsPerWeek[week][yIndex]:
+					f.write("\n"+str(yIndex)+" "+str(week)+" "+str(residentsPerWeek[week][yIndex]))
+				#if residentsPerWeek[week][yIndex]:
+				#	f.write("\n"+str(yIndex)+" "+str(week)+" "+str(residentsPerWeek[week][yIndex]))
+		f.write(";\n\n")
+		#if residentsPerWeek[week][yIndex]:
 
-##----TotalDemandUpper--------#	
-		# f.write("param DemandUpper :=")
-		# for rotation in total_demand_upper:
-		# 	for week in weeks:
-		# 		f.write("\n"+str(rotation_name_to_index[rotation])+" "+str(week)+" "+str(total_demand_upper[rotation]))
-		# f.write(';\n\n')
+##----DemandLower--------#
+		#combine: total demand, yearly demand, yearSet demand
+		f.write("param DemandLower :=")
+		#per-year demand (yearlyDemand)
+		#I am assuming that for individual years, yCov index is same as year index (this is how I initialized yCov)
+		for rotation_index in yearlyDemandLower:
+			for year_index in yearlyDemandLower[rotation_index]:
+				for week in weeks:
+					f.write("\n"+str(rotation_index)+" "+str(year_index)+" "+str(week)+" "+str(yearlyDemandLower[rotation_index][year_index]))
 
-##----MinYear--------#
-		f.write("param MinEdu :=")
-		for year in minYear:
-			for rotation in minYear[year]:
-				f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(minYear[year][rotation]))
+		#per-yearSet demand, not including "all years" yearSet
+		for rotation_index in yearSetDemandLower:
+			for yearSet_index in yearSetDemandLower[rotation_index]:
+				for week in weeks:
+					f.write("\n"+str(rotation_index)+" "+str(yearSet_index)+" "+str(week)+" "+str(yearSetDemandLower[rotation_index][yearSet_index]))
+
+		#check the per-yearSet demand, including total_demand for "All Years"
+		for rotation_index in total_demand_lower:
+			for week in weeks:
+				f.write("\n"+str(rotation_index)+" "+str(yearSet_name_to_index["All Years"])+" "+str(week)+" "+str(total_demand_lower[rotation_index]))
+
 		f.write(';\n\n')
-##----MaxYear--------#
+
+##----DemandUpper--------#	
+		#combine: total demand, yearly demand, yearSet demand
+		f.write("param DemandUpper :=")
+		#per-year demand (yearlyDemand)
+		#I am assuming that for individual years, yCov index is same as year index (this is how I initialized yCov)
+		for rotation_index in yearlyDemandUpper:
+			for year_index in yearlyDemandUpper[rotation_index]:
+				for week in weeks:
+					f.write("\n"+str(rotation_index)+" "+str(year_index)+" "+str(week)+" "+str(yearlyDemandUpper[rotation_index][year_index]))
+
+		#per-yearSet demand, not including "all years" yearSet
+		for rotation_index in yearSetDemandUpper:
+			for yearSet_index in yearSetDemandUpper[rotation_index]:
+				for week in weeks:
+					f.write("\n"+str(rotation_index)+" "+str(yearSet_index)+" "+str(week)+" "+str(yearSetDemandUpper[rotation_index][yearSet_index]))
+
+		#check the per-yearSet demand, including total_demand for "All Years"
+		for rotation_index in total_demand_upper:
+			for week in weeks:
+				f.write("\n"+str(rotation_index)+" "+str(yearSet_name_to_index["All Years"])+" "+str(week)+" "+str(total_demand_upper[rotation_index]))
+
+		f.write(';\n\n')
+
+##----MinEdu--------#
+#educational requirements: year and track, for singular rotations and groups of rotations
+		f.write("param MinEdu :=")
+		# for year in minYear:
+		# 	for rotation in minYear[year]:
+		# 		f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(minYear[year][rotation]))
+		# f.write(';\n\n')
+
+		for resident_index in resident_index_to_pk:
+			#track requirements override year requirements
+			if resident_pk_to_track[resident_index_to_pk[resident_index]] is not None:
+				for track in resident_pk_to_track[resident_index_to_pk[resident_index]]:
+					#if this track has a min educational requirement
+					if len(minTrack[track]) != 0:
+						#for individual rotations
+						for rotation_index in minTrack[track]:
+							f.write("\n"+str(resident_index)+" "+str(rotation_index)+" "+str(minTrack[track][rotation_index]))
+						#for rotation sets
+						for rotationSet_index in minSetTrack[track]:
+							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(minSetTrack[track][rotationSet_index]))
+
+			else: #resident is not in a track/specialty -- use regular year educational requirements
+				year_index = year_name_to_index[resident_index_to_year[resident_index]]
+				#for individual rotations
+				for rotation_index in minYear[year_index]:
+					f.write("\n"+str(resident_index)+" "+str(rotation_index)+" "+str(minYear[year_index][rotation_index]))
+				#for rotation sets
+				for rotationSet_index in minSetYear[year_index]:
+							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(minSetYear[year_index][rotationSet_index]))
+
+
+		f.write(';\n\n')
+
+##----MaxEdu--------#
 		f.write("param MaxEdu :=")
-		for year in maxYear:
-			for rotation in maxYear[year]:
-				f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(maxYear[year][rotation]))
+		for resident_index in resident_index_to_pk:
+			#track requirements override year requirements
+			if resident_pk_to_track[resident_index_to_pk[resident_index]] is not None:
+				for track in resident_pk_to_track[resident_index_to_pk[resident_index]]:
+					#if this track has a max educational requirement
+					if len(maxTrack[track]) != 0:
+						#for individual rotations
+						for rotation_index in maxTrack[track]:
+							f.write("\n"+str(resident_index)+" "+str(rotation_index)+" "+str(maxTrack[track][rotation_index]))
+						#for rotation sets
+						for rotationSet_index in maxSetTrack[track]:
+							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(maxSetTrack[track][rotationSet_index]))
+
+			else: #resident is not in a track/specialty -- use regular year educational requirements
+				year_index = year_name_to_index[resident_index_to_year[resident_index]]
+				#for individual rotations
+				for rotation_index in maxYear[year_index]:
+					f.write("\n"+str(resident_index)+" "+str(rotation_index)+" "+str(maxYear[year_index][rotation_index]))
+				#for rotation sets
+				for rotationSet_index in maxSetYear[year_index]:
+							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(maxSetYear[year_index][rotationSet_index]))
+		# for year in maxYear:
+		# 	for rotation in maxYear[year]:
+		# 		f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(maxYear[year][rotation]))
+		# f.write(';\n\n')
+
 		f.write(';\n\n')
 
 ##----model.P--------#
