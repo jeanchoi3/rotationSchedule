@@ -73,7 +73,7 @@ class YearAdmin(admin.ModelAdmin):
      inlines=(EducationReqInline,YearDemandInline,SetEduReqInline)
 
 class TrackAdmin(admin.ModelAdmin):
-     inlines=(SetTrackEduReqInline,)
+     inlines=(SetTrackEduReqInline,TrackEducationReqInline)
 
 #YearDemandInline,
 class YearSetAdmin(admin.ModelAdmin):

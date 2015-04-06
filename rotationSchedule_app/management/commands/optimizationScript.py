@@ -39,23 +39,51 @@ class Command(BaseCommand):
 		yearSetDemandLower = dict()
 		yearSetDemandUpper = dict()
 
-		f.write("set R := ") # vacation NOT manually added as a rotation
+		f.write("set R := 1 2 ") # vacation NOT manually added as a rotation
 
-		rotation_index = 1
+		#set up clinic = 1
+		clinicRotation = Rotation.objects.filter(name='Clinic')[0]
+		rotation_index_to_name[1] = 'Clinic'
+		rotation_name_to_index['Clinic'] = 1
+		#f.write("'"+str(rotation.name)+"' ")
+		total_demand_lower[1] = clinicRotation.minResidents
+		total_demand_upper[1] = clinicRotation.maxResidents
+		yearlyDemandLower[1] = dict()
+		yearlyDemandUpper[1] = dict()
+		yearSetDemandLower[1] = dict()
+		yearSetDemandUpper[1] = dict()
+		rotation_names.append('Clinic')
+
+		#set up vacation = 2
+		vacationRotation = Rotation.objects.filter(name='Vacation')[0]
+		rotation_index_to_name[2] = 'Vacation'
+		rotation_name_to_index['Vacation'] = 2
+		#f.write("'"+str(rotation.name)+"' ")
+		total_demand_lower[2] = vacationRotation.minResidents
+		total_demand_upper[2] = vacationRotation.maxResidents
+		yearlyDemandLower[2] = dict()
+		yearlyDemandUpper[2] = dict()
+		yearSetDemandLower[2] = dict()
+		yearSetDemandUpper[2] = dict()
+		rotation_names.append('Vacation')
+
+
+		rotation_index = 3 #manually making clinic = 1 and vacation = 2
 		for rotation in all_rotations:
-			f.write(str(rotation_index)+" ")
-			rotation_index_to_name[rotation_index] = str(rotation.name)
-			rotation_name_to_index[str(rotation.name)] = rotation_index
-			#f.write("'"+str(rotation.name)+"' ")
-			total_demand_lower[rotation_index] = rotation.minResidents
-			total_demand_upper[rotation_index] = rotation.maxResidents
-			yearlyDemandLower[rotation_index] = dict()
-			yearlyDemandUpper[rotation_index] = dict()
-			yearSetDemandLower[rotation_index] = dict()
-			yearSetDemandUpper[rotation_index] = dict()
+			if str(rotation.name) != 'Clinic' and str(rotation.name) != 'Vacation':
+				f.write(str(rotation_index)+" ")
+				rotation_index_to_name[rotation_index] = str(rotation.name)
+				rotation_name_to_index[str(rotation.name)] = rotation_index
+				#f.write("'"+str(rotation.name)+"' ")
+				total_demand_lower[rotation_index] = rotation.minResidents
+				total_demand_upper[rotation_index] = rotation.maxResidents
+				yearlyDemandLower[rotation_index] = dict()
+				yearlyDemandUpper[rotation_index] = dict()
+				yearSetDemandLower[rotation_index] = dict()
+				yearSetDemandUpper[rotation_index] = dict()
 
-			rotation_names.append(str(rotation.name))
-			rotation_index += 1
+				rotation_names.append(str(rotation.name))
+				rotation_index += 1
 
 		f.write(";\n")
 
@@ -301,18 +329,25 @@ class Command(BaseCommand):
 ############ Blocks #######################################################
 
 		all_blocks = Block.objects.all()
-		minLength = dict()
-		maxLength = dict()
-		block_name_to_dblock = dict()
+		minLength = dict() #key block index, value = dict w/ key rotation index, value minlength
+		maxLength = dict() #key block index, value = dict w/ key rotation index, value maxlength
+		block_index_to_dblock = dict() #key block index, value = list of template events of that block 
+		block_name_to_index = dict()
 
+		block_index = 1
 		for block in all_blocks:
-			minLength[str(block.name)] = dict()
-			maxLength[str(block.name)] = dict()
-			block_name_to_dblock[str(block.name)] = []
+			block_name_to_index[str(block.name)] = block_index
+			minLength[block_index] = dict()
+			maxLength[block_index] = dict()
+			block_index_to_dblock[block_index] = []
 			for rotationLength in block.rotationlength_set.all():
-				minLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.minLength
-				maxLength[str(block.name)][str(rotationLength.rotation.name)] = rotationLength.maxLength
+				print rotationLength.rotation.name
+				minLength[block_index][rotation_name_to_index[rotationLength.rotation.name]] = rotationLength.minLength
+				maxLength[block_index][rotation_name_to_index[rotationLength.rotation.name]] = rotationLength.maxLength
+			block_index += 1
 
+		print minLength
+		print maxLength
 
 ############ TemplateEvents #######################################################
 	
@@ -327,7 +362,7 @@ class Command(BaseCommand):
 		for event in all_templateEvents:
 			blockStartDate = event.blockStartDate
 			blockEndDate = event.blockEndDate
-			block_name_to_dblock[str(event.block.name)].append(block)
+			block_index_to_dblock[block_name_to_index[event.block.name]].append(block)
 			templateEvent_pk_to_block[event.pk] = block
 			BWeeks[block] = []
 			BWeeksMinus1[block] = []
@@ -414,7 +449,7 @@ class Command(BaseCommand):
 ###############################################################################
 ############ Parameters #######################################################
 
-##----windowSize--------#
+#----windowSize--------#
 		f.write("param windowSize := \n"+str(windowSize)+";\n\n")
 ##----minClinicWeeks--------#
 		f.write("param minClinicWeeks := \n"+str(minClinicWeeks)+";\n\n")
@@ -556,7 +591,8 @@ class Command(BaseCommand):
 
 		for resident_index in resident_index_to_pk:
 			#track requirements override year requirements
-			if resident_pk_to_track[resident_index_to_pk[resident_index]] is not None:
+			if len(resident_pk_to_track[resident_index_to_pk[resident_index]]) != 0:
+				print "Track is NOT none for res index "+str(resident_index)
 				for track in resident_pk_to_track[resident_index_to_pk[resident_index]]:
 					#if this track has a min educational requirement
 					if len(minTrack[track]) != 0:
@@ -568,6 +604,7 @@ class Command(BaseCommand):
 							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(minSetTrack[track][rotationSet_index]))
 
 			else: #resident is not in a track/specialty -- use regular year educational requirements
+				print "Track is none for res index "+str(resident_index)
 				year_index = year_name_to_index[resident_index_to_year[resident_index]]
 				#for individual rotations
 				for rotation_index in minYear[year_index]:
@@ -583,7 +620,7 @@ class Command(BaseCommand):
 		f.write("param MaxEdu :=")
 		for resident_index in resident_index_to_pk:
 			#track requirements override year requirements
-			if resident_pk_to_track[resident_index_to_pk[resident_index]] is not None:
+			if len(resident_pk_to_track[resident_index_to_pk[resident_index]]) != 0:
 				for track in resident_pk_to_track[resident_index_to_pk[resident_index]]:
 					#if this track has a max educational requirement
 					if len(maxTrack[track]) != 0:
@@ -607,6 +644,24 @@ class Command(BaseCommand):
 		# 		f.write("\n"+str(year_name_to_index[year])+" "+str(rotation_name_to_index[rotation])+" "+str(maxYear[year][rotation]))
 		# f.write(';\n\n')
 
+		f.write(';\n\n')
+
+##----MinLength--------#
+		f.write("param MinLength :=")
+		for block_index in minLength:
+			if block_index in block_index_to_dblock:
+				for rotation_index in minLength[block_index]:
+					for templateEvent_index in block_index_to_dblock[block_index]:
+						f.write("\n"+str(rotation_index)+" "+str(templateEvent_index)+" "+str(minLength[block_index][rotation_index]))
+						print "Rotation "+rotation_index_to_name[rotation_index]+" has min length "+str(minLength[block_index][rotation_index])+" in block index "+str(block_index)
+		f.write(';\n\n')
+##----MaxLength--------#
+		f.write("param MaxLength :=")
+		for block_index in maxLength:
+			if block_index in block_index_to_dblock:
+				for rotation_index in maxLength[block_index]:
+					for templateEvent_index in block_index_to_dblock[block_index]:
+						f.write("\n"+str(rotation_index)+" "+str(templateEvent_index)+" "+str(maxLength[block_index][rotation_index]))
 		f.write(';\n\n')
 
 ##----model.P--------#
@@ -710,7 +765,7 @@ class Command(BaseCommand):
 
 ###############################################################################
 ############ Cplex solution #######################################################
-'''		Schedule.objects.all().delete()
+		Schedule.objects.all().delete()
 		Event.objects.all().delete() 
 
 		import cplex
@@ -718,6 +773,7 @@ class Command(BaseCommand):
 		M = 3 #numSolns to generate
 		ObjTolerance = 0.80 #fraction of best objective tolerated while finding multiple schedules,1 == find only optimal
 		cpx.solve() # solve for optimal solution
+		print cpx.solution.get_objective_value()
 		successful = cpx.solution.get_status()
 		print(successful)
 		#### successful != 101 := problem is infeasible .. Raise flags for the web app
@@ -734,8 +790,8 @@ class Command(BaseCommand):
 
 			bestObjective = cpx.solution.get_objective_value()
 			#optimal_solution = cpx.solution.get_values() ## One optimal solution ready to be displayed in the web-app
-			optimal_solution_1 = cpx.solution.pool.get_values(0, "Z(45_MICU_N_1)")
-			print "Optimal solution 1: "+str(optimal_solution_1)+"---------------------------------"
+			#optimal_solution_1 = cpx.solution.pool.get_values(0, "Z(45_MICU_N_1)")
+			#print "Optimal solution 1: "+str(optimal_solution_1)+"---------------------------------"
 			##print "Variables: "+str(cpx.variables.get_names())
 
 			createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
@@ -747,8 +803,8 @@ class Command(BaseCommand):
 			for res_pk in resident_pk_to_index:
 				for rotation in rotation_names:
 					for week in weeks:
-						if str(cpx.solution.pool.get_values(0,"Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")")) == "1.0":
-							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation+"_"+str(week)+")") #note: keep rotation as is, so later event can refer to original rotation name, w/o "_" replacements
+						if str(cpx.solution.pool.get_values(0,"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation_name_to_index[rotation])+"_"+str(week)+")")) == "1.0":
+							solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation_name_to_index[rotation])+"_"+str(week)+")") #note: keep rotation as is, so later event can refer to original rotation name, w/o "_" replacements
 							res = Resident.objects.filter(pk=res_pk)[0]
 							rot = Rotation.objects.filter(name=rotation)[0]
 							start = week_to_date[week]
@@ -779,9 +835,11 @@ class Command(BaseCommand):
 							for rotation in rotation_names:
 								for week in weeks: 
 									#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation)+"_"+str(week)+")"
-									if str(cpx.solution.pool.get_values(i,"Z("+str(resident_pk_to_index[res_pk])+"_"+rotation.replace("-","_").replace(" ","_")+"_"+str(week)+")")) == "1.0": #used to have solnIndices[i] as first arg!!!
-										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+rotation+"_"+str(week)+")")
+									#print "Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation_name_to_index[rotation])+"_"+str(week)+")"
+									if str(cpx.solution.pool.get_values(i,"Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation_name_to_index[rotation])+"_"+str(week)+")")) == "1.0": #used to have solnIndices[i] as first arg!!!
+										solnVars.append("Z("+str(resident_pk_to_index[res_pk])+"_"+str(rotation_name_to_index[rotation])+"_"+str(week)+")")
 
+									#rotation.replace("-","_").replace(" ","_")
 						unique_schedule = True
 
 						#compare this schedule to every already-accepted soln
@@ -800,8 +858,9 @@ class Command(BaseCommand):
 							#create model Events for this schedule
 							for assignment in solnVars:
 								split_variable = assignment.strip(")").split("(")[1].split("_")
+								#print split_variable
 								res = Resident.objects.filter(pk=resident_index_to_pk[int(split_variable[0])])[0]
-								rot = Rotation.objects.filter(name=split_variable[1])[0]
+								rot = Rotation.objects.filter(name=rotation_index_to_name[int(split_variable[1])])[0]
 								start = week_to_date[int(split_variable[2])]
 								end = week_to_end_date[int(split_variable[2])]
 								createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
@@ -821,7 +880,7 @@ class Command(BaseCommand):
 			print "Accepted solution indices, not including best solution: "+str(acceptedSolnIndices)
 			print "All solution indices: "+str(solnIndicesAll)
 			print(obj_value)
-'''
+
 
 ##----YBlocks--------#
 '''		f.write("param YBlocks :=")
@@ -890,20 +949,4 @@ class Command(BaseCommand):
 		if maxTrack_initialized:
 			f.write(';\n\n')
 
-##----MinLength--------#
-		f.write("param MinLength :=")
-		for blockName in minLength:
-			if blockName in block_name_to_dblock:
-				for rotation in minLength[blockName]:
-					for block in block_name_to_dblock[blockName]:
-						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(minLength[blockName][rotation]))
-		f.write(';\n\n')
-##----MaxLength--------#
-		f.write("param MaxLength :=")
-		for blockName in maxLength:
-			if blockName in block_name_to_dblock:
-				for rotation in maxLength[blockName]:
-					for block in block_name_to_dblock[blockName]:
-						f.write("\n'"+str(rotation)+"' "+str(block)+" "+str(maxLength[blockName][rotation]))
-		f.write(';\n\n')
 '''

@@ -2,7 +2,8 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from adaptor.model import CsvModel
+from adaptor import fields as adaptor_fields
 
 #Rotation
 class Rotation(models.Model):
@@ -13,6 +14,18 @@ class Rotation(models.Model):
     maxResidents = models.PositiveIntegerField(default=100)
     isElective = models.BooleanField(default=False)
     recurrenceWindow = models.IntegerField(default=0,help_text='The number of weeks within which you would like this rotation to recur; i.e. in a window of X weeks, I would like residents to complete 2 weeks of this rotation')
+
+class RotationModel(CsvModel):
+    name = adaptor_fields.CharField()
+    minResidents = adaptor_fields.IntegerField()
+    maxResidents = adaptor_fields.IntegerField()
+    isElective = adaptor_fields.BooleanField()
+    recurrenceWindow = adaptor_fields.IntegerField()
+
+    class Meta:
+        dbModel = Rotation
+        delimiter=","
+        has_header = True
 
 #Year
 class Year(models.Model):
@@ -45,8 +58,8 @@ class Block(models.Model):
 
 # the block-dependent length of a rotation
 class RotationLength(models.Model):
-    class Meta():
-        auto_created=True
+    #class Meta():
+    #    auto_created=True
     rotation = models.ForeignKey(Rotation)
     block = models.ForeignKey(Block)
     minLength = models.PositiveIntegerField(default=0)

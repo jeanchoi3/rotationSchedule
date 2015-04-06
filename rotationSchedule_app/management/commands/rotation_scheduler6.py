@@ -28,7 +28,7 @@ model.lastWindowStart = Param(within=NonNegativeIntegers) #The first week in the
 # Window 1 [1,2,3,4,5,6]
 # Window 2 [2, 3, 4, 5,6,7]
 # Window 3 [3, 4, 5, 6, 7, 8]; so lastWindowStart =3
-model.minClinicWeeks = Param(within=NonNegativeIntegers, default=0)
+model.minClinicWeeks = Param(within=NonNegativeIntegers, default=2)
  
 ### Weeks in each Block, Blocks for each Doctor, Blocks for each Year, Doctors in each Year, Year of each Doctor
 model.WeeksPerBlock = Param(model.B, default = []) ## week #s in each block, 
@@ -142,7 +142,7 @@ def v2_rule(model,i,j,w):
 model.vConstraint2 = Constraint(model.Couples,model.W, rule=v2_rule)
  
  
-##Clinic Constraints ## r = 2
+##Clinic Constraints ## r = 2  
 ## |Todo|: Change to account for each doctor's weeks in the system
 def clinic_rule(model, d, week):
     if model.windowSize == 0:
@@ -151,13 +151,13 @@ def clinic_rule(model, d, week):
     else:
         if week <= model.lastWindowStart:
             window = range(week,week+model.windowSize)
-            return sum(model.Z[d,2,w] for w in window) - model.Zhat[d]>= 0
+            return sum(model.Z[d,1,w] for w in window) - model.Zhat[d]>= 0
         return Constraint.Skip
 model.clinicConstraint = Constraint(model.D, model.W, rule=clinic_rule)
  
 #Vacation shouldn't exceed maximum number of weeks # r = 1
 def vacation_rule(model, d):
-    return sum(model.Z[d,1,w] for w in model.WeeksPerDoctor[d]) <= model.maxVacationWeeks
+    return sum(model.Z[d,2,w] for w in model.WeeksPerDoctor[d]) <= model.maxVacationWeeks
 model.vacationConstraint = Constraint(model.D, rule=vacation_rule)
  
 #Staffing Requirement : number of residents on rotation must be greater than or equal to the demandLower,

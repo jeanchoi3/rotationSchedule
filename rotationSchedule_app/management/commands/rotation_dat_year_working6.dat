@@ -8,10 +8,10 @@ set Ycov := 1 2 3 4 5;
 set Couples := 1 2; 
 
 param lastWindowStart :=
-1;
+3;
 
 param windowSize :=
-8;
+6;
 
 param minClinicWeeks :=
 2;
