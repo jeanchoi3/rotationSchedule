@@ -57,13 +57,14 @@
                             <li>\
                                 <a href="#schedule-'+i+'-dropdown0" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown0-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown0">Master Schedule</a>\
                             </li>\
-                            <li>\
-                                <a href="#schedule-'+i+'-dropdown1" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown1-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown1">Rotation View</a>\
-                            </li>\
-                            <li>\
-                                <a href="#schedule-'+i+'-dropdown2" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown2-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown2">Resident View</a>\
-                            </li>\
                         </ul></li>');
+
+                            // <li>\
+                            //     <a href="#schedule-'+i+'-dropdown1" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown1-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown1">Rotation View</a>\
+                            // </li>\
+                            // <li>\
+                            //     <a href="#schedule-'+i+'-dropdown2" tabindex="-1" role="tab" id="schedule-'+i+'-dropdown2-tab" data-toggle="tab" aria-controls="schedule-'+i+'-dropdown2">Resident View</a>\
+                            // </li>\
 
                     $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown0" aria-labelledBy="schedule-'+i+'-dropdown0-tab">\
                         <div class="container-fluid">\
@@ -75,97 +76,97 @@
                             </div>\
                         </div></div>');
 
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab">\
-                        <div class="container-fluid">\
-                            <div class="row">\
-                                <div class="col-sm-3 col-md-2 sidebar">\
-                                    <ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul>\
-                                </div>\
-                                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\
-                                    <div id="rotation-calendar-info-'+i+'"></div>\
-                                    <div id="calendar-edit-warning"></div>\
-                                    <div id="rotation-calendars-'+i+'"></div>\
-                                    <br><br>\
-                                </div>\
-                            </div>\
-                        </div></div>');
+                    // $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown1" aria-labelledBy="schedule-'+i+'-dropdown1-tab">\
+                    //     <div class="container-fluid">\
+                    //         <div class="row">\
+                    //             <div class="col-sm-3 col-md-2 sidebar">\
+                    //                 <ul class="nav nav-sidebar" id="rotation-sidebar-'+i+'"></ul>\
+                    //             </div>\
+                    //             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\
+                    //                 <div id="rotation-calendar-info-'+i+'"></div>\
+                    //                 <div id="calendar-edit-warning"></div>\
+                    //                 <div id="rotation-calendars-'+i+'"></div>\
+                    //                 <br><br>\
+                    //             </div>\
+                    //         </div>\
+                    //     </div></div>');
 
-                    $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab">\
-                        <div class="container-fluid">\
-                            <div class="row"><div class="col-sm-3 col-md-2 sidebar">\
-                                <ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul>\
-                            </div>\
-                            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\
-                                <div id="resident-calendar-info"></div>\
-                                <div id="calendar-edit-warning"></div>\
-                                <div id="resident-calendars-'+i+'"></div>\
-                                <br><br>\
-                            </div>\
-                        </div>\
-                        </div></div>');
+                    // $('#myTabContent').append('<div role="tabpanel" class="tab-pane fade in active" id="schedule-'+i+'-dropdown2" aria-labelledBy="schedule-'+i+'-dropdown2-tab">\
+                    //     <div class="container-fluid">\
+                    //         <div class="row"><div class="col-sm-3 col-md-2 sidebar">\
+                    //             <ul class="nav nav-sidebar" id="resident-sidebar-'+i+'"></ul>\
+                    //         </div>\
+                    //         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">\
+                    //             <div id="resident-calendar-info"></div>\
+                    //             <div id="calendar-edit-warning"></div>\
+                    //             <div id="resident-calendars-'+i+'"></div>\
+                    //             <br><br>\
+                    //         </div>\
+                    //     </div>\
+                    //     </div></div>');
 
                 $('#rotation-calendar-info-'+i).text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
                 $('#resident-calendar-info-'+i).text('Overall schedule utility: '+String({{ schedule_list|safe }}[i-1].utility ));
 
                 //create new calendar for each rotation
-                var length = {{rotation_list|safe}}.length
-                for (j = 0; j < length; j++) {
-                    //add new calendar to html
-                    $('#rotation-calendars-'+i).append('<h3>'+String({{rotation_list|safe}}[j])+'</h3><div id='+String({{rotation_list|safe}}[j]).split(" ").join("_")+i+'></div><br><br>');
+                // var length = {{rotation_list|safe}}.length
+                // for (j = 0; j < length; j++) {
+                //     //add new calendar to html
+                //     $('#rotation-calendars-'+i).append('<h3>'+String({{rotation_list|safe}}[j])+'</h3><div id='+String({{rotation_list|safe}}[j]).split(" ").join("_")+i+'></div><br><br>');
 
-                    //add rotation calendar navigation to sidebar
-                    if (i == 0) {
-                        $('#rotation-sidebar-'+i).append('<li class="active"><a href="#'+String({{rotation_list|safe}}[j])+i+'">'+String({{rotation_list|safe}}[j])+'<span class="sr-only">(current)</span></a></li>');    
-                    }
-                    else {
-                        $('#rotation-sidebar-'+i).append('<li><a href="#'+String({{rotation_list|safe}}[j])+i+'">'+String({{rotation_list|safe}}[j])+'</a></li>');
-                    }
+                //     //add rotation calendar navigation to sidebar
+                //     if (i == 0) {
+                //         $('#rotation-sidebar-'+i).append('<li class="active"><a href="#'+String({{rotation_list|safe}}[j])+i+'">'+String({{rotation_list|safe}}[j])+'<span class="sr-only">(current)</span></a></li>');    
+                //     }
+                //     else {
+                //         $('#rotation-sidebar-'+i).append('<li><a href="#'+String({{rotation_list|safe}}[j])+i+'">'+String({{rotation_list|safe}}[j])+'</a></li>');
+                //     }
 
-                    //activate calendar and add events
-                    $('#'+String({{rotation_list|safe}}[j]).split(" ").join("_")+i).fullCalendar({
-                        header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
-                    },
-                    defaultDate: '2015-01-01',
-                    selectable: true,
-                    selectHelper: true,
-                    select: function(start, end) {
-                        var title = prompt('Event Title:');
-                        var eventData;
-                        if (title) {
-                            eventData = {
-                                title: title,
-                                start: start,
-                                end: end
-                            };
+                //     //activate calendar and add events
+                //     $('#'+String({{rotation_list|safe}}[j]).split(" ").join("_")+i).fullCalendar({
+                //         header: {
+                //         left: 'prev,next today',
+                //         center: 'title',
+                //         right: 'month,agendaWeek,agendaDay'
+                //     },
+                //     defaultDate: '2015-01-01',
+                //     selectable: true,
+                //     selectHelper: true,
+                //     select: function(start, end) {
+                //         var title = prompt('Event Title:');
+                //         var eventData;
+                //         if (title) {
+                //             eventData = {
+                //                 title: title,
+                //                 start: start,
+                //                 end: end
+                //             };
 
-                        }
+                //         }
 
-                    },
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: {{ schedule_rotation_events|safe }}[i-1][j],
-                    eventDrop: function(event, delta, revertFunc) {
-                        //alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule+", pk: "+event.pk+", start: "+event.start.format())
-                        alert("end: "+event.end.format())
-                        $.ajax({
-                            url: "/changeEvent/",
-                            type: "POST",
-                            data: {
-                                pk: event.pk,
-                                start: event.start.format(),
-                                end: event.end.format()
-                            },
-                            success: function(json) {
-                                //alert("success!"+JSON.stringify(json))
-                                $('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
-                            },
-                            error: function(xhr, errmsg,err) {
-                                alert("fail "+errmsg+err+xhr.responseText)
-                            }
-                        });
+                //     },
+                //     editable: true,
+                //     eventLimit: true, // allow "more" link when too many events
+                //     events: {{ schedule_rotation_events|safe }}[i-1][j],
+                //     eventDrop: function(event, delta, revertFunc) {
+                //         //alert("Resident: "+event.resident+", Rotation: "+event.rotation+", Schedule: "+event.schedule+", pk: "+event.pk+", start: "+event.start.format())
+                //         alert("end: "+event.end.format())
+                //         $.ajax({
+                //             url: "/changeEvent/",
+                //             type: "POST",
+                //             data: {
+                //                 pk: event.pk,
+                //                 start: event.start.format(),
+                //                 end: event.end.format()
+                //             },
+                //             success: function(json) {
+                //                 //alert("success!"+JSON.stringify(json))
+                //                 $('#calendar-edit-warning').text(JSON.stringify(json['outcome']).replace(/\"/g, "").replace(/\\n/g, ""))
+                //             },
+                //             error: function(xhr, errmsg,err) {
+                //                 alert("fail "+errmsg+err+xhr.responseText)
+                //             }
+                //         });
 
                         //alert("Current events: "+$.each($('#'+String({{rotation_list|safe}}[j])+i).fullCalendar('clientEvents'), function(key, value) {key + ": "+value)})
                         //ideas: make a var using the each function, and it might not just be key/value, bc each event has a lot
@@ -202,10 +203,10 @@
                             revertFunc();*/
                             //http://fullcalendar.io/docs/event_data/clientEvents/
                         //}
-                    }
+                    //}
 
-                    });
-                }
+                  //  });
+                //}
 
                 //variables for master schedule view
                 //$('#master-schedules-'+i).append('<h1>Hi</h1>')
@@ -218,41 +219,41 @@
                 var length = {{resident_list|safe}}.length
                 for (j = 0; j < length; j++) {
                     //add new calendar to html
-                    $('#resident-calendars-'+i).append('<h3>'+String({{resident_list|safe}}[j])+'</h3><div id='+String({{resident_list|safe}}[j])+i+'></div><br><br>');
+                    // $('#resident-calendars-'+i).append('<h3>'+String({{resident_list|safe}}[j])+'</h3><div id='+String({{resident_list|safe}}[j])+i+'></div><br><br>');
 
-                    //add rotation calendar navigation to sidebar
-                    if (i == 0) {
-                        $('#resident-sidebar-'+i).append('<li class="active"><a href="#'+String({{resident_list|safe}}[j])+i+'">'+String({{resident_list|safe}}[j])+'<span class="sr-only">(current)</span></a></li>');    
-                    }
-                    else {
-                        $('#resident-sidebar-'+i).append('<li><a href="#'+String({{resident_list|safe}}[j])+i+'">'+String({{resident_list|safe}}[j])+'</a></li>');
-                    }
+                    // //add rotation calendar navigation to sidebar
+                    // if (i == 0) {
+                    //     $('#resident-sidebar-'+i).append('<li class="active"><a href="#'+String({{resident_list|safe}}[j])+i+'">'+String({{resident_list|safe}}[j])+'<span class="sr-only">(current)</span></a></li>');    
+                    // }
+                    // else {
+                    //     $('#resident-sidebar-'+i).append('<li><a href="#'+String({{resident_list|safe}}[j])+i+'">'+String({{resident_list|safe}}[j])+'</a></li>');
+                    // }
 
                     //activate calendar and add events
-                    $('#'+String({{resident_list|safe}}[j])+i).fullCalendar({
-                        header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
-                    },
-                    defaultDate: '2015-01-01',
-                    selectable: true,
-                    selectHelper: true,
-                    select: function(start, end) {
-                        var title = prompt('Event Title:');
-                        var eventData;
-                        if (title) {
-                            eventData = {
-                                title: title,
-                                start: start,
-                                end: end
-                            };
-                        }
-                    },
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: {{ schedule_resident_events|safe }}[i-1][j]
-                    });
+                    // $('#'+String({{resident_list|safe}}[j])+i).fullCalendar({
+                    //     header: {
+                    //     left: 'prev,next today',
+                    //     center: 'title',
+                    //     right: 'month,agendaWeek,agendaDay'
+                    // },
+                    // defaultDate: '2015-01-01',
+                    // selectable: true,
+                    // selectHelper: true,
+                    // select: function(start, end) {
+                    //     var title = prompt('Event Title:');
+                    //     var eventData;
+                    //     if (title) {
+                    //         eventData = {
+                    //             title: title,
+                    //             start: start,
+                    //             end: end
+                    //         };
+                    //     }
+                    // },
+                    // editable: true,
+                    // eventLimit: true, // allow "more" link when too many events
+                    // events: {{ schedule_resident_events|safe }}[i-1][j]
+                    // });
 
 
                 /******* FILLING EVENTS ARRAY FOR DATATABLES **********************/

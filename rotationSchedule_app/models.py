@@ -17,8 +17,8 @@ class Rotation(models.Model):
 
 class RotationModel(CsvModel):
     name = adaptor_fields.CharField()
-    minResidents = adaptor_fields.IntegerField()
-    maxResidents = adaptor_fields.IntegerField()
+    minResidents = adaptor_fields.IgnoredField()
+    maxResidents = adaptor_fields.IgnoredField()
     isElective = adaptor_fields.BooleanField()
     recurrenceWindow = adaptor_fields.IntegerField()
 

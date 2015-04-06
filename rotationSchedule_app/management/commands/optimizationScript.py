@@ -205,7 +205,7 @@ class Command(BaseCommand):
 		vacation1 = dict() # key = res index, value = list of weeks
 		vacation2 = dict()
 		vacation3 = dict()
-		elective1 = dict() # key = res index, value = rotation name
+		elective1 = dict() # key = res index, value = rotation index
 		elective2 = dict()
 		elective3 = dict()
 		elective4 = dict()
@@ -266,31 +266,31 @@ class Command(BaseCommand):
 				for i in range(vacationStartWeek3,vacationEndWeek3):
 					vacation3[index].append(i)
 			if resident.elective1 is not None:
-				elective1[index] = resident.elective1
+				elective1[index] = rotation_name_to_index[resident.elective1.name]
 			if resident.elective2 is not None:
-				elective2[index] = resident.elective2
+				elective2[index] = rotation_name_to_index[resident.elective2.name]
 			if resident.elective3 is not None:
-				elective3[index] = resident.elective3
+				elective3[index] = rotation_name_to_index[resident.elective3.name]
 			if resident.elective4 is not None:
-				elective4[index] = resident.elective4
+				elective4[index] = rotation_name_to_index[resident.elective4.name]
 			if resident.elective5 is not None:
-				elective5[index] = resident.elective5
+				elective5[index] = rotation_name_to_index[resident.elective5.name]
 			if resident.elective6 is not None:
-				elective6[index] = resident.elective6
+				elective6[index] = rotation_name_to_index[resident.elective6.name]
 			if resident.elective7 is not None:
-				elective7[index] = resident.elective7
+				elective7[index] = rotation_name_to_index[resident.elective7.name]
 			if resident.elective8 is not None:
-				elective8[index] = resident.elective8
+				elective8[index] = rotation_name_to_index[resident.elective8.name]
 			if resident.elective9 is not None:
-				elective9[index] = resident.elective9
+				elective9[index] = rotation_name_to_index[resident.elective9.name]
 			if resident.elective10 is not None:
-				elective10[index] = resident.elective10
+				elective10[index] = rotation_name_to_index[resident.elective10.name]
 			resident_pk_to_track[resident.pk] = []
 			for track in resident.tracks.all():
 				resident_pk_to_track[resident.pk].append(str(track.name))
 			index += 1
 
-		print resident_name_to_index
+		#print resident_name_to_index
 
 		f.write('set D := ')
 
@@ -309,6 +309,8 @@ class Command(BaseCommand):
 					f.write("\n"+str(resident_name_to_index[resident])+" "+str(resident_name_to_index[resident_couple[resident]]))
 					listed_residents.append(resident)
 			f.write(";\n")
+
+		print resident_name_to_index
 
 ############ Templates #######################################################
 
@@ -341,13 +343,13 @@ class Command(BaseCommand):
 			maxLength[block_index] = dict()
 			block_index_to_dblock[block_index] = []
 			for rotationLength in block.rotationlength_set.all():
-				print rotationLength.rotation.name
+				#print rotationLength.rotation.name
 				minLength[block_index][rotation_name_to_index[rotationLength.rotation.name]] = rotationLength.minLength
 				maxLength[block_index][rotation_name_to_index[rotationLength.rotation.name]] = rotationLength.maxLength
 			block_index += 1
 
-		print minLength
-		print maxLength
+		#print minLength
+		#print maxLength
 
 ############ TemplateEvents #######################################################
 	
@@ -408,7 +410,7 @@ class Command(BaseCommand):
 			for trackEduReq in rotationSet.settrackedureq_set.all():
 				minSetTrack[trackEduReq.setTrackEduReq_track.name][redu_name_to_index[rotationSet.rotationSet_name]] = trackEduReq.setTrackEduReq_minLength
 				maxSetTrack[trackEduReq.setTrackEduReq_track.name][redu_name_to_index[rotationSet.rotationSet_name]] = trackEduReq.setTrackEduReq_maxLength
-		print track_name_to_index
+		#print track_name_to_index
 
 ############ YearSet/yearcov #######################################################
 		all_yearSets = YearSet.objects.all()
@@ -444,7 +446,7 @@ class Command(BaseCommand):
 
 		f.write(";\n\n")
 
-		print yearSet_index_to_name
+		#print yearSet_index_to_name
 
 ###############################################################################
 ############ Parameters #######################################################
@@ -592,7 +594,7 @@ class Command(BaseCommand):
 		for resident_index in resident_index_to_pk:
 			#track requirements override year requirements
 			if len(resident_pk_to_track[resident_index_to_pk[resident_index]]) != 0:
-				print "Track is NOT none for res index "+str(resident_index)
+				#print "Track is NOT none for res index "+str(resident_index)
 				for track in resident_pk_to_track[resident_index_to_pk[resident_index]]:
 					#if this track has a min educational requirement
 					if len(minTrack[track]) != 0:
@@ -604,7 +606,7 @@ class Command(BaseCommand):
 							f.write("\n"+str(resident_index)+" "+str(rotationSet_index)+" "+str(minSetTrack[track][rotationSet_index]))
 
 			else: #resident is not in a track/specialty -- use regular year educational requirements
-				print "Track is none for res index "+str(resident_index)
+				#print "Track is none for res index "+str(resident_index)
 				year_index = year_name_to_index[resident_index_to_year[resident_index]]
 				#for individual rotations
 				for rotation_index in minYear[year_index]:
@@ -653,7 +655,7 @@ class Command(BaseCommand):
 				for rotation_index in minLength[block_index]:
 					for templateEvent_index in block_index_to_dblock[block_index]:
 						f.write("\n"+str(rotation_index)+" "+str(templateEvent_index)+" "+str(minLength[block_index][rotation_index]))
-						print "Rotation "+rotation_index_to_name[rotation_index]+" has min length "+str(minLength[block_index][rotation_index])+" in block index "+str(block_index)
+						#print "Rotation "+rotation_index_to_name[rotation_index]+" has min length "+str(minLength[block_index][rotation_index])+" in block index "+str(block_index)
 		f.write(';\n\n')
 ##----MaxLength--------#
 		f.write("param MaxLength :=")
@@ -712,52 +714,52 @@ class Command(BaseCommand):
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 9)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 9)))
 		for res_index in elective2:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 8)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 8)))
 		for res_index in elective3:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 7)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 7)))
 		for res_index in elective4:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 6)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 6)))
 		for res_index in elective5:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 5)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 5)))
 		for res_index in elective6:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 4)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 4)))
 		for res_index in elective7:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 3)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 3)))
 		for res_index in elective8:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 2)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult ** 2)))
 		for res_index in elective9:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase * electiveMult)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase * electiveMult)))
 		for res_index in elective10:
 			year = resident_index_to_year[res_index]
 			yearMult = yearNum[year] #multiply preference weight by the year of residency -- seniority weighting
 			for week in weeks:
-				f.write("\n"+str(res_index)+" '"+str(elective1[res_index])+"' "+str(week)+" "+str(yearMult*(electiveBase)))
+				f.write("\n"+str(res_index)+" "+str(elective1[res_index])+" "+str(week)+" "+str(yearMult*(electiveBase)))
 		f.write(';\n\n')
 
 		f.close()
@@ -765,8 +767,19 @@ class Command(BaseCommand):
 
 ###############################################################################
 ############ Cplex solution #######################################################
-		Schedule.objects.all().delete()
-		Event.objects.all().delete() 
+		#Schedule.objects.all().delete()
+		#Event.objects.all().delete() 
+
+				#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		existing_schedules = Schedule.objects.all()
+		schedule_indices = []
+		for sched in existing_schedules: 
+			if str(sched.name).split(" ")[1] != "Schedule": #exclude 'best schedule'
+				schedule_indices.append(str(sched.name).split(" ")[1]) #get the index numbers of the existing schedules
+
+		schedule_index_index = 0
+		print "Schedule indices are: "+str(schedule_indices)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		import cplex
 		cpx = cplex.Cplex("rotsched.lp") ### any lp file generated by pyomo
@@ -794,7 +807,10 @@ class Command(BaseCommand):
 			#print "Optimal solution 1: "+str(optimal_solution_1)+"---------------------------------"
 			##print "Variables: "+str(cpx.variables.get_names())
 
-			createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
+			#createdSchedule = Schedule(name="Best Solution",utility=bestObjective)
+			#ignoring the additivity of best Objective for block-by-block schedule creation
+			createdSchedule = Schedule.objects.get_or_create(name="Best Solution")[0] #createdSchedule = Schedule(name...)#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			createdSchedule.utility = bestObjective
 			createdSchedule.save()
 
 			solnVars = [] #list of Z variables of this solution
@@ -851,22 +867,32 @@ class Command(BaseCommand):
 							acceptedSolnVars.append(solnVars)
 
 							#create model Schedule instance
-							createdSchedule = Schedule(name="Schedule"+str(i),utility=obj_value[i])
-							createdSchedule.save()
-							#print createdSchedule.name
+							#only do this if you're adding on to an already-created schedule; otherwise break
+							if schedule_index_index < len(schedule_indices):
+								print "schedule INDEX IS "+str(schedule_index_index)+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+								print "SHUFFLED VALUE IS "+str(random.shuffle(schedule_indices)[schedule_index_index])+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+								createdSchedule = Schedule.objects.get_or_create(name="Schedule "+str(random.shuffle(schedule_indices)[schedule_index_index]))[0]#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+								createdSchedule.utility = obj_value[i]
+								createdSchedule.save()
+								schedule_index_index += 1
 
-							#create model Events for this schedule
-							for assignment in solnVars:
-								split_variable = assignment.strip(")").split("(")[1].split("_")
-								#print split_variable
-								res = Resident.objects.filter(pk=resident_index_to_pk[int(split_variable[0])])[0]
-								rot = Rotation.objects.filter(name=rotation_index_to_name[int(split_variable[1])])[0]
-								start = week_to_date[int(split_variable[2])]
-								end = week_to_end_date[int(split_variable[2])]
-								createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
-								createdEvent.save()
+								#print createdSchedule.name
 
-							acceptedSolnIndices.append(i)
+								#create model Events for this schedule
+								for assignment in solnVars:
+									split_variable = assignment.strip(")").split("(")[1].split("_")
+									#print split_variable
+									res = Resident.objects.filter(pk=resident_index_to_pk[int(split_variable[0])])[0]
+									rot = Rotation.objects.filter(name=rotation_index_to_name[int(split_variable[1])])[0]
+									start = week_to_date[int(split_variable[2])]
+									end = week_to_end_date[int(split_variable[2])]
+									createdEvent = Event(resident=res,rotation=rot,startDate=start,endDate=end,schedule=createdSchedule)
+									createdEvent.save()
+
+								acceptedSolnIndices.append(i)
+							else:
+								acceptedSolnIndices.append(i)
+								break
 
 				solnIndicesAll.extend(solnIndices)
 				solnNamesAll.extend(solnNames)
