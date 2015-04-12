@@ -1,0 +1,50 @@
+set R := 1 2 3 4 5;
+set Redu := 1 2 3 4; 
+set Ycov := 1 2 3 4 5;
+set E:= 3;
+set W := 1 2 3 4 5 6 7 8;
+set D := 1 2 3 4;
+set Y := 1 2 3;
+set B := 1 2;
+set C := 1 2;
+set Couples := 1 2; 
+
+param CohortsPerDoctor :=
+1 [1, 2]
+2 [1, 2]
+3 [1, 2]
+4 [1, 2];
+
+param ClinicWeeks :=
+1 [5, 6]
+2 [1, 2];
+
+param ElectiveWeeks :=
+1 [7, 8]
+2 [3, 4];
+
+param WeeksPerBlock := 
+1 [1,2,3,4]
+2 [5,6,7,8];
+
+param WeeksPerBlockMinus1:=
+1 [1,2,3]
+2 [5,6,7];
+
+param WeeksPerDoctor :=
+1 [1, 2, 3, 4, 5, 6, 7, 8]
+2 [1, 2, 3, 4, 5, 6, 7, 8]
+3 [1, 2, 3, 4, 5, 6, 7, 8]
+4 [1, 2, 3, 4, 5, 6, 7, 8];
+
+param RotationsPerDoctor :=
+1 [1, 2, 3, 4, 5]
+2 [1, 2, 3, 4, 5]
+3 [1, 2, 3, 4, 5]
+4 [1, 2, 3, 4, 5];
+
+param BlocksPerCohort :=
+1 [1]
+2 [2];
+
+
