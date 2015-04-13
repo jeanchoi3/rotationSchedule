@@ -164,33 +164,20 @@ model.cohortZeroConstraint = Constraint(model.D, model.C, rule=cohortZero_rule)
 
 
 #Clinic Constraints, Clinic rotation == 2
-# def clinic_rule(model, d, w, c):
-# 	if c in model.CohortsPerDoctor[d]:
-# 		if w in model.ClinicWeeks[c]:
-# 			return model.Z[d,2,w] - model.K[d,c] == 0
-# 	return Constraint.Skip
-# model.clinicConstraint = Constraint(model.D, model.W, model.C, rule=clinic_rule)
-
 def clinic_rule(model, d, w, c):
-	if w in model.ClinicWeeks[c]:
-		return model.Zc[d,2,w,c] - model.K[d,c] == 0
+	if c in model.CohortsPerDoctor[d]:
+		if w in model.ClinicWeeks[c]:
+			return model.Z[d,2,w] - model.K[d,c] == 0
 	return Constraint.Skip
 model.clinicConstraint = Constraint(model.D, model.W, model.C, rule=clinic_rule)
 
 # Elective Constraints
-# def elective_rule(model, d, w, c):
-# 	if c in model.CohortsPerDoctor[d]:
-# 		if w in model.ElectiveWeeks[c]:
-# 			return sum(model.Z[d,r,w] for r in model.E) + model.Z[d,1,w] - model.K[d,c] == 0
-# 	return Constraint.Skip
-# model.electiveConstraint = Constraint(model.D, model.W, model.C, rule=elective_rule)
-
 def elective_rule(model, d, w, c):
-	if w in model.ElectiveWeeks[c]:
-		return sum(model.Zc[d,r,w,c] for r in model.E) - model.K[d,c] == 0
+	if c in model.CohortsPerDoctor[d]:
+		if w in model.ElectiveWeeks[c]:
+			return sum(model.Z[d,r,w] for r in model.E) + model.Z[d,1,w] - model.K[d,c] == 0
 	return Constraint.Skip
 model.electiveConstraint = Constraint(model.D, model.W, model.C, rule=elective_rule)
-
 
 #Vacation shouldn't exceed maximum number of weeks, Vacation rotation == 1
 def vacation_rule(model, d):
@@ -227,13 +214,13 @@ model.weekConstraint = Constraint(model.D, model.W, model.C, rule=week_rule)
 
 #Educational Requirement : each resident of year y must meet the rotation requirements for their residency year
 ###Per Year Education Requirements
-def min_edu(model, d, r):
-    return sum(sum(model.Z[d,rindex,w] for w in model.W) for rindex in model.Rset[r]) >= model.MinEdu[d, r]
-model.minEduConstraint = Constraint(model.D, model.Redu, rule=min_edu)
+# def min_edu(model, d, r):
+#     return sum(sum(model.Z[d,rindex,w] for w in model.W) for rindex in model.Rset[r]) >= model.MinEdu[d, r]
+# model.minEduConstraint = Constraint(model.D, model.Redu, rule=min_edu)
 
-def max_edu(model, d, r):
-    return sum(sum(model.Z[d,rindex,w] for w in model.W) for rindex in model.Rset[r]) <= model.MaxEdu[d, r]
-model.maxEduConstraint = Constraint(model.D, model.Redu, rule=max_edu)
+# def max_edu(model, d, r):
+#     return sum(sum(model.Z[d,rindex,w] for w in model.W) for rindex in model.Rset[r]) <= model.MaxEdu[d, r]
+# model.maxEduConstraint = Constraint(model.D, model.Redu, rule=max_edu)
 
 
 #Zc rule for cohort she is in 
@@ -282,10 +269,6 @@ def continuity_rule(model,d,r,b,c):
 			# 	return sum(model.Zabsc[d,r,w,c] for w in model.WeeksPerBlockMinus1[b]) <=1
 	return Constraint.Skip
 model.continuityConstraint = Constraint(model.D, model.R, model.B, model.C, rule=continuity_rule)
-
-
-#NEED A RULE FOR CONTINUITY IN THE ELECTIVE WEEKS, SO IF YOU HAVE VACATION IT'S FOR THE FULL 2 WEEKS!!!
-
 
 # def objective_function(model,r,d,w):
 # 	weights = []

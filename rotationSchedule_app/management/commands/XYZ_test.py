@@ -23,7 +23,7 @@ model.Couples = Set(dimen=2) ## set of couples
 model.CohortsPerDoctor= Param(model.D,default=[]) ## Cohorts that doctor d can be assigned to
 model.ClinicWeeks = Param(model.C,default=[]) ## Clinic weeks in each cohort
 model.ElectiveWeeks = Param(model.C, default = []) ## Elective weeks in each cohort
-model.maxVacationWeeks = Param(within=NonNegativeIntegers, default=4)
+model.maxVacationWeeks = Param(within=NonNegativeIntegers, default=2)
 model.WeeksPerBlock = Param(model.B, default = []) ## week #s in each block allocated to core rotations, 
 ##for example: WeeksPerBlock = {1:[1,2,3],2:[4,5,6],3:[7,8],4:[1,2],5:[3,4,5],6:[6,7,8]} 
 model.WeeksPerBlockMinus1 = Param(model.B, default = []) ## last week removed from each block allocated for core rotations, 
@@ -63,6 +63,12 @@ def cohortZero_rule(model, d, c):
  		return model.K[d,c] == 0
  	return Constraint.Skip
 model.cohortZeroConstraint = Constraint(model.D, model.C, rule=cohortZero_rule)
+
+#To do: generalize vacation to the actual number!!!!!!
+#Vacation shouldn't exceed maximum number of weeks, Vacation rotation == 1
+def vacation_rule(model, d):
+ 	return sum(model.Z[d,1,w] for w in model.W) <= model.maxVacationWeeks
+model.vacationConstraint = Constraint(model.D, rule=vacation_rule)
 
 #Clinic Constraints, Clinic rotation == 2
 # def clinic_rule(model, d, w, c):
@@ -108,8 +114,8 @@ model.electiveConstraint = Constraint(model.D, model.W, model.C, rule=elective_r
 
 #Zc rule for cohort she is in 
 def ZcFix_rule(model, d, r, w):
-	return sum(model.Zc[d,r,w,c] for c in model.CohortsPerDoctor[d]) - Z[d,r,w] == 0
-model.weekConstraint = Constraint(model.D, model.R, model.W, rule=ZcFix_rule)
+	return sum(model.Zc[d,r,w,c] for c in model.CohortsPerDoctor[d]) - model.Z[d,r,w] == 0
+model.ZcConstraint = Constraint(model.D, model.R, model.W, rule=ZcFix_rule)
 
 #each resident can only be on one rotation each week according to the cohort she is in
 def week_rule(model, d, w,c):

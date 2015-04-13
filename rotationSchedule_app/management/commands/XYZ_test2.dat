@@ -1,14 +1,19 @@
 set R := 1 2 3 4 5;
 set Redu := 1 2 3 4; 
 set Ycov := 1 2 3 4 5;
-set E:= 1 2 3;
-set W := 1 2 3 4 5 6 7 8;
+set E:= 3;
 set D := 1 2 3 4;
+set W := 1 2 3 4 5 6 7 8;
 set Y := 1 2 3;
 set B := 1 2;
 set C := 1 2;
 set Couples := 1 2; 
 
+param Rset :=
+1 [1]
+2 [2]
+3 [3]
+4 [4, 5];
 
 param CohortsPerDoctor :=
 1 [1, 2]
@@ -54,9 +59,30 @@ param Yset :=
 4 [2,3]
 5 [1,2,3];
 
-param MaxEdu :=
-1 1 10;
+param MinLength :=
+3 1 4
+4 1 4
+5 1 4
+3 2 4
+4 2 4
+5 2 4;
 
-param MinEdu :=
-1 3 2
-2 4 2;
+param MaxLength :=
+1 1 0
+1 2 0
+2 1 0
+2 2 0
+3 1 4
+4 1 4
+5 1 4
+3 2 4
+4 2 4
+5 2 4;
+
+param P :=
+1 1 3 10
+3 4 5 10
+3 4 6 10
+4 5 7 10
+4 5 8 10; 
+
