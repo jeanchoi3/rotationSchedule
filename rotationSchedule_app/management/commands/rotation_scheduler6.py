@@ -106,8 +106,9 @@ model.Z = Var(model.D, model.R, model.W, within=Binary) #Assignment of doctor d 
 model.X = Var(model.D, model.R, model.B, within=Binary) #Assignment of doctor d to rotation r on week w
 model.Zabs = Var(model.D,model.R,model.W,within=Binary) #Variable to linearize contiguous constraint
  
-model.Zhat = Var(model.D,within=NonNegativeIntegers,bounds=(model.minClinicWeeks,model.windowSize)) #Variable needed in order to maximize number of clinic weeks within each window
- 
+#model.Zhat = Var(model.D,within=NonNegativeIntegers,bounds=(model.minClinicWeeks,model.windowSize)) #Variable needed in order to maximize number of clinic weeks within each window
+model.Zhat = Var(model.D,within=NonNegativeIntegers,bounds=(0,model.windowSize))
+
 model.u = Var(model.Couples, model.W, within = NonNegativeIntegers) # Couple matching variables
 model.v = Var(model.Couples, model.W, within = NonNegativeIntegers) # Couple matching variables
  
@@ -119,10 +120,16 @@ model.v = Var(model.Couples, model.W, within = NonNegativeIntegers) # Couple mat
 ## Set variables not belonging to a doctor's weeks/rotation to zero
  
 #######Objective##############
+#OLD OBJECTIVE!
 def Objective_rule(model):
     return sum(sum(sum(model.Z[d,r,w]*model.P[d,r,w] for w in model.WeeksPerDoctor[d]) for r in model.RotationsPerDoctor[d]) + model.alphaClinic*model.Zhat[d] for d in model.D) - model.alphaCouple*sum(sum(model.u[i,j,w]+model.v[i,j,w] for w in model.W) for (i,j) in model.Couples)
 model.Total_Utility = Objective(rule=Objective_rule, sense=maximize)
- 
+
+# #TEST FOR FEASIBILITY 
+# def Objective_rule(model):
+#     return sum(sum(sum(model.Z[d,r,w]*0 for w in model.WeeksPerDoctor[d]) for r in model.RotationsPerDoctor[d]) + 0*model.Zhat[d] for d in model.D) - 0*sum(sum(model.u[i,j,w]+model.v[i,j,w] for w in model.W) for (i,j) in model.Couples)
+# model.Total_Utility = Objective(rule=Objective_rule, sense=maximize)
+
 #######Constraints#########
 ### Couple matching constraints for variables u and v
 def u1_rule(model,i,j,w):

@@ -128,9 +128,15 @@ model.v = Var(model.Couples, model.W, within = NonNegativeIntegers) # Couple mat
 
 
 #######Objective##############
+#OLD OBJECTIVE
+# def Objective_rule(model):
+#     return sum(sum(sum(model.Z[d,r,w]*model.P[d,r,w] for w in model.WeeksPerDoctor[d]) for r in model.RotationsPerDoctor[d]) for d in model.D) - model.alphaCouple*sum(sum(model.u[i,j,w]+model.v[i,j,w] for w in model.W) for (i,j) in model.Couples)
+# model.Total_Utility = Objective(rule=Objective_rule, sense=maximize)
+
 def Objective_rule(model):
-    return sum(sum(sum(model.Z[d,r,w]*model.P[d,r,w] for w in model.WeeksPerDoctor[d]) for r in model.RotationsPerDoctor[d]) for d in model.D) - model.alphaCouple*sum(sum(model.u[i,j,w]+model.v[i,j,w] for w in model.W) for (i,j) in model.Couples)
+    return sum(sum(sum(model.Z[d,r,w]*0 for w in model.WeeksPerDoctor[d]) for r in model.RotationsPerDoctor[d]) for d in model.D) - 0*sum(sum(model.u[i,j,w]+model.v[i,j,w] for w in model.W) for (i,j) in model.Couples)
 model.Total_Utility = Objective(rule=Objective_rule, sense=maximize)
+
 
 #######Constraints#########
 ### Couple matching constraints for variables u and v

@@ -14,7 +14,7 @@ class ShortResidentForm(ModelForm):
 class ResidentForm(ModelForm):
     class Meta:
         model = Resident
-        exclude=('inProgram',)
+        exclude=('inProgram','resExcludedBlocks')
         #fields = ['name','year','tracks','vacationStart1','vacationEnd1','vacationStart2','vacationEnd2','vacationStart3','vacationEnd3','elective1','elective2','elective3','elective4','vacationPreference']
         labels = {
             'vacationStart1': _('Vacation Option 1, Start'),
@@ -26,7 +26,13 @@ class ResidentForm(ModelForm):
             'elective1': _('Elective Option 1'),
             'elective2': _('Elective Option 2'),
             'elective3': _('Elective Option 3'),
-            'elective4': _('Elective Option 4')
+            'elective4': _('Elective Option 4'),
+            'elective5': _('Elective Option 5'),
+            'elective6': _('Elective Option 6'),
+            'elective7': _('Elective Option 7'),
+            'elective8': _('Elective Option 8'),
+            'elective9': _('Elective Option 9'),
+            'elective10': _('Elective Option 10')
         }
 
     def __init__(self, *args, **kwargs):

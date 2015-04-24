@@ -479,7 +479,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                <a class="navbar-brand" href="#">Rotation Scheduler</a>
+                <a class="navbar-brand" href="#">CalMD</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -496,13 +496,14 @@
         <div class="row">
         <div class="col-sm-3 col-md-2 sidebar1">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#program">Program Information <span class="sr-only">(current)</span></a></li>
-                <li><a href="#year">Year/Track Information</a></li>
+                <li><a href="#program">Program Information </a></li>
+                <li><a href="#year">Year Information</a></li>
+                <li><a href="#track">Track Information</a></li>
                 <li><a href="#block">Block Information</a></li>
                 <li><a href="#resident">Resident Information</a></li>
                 <li><a href="#rotation">Rotation Information</a></li>
                 <li><a href="#template">Template Information</a></li>
-                <li><a href="#schedule">Template Schedules</a></li>
+                <li class="active"><a href="#schedule">Template Schedules<span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -539,6 +540,7 @@
             <input type="submit" name="year" value="Save and Continue" />
         </form> <br><br>
 
+        <a id="track"></a>
         <form action="/" method="post" id="track-form">
             <legend>Track Information</legend>
             {% csrf_token %}
